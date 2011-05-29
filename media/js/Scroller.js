@@ -2,10 +2,17 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @file        Scroller.js
- * @version     1.0.0.dev
+ * @version     1.0.0
  * @author      Allan Jardine (www.sprymedia.co.uk)
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
+ *
+ * @copyright Copyright 2010-2011 Allan Jardine, all rights reserved.
+ *
+ * This source file is free software, under either the GPL v2 license or a
+ * BSD style license, available at:
+ *   http://datatables.net/license_gpl2
+ *   http://datatables.net/license_bsd
  */
 
 (function($, window, document) {
@@ -21,6 +28,9 @@
  * scrolling container DataTables adds to the page. The scrolling container is
  * forced to the height it would be for the full table display using an extra 
  * element. 
+ * 
+ * Note that rows in the table MUST all be the same hight. Information in a cell
+ * which expands on to multiple lines will cause some odd behaviour in the scrolling.
  *
  * Scroller is initialised by simply including the letter 'S' in the sDom for the
  * table you want to have this feature enabled on. Note that the 'S' must come
@@ -78,14 +88,76 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @default  Passed in as first parameter to constructor
 		 */
 		"dt": oDTSettings,
+		
+		/** 
+		 * Pixel location of the top of the drawn table in the viewport
+		 *  @type     int
+		 *  @default  0
+		 */
 		"tableTop": 0,
+		
+		/** 
+		 * Pixel location of the bottom of the drawn table in the viewport
+		 *  @type     int
+		 *  @default  0
+		 */
 		"tableBottom": 0,
+		
+		/** 
+		 * Pixel location of the boundary for when the next data set should be loaded and drawn
+		 * when scrolling up the way.
+		 *  @type     int
+		 *  @default  0
+		 *  @private
+		 */
 		"redrawTop": 0,
+		
+		/** 
+		 * Pixel location of the boundary for when the next data set should be loaded and drawn
+		 * when scrolling down the way. Note that this is actually caluated as the offset from
+		 * the top.
+		 *  @type     int
+		 *  @default  0
+		 *  @private
+		 */
 		"redrawBottom": 0,
+		
+		/** 
+		 * Height of rows in the table
+		 *  @type     int
+		 *  @default  0
+		 */
 		"rowHeight": null,
+		
+		/** 
+		 * Pixel height of the viewport
+		 *  @type     int
+		 *  @default  0
+		 */
 		"viewportHeight": 0,
+		
+		/** 
+		 * Number of rows calculated as visible in the visible viewport
+		 *  @type     int
+		 *  @default  0
+		 */
 		"viewportRows": 0,
+		
+		/** 
+		 * setTimeout reference for state saving, used when state saving is enabled in the DataTable
+		 * and when the user scrolls the viewport in order to stop the cookie set taking too much
+		 * CPU!
+		 *  @type     int
+		 *  @default  0
+		 */
 		"stateTO": null,
+		
+		/** 
+		 * setTimeout reference for the redraw, used when server-side processing is enabled in the
+		 * DataTables in order to prevent DoSing the server
+		 *  @type     int
+		 *  @default  null
+		 */
 		"drawTO": null
 	}, Scroller.oDefaults, oOpts );
 	
@@ -568,6 +640,33 @@ Scroller.oDefaults = {
 	 */
 	"serverWait": 200
 };
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Constants
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+/**
+ * Name of this class
+ *  @constant CLASS
+ *  @type     String
+ *  @default  Scroller
+ */
+Scroller.prototype.CLASS = "Scroller";
+
+
+/**
+ * Scroller version
+ *  @constant  Scroller.VERSION
+ *  @type      String
+ *  @default   See code
+ *  @static
+ */
+Scroller.VERSION = "1.0.0";
+Scroller.prototype.CLASS = Scroller.VERSION;
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
