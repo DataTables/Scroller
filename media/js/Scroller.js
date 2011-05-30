@@ -678,7 +678,7 @@ Scroller.prototype.CLASS = Scroller.VERSION;
  */
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-     $.fn.dataTableExt.fnVersionCheck('1.8.0') )
+     $.fn.dataTableExt.fnVersionCheck('1.7.6') )
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
@@ -693,7 +693,7 @@ if ( typeof $.fn.dataTable == "function" &&
 }
 else
 {
-	alert( "Warning: Scroller requires DataTables 1.8 or greater - www.datatables.net/download");
+	alert( "Warning: Scroller requires DataTables 1.7.6 or greater - www.datatables.net/download");
 }
 
 
