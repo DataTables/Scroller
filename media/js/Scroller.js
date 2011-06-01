@@ -190,6 +190,19 @@ Scroller.prototype = {
 	 * Calculate the pixel position from the top of the scrolling container for a given row
 	 *  @param {int} iRow Row number to calculate the position of
 	 *  @returns {int} Pixels
+	 *  @example
+	 *  	$(document).ready(function() {
+	 *  		$('#example').dataTable( {
+	 *  			"sScrollY": "200px",
+	 *  			"sAjaxSource": "media/dataset/large.txt",
+	 *  			"sDom": "frtiS",
+	 *  			"bDeferRender": true,
+	 *  			"fnInitComplete": function () {
+	 *  				// Find where row 25 is
+	 *  				alert( this.oScroller.fnRowToPixels( 25 ) );
+	 *  			}
+	 *  		} );
+	 *  	} );
 	 */
 	"fnRowToPixels": function ( iRow )
 	{
@@ -201,6 +214,19 @@ Scroller.prototype = {
 	 * Calculate the row number that will be found at the given pixel position (y-scroll)
 	 *  @param {int} iPixels Offset from top to caluclate the row number of
 	 *  @returns {int} Row index
+	 *  @example
+	 *  	$(document).ready(function() {
+	 *  		$('#example').dataTable( {
+	 *  			"sScrollY": "200px",
+	 *  			"sAjaxSource": "media/dataset/large.txt",
+	 *  			"sDom": "frtiS",
+	 *  			"bDeferRender": true,
+	 *  			"fnInitComplete": function () {
+	 *  				// Find what row number is at 500px
+	 *  				alert( this.oScroller.fnPixelsToRow( 500 ) );
+	 *  			}
+	 *  		} );
+	 *  	} );
 	 */
 	"fnPixelsToRow": function ( iPixels )
 	{
@@ -215,15 +241,14 @@ Scroller.prototype = {
 	 *  @returns {void}
 	 *  @example
 	 *  	$(document).ready(function() {
-	 *  		var oTable = $('#example').dataTable( {
+	 *  		$('#example').dataTable( {
 	 *  			"sScrollY": "200px",
 	 *  			"sAjaxSource": "media/dataset/large.txt",
 	 *  			"sDom": "frtiS",
 	 *  			"bDeferRender": true,
-	 *  			"bStateSave": true,
 	 *  			"fnInitComplete": function () {
 	 *  				// Immediately scroll to row 1000
-	 *  				oTable.oScroller.fnScrollToRow( 1000 );
+	 *  				this.oScroller.fnScrollToRow( 1000 );
 	 *  			}
 	 *  		} );
 	 *  	} );
@@ -678,7 +703,7 @@ Scroller.prototype.CLASS = Scroller.VERSION;
  */
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-     $.fn.dataTableExt.fnVersionCheck('1.7.6') )
+     $.fn.dataTableExt.fnVersionCheck('1.8.0') )
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
@@ -693,7 +718,7 @@ if ( typeof $.fn.dataTable == "function" &&
 }
 else
 {
-	alert( "Warning: Scroller requires DataTables 1.7.6 or greater - www.datatables.net/download");
+	alert( "Warning: Scroller requires DataTables 1.8.0 or greater - www.datatables.net/download");
 }
 
 
