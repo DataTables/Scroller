@@ -17,7 +17,7 @@
 			$(document).ready(function() {
 				var oTable = $('#example').dataTable( {
 					"sScrollY": "200px",
-					"sAjaxSource": "media/dataset/large.txt",
+					"sAjaxSource": "media/data/2500.txt",
 					"sDom": "frtiS",
 					"bDeferRender": true
 				} );
@@ -31,7 +31,8 @@
 			</div>
 			
 			<h1>Preamble</h1>
-			<p>Scroller is a plug-in for DataTables which enhances the "infinite scrolling" feature that DataTables has built-in to make the scrolling feel more natural. The scrolling box shown on the page is the full height of the drawn table, but a virtual rendering technique is used to only render the part of the table that is actually viewable in the scrolling viewport in order to increase the speed of drawing. When combined with deferred rendering in DataTables 1.8, this can lead to significant performance improvements as well as enhanced user interaction.</p>
+			<p>Scroller is a plug-in for DataTables which enhances the "infinite scrolling" feature that DataTables has built-in to make the scrolling feel more natural. The scrolling box shown on the page is the full height of the drawn table, but a virtual rendering technique is used to only render the part of the table that is actually viewable in the scrolling viewport in order to increase the speed of drawing.</p>
+			<p>Note that Scroller assumes that all rows are of the same height (in order to preform the required calculations. You can use 'td { white-space: nowrap; }' in your CSS to ensure that text in rows does not wrap.</p>
 			<p>This example shows how Scroller for DataTables can be initialised by simply including the character 'S' in sDom (note that the 'S' must come after the 't' in sDom). Deferred rendering an and Ajax data source are also used in this example.</p>
 			
 			<h1>Live example</h1>
@@ -55,7 +56,7 @@
 			<pre>$(document).ready(function() {
 	var oTable = $('#example').dataTable( {
 		"sScrollY": "200px",
-		"sAjaxSource": "media/dataset/large.txt",
+		"sAjaxSource": "media/data/2500.txt",
 		"sDom": "frtiS",
 		"bDeferRender": true
 	} );
@@ -69,6 +70,7 @@
 					<li><a href="state_saving.html">State saving</a></li>
 					<li><a href="api_scrolling.html">API - pragmatically move to a row</a></li>
 					<li><a href="server-side_processing.html">Server-side processing with Scroller</a></li>
+					<li><a href="large_js_source.html">50'000 rows in a table - client-side generated data</a></li>
 				</ul>
 			</div>
 			

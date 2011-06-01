@@ -15,13 +15,13 @@
 		<script type="text/javascript" language="javascript" src="media/js/Scroller.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				var oTable = $('#example').dataTable( {
+				$('#example').dataTable( {
 					"sScrollY": "200px",
-					"sAjaxSource": "media/dataset/large.txt",
+					"sAjaxSource": "media/data/2500.txt",
 					"sDom": "frtiS",
 					"bDeferRender": true,
 					"fnInitComplete": function () {
-						oTable.oScroller.fnScrollToRow( 1000 );
+						this.oScroller.fnScrollToRow( 1000 );
 					}
 				} );
 			} );
@@ -55,13 +55,13 @@
 			
 			<h1>Initialisation code</h1>
 			<pre>$(document).ready(function() {
-	var oTable = $('#example').dataTable( {
+	$('#example').dataTable( {
 		"sScrollY": "200px",
-		"sAjaxSource": "media/dataset/large.txt",
+		"sAjaxSource": "media/data/2500.txt",
 		"sDom": "frtiS",
 		"bDeferRender": true,
 		"fnInitComplete": function () {
-			oTable.oScroller.fnScrollToRow( 1000 );
+			this.oScroller.fnScrollToRow( 1000 );
 		}
 	} );
 } );</pre>
@@ -74,6 +74,7 @@
 					<li><a href="state_saving.html">State saving</a></li>
 					<li><a href="api_scrolling.html">API - pragmatically move to a row</a></li>
 					<li><a href="server-side_processing.html">Server-side processing with Scroller</a></li>
+					<li><a href="large_js_source.html">50'000 rows in a table - client-side generated data</a></li>
 				</ul>
 			</div>
 			
