@@ -39,8 +39,8 @@
  * Key features include:
  *   <ul class="limit_length">
  *     <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
- *     <li>Full compability with defered rendering in DataTables 1.8 for maximum speed</li>
- *     <li>Correct visual scrolling implemention, similar to "infinite scrolling" in DataTable core</li>
+ *     <li>Full compatibility with deferred rendering in DataTables 1.8 for maximum speed</li>
+ *     <li>Correct visual scrolling implementation, similar to "infinite scrolling" in DataTable core</li>
  *     <li>Integration with state saving in DataTables (scrolling position is saved)</li>
  *     <li>Easy to use</li>
  *   </ul>
