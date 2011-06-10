@@ -2,7 +2,7 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @file        Scroller.js
- * @version     1.0.0
+ * @version     1.0.1.dev
  * @author      Allan Jardine (www.sprymedia.co.uk)
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
@@ -173,7 +173,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 	};
 
 	/* Attach the instance to the DataTables instance so it can be accessed */
-	this.s.dt.oInstance.oScroller = this;
+	this.s.dt.oScroller = this;
 	
 	/* Let's do it */
 	this._fnConstruct();
@@ -197,9 +197,9 @@ Scroller.prototype = {
 	 *  			"sAjaxSource": "media/dataset/large.txt",
 	 *  			"sDom": "frtiS",
 	 *  			"bDeferRender": true,
-	 *  			"fnInitComplete": function () {
+	 *  			"fnInitComplete": function (o) {
 	 *  				// Find where row 25 is
-	 *  				alert( this.oScroller.fnRowToPixels( 25 ) );
+	 *  				alert( o.oScroller.fnRowToPixels( 25 ) );
 	 *  			}
 	 *  		} );
 	 *  	} );
@@ -221,9 +221,9 @@ Scroller.prototype = {
 	 *  			"sAjaxSource": "media/dataset/large.txt",
 	 *  			"sDom": "frtiS",
 	 *  			"bDeferRender": true,
-	 *  			"fnInitComplete": function () {
+	 *  			"fnInitComplete": function (o) {
 	 *  				// Find what row number is at 500px
-	 *  				alert( this.oScroller.fnPixelsToRow( 500 ) );
+	 *  				alert( o.oScroller.fnPixelsToRow( 500 ) );
 	 *  			}
 	 *  		} );
 	 *  	} );
@@ -246,11 +246,15 @@ Scroller.prototype = {
 	 *  			"sAjaxSource": "media/dataset/large.txt",
 	 *  			"sDom": "frtiS",
 	 *  			"bDeferRender": true,
-	 *  			"fnInitComplete": function () {
+	 *  			"fnInitComplete": function (o) {
 	 *  				// Immediately scroll to row 1000
-	 *  				this.oScroller.fnScrollToRow( 1000 );
+	 *  				o.oScroller.fnScrollToRow( 1000 );
 	 *  			}
 	 *  		} );
+	 *  		
+	 *  		// Sometime later on use the following to scroll to row 500...
+	 *          var oSettings = $('#example').dataTable().fnSettings();
+	 *  		oSettings.oScroller.fnScrollToRow( 500 );
 	 *  	} );
 	 */
 	"fnScrollToRow": function ( iRow, bAnimate )
@@ -689,7 +693,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @default   See code
  *  @static
  */
-Scroller.VERSION = "1.0.0";
+Scroller.VERSION = "1.0.1.dev";
 Scroller.prototype.CLASS = Scroller.VERSION;
 
 
