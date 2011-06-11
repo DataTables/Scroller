@@ -390,6 +390,10 @@ Scroller.prototype = {
 			{
 				/* At the end of the table */
 				iTopRow = this.s.dt.fnRecordsDisplay() - this.s.dt._iDisplayLength;
+				if ( iTopRow < 0 )
+				{
+					iTopRow = 0;
+				}
 			}
 			else if ( iTopRow % 2 !== 0 )
 			{
