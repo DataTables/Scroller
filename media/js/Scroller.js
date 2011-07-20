@@ -324,8 +324,8 @@ Scroller.prototype = {
 		
 		/* Update the scroller when the DataTable is redrawn */
 		this.s.dt.aoDrawCallback.push( {
-			"fn": function () {
-				that._fnDrawCallback.call( that );
+			"fn": function (oSettings) {
+				that._fnDrawCallback.call( that, oSettings );
 			},
 			"sName": "Scroller"
 		} );
@@ -447,11 +447,13 @@ Scroller.prototype = {
 	 *  @returns {void}
 	 *  @private
 	 */
-	"_fnDrawCallback": function ()
+	"_fnDrawCallback": function (oSettings)
 	{
 		var
 			that = this,
 			iScrollTop = this.dom.scroller.scrollTop;
+		
+		this.oLastDrawnSettings = oSettings;
 		
 		/* Set the height of the scrolling forcer to be suitable for the number of rows
 		 * in this draw
@@ -551,11 +553,34 @@ Scroller.prototype = {
 	{
 		var
 			dt = this.s.dt,
-			iScrollTop = this.dom.scroller.scrollTop,
-			iStart = this.fnPixelsToRow(iScrollTop)+1, 
+			rows = $('tbody>tr', this.dom.table),
+			iScrollerOffsetTop = $(this.dom.scroller).offset().top,
+			iScrollerOffsetBottom = iScrollerOffsetTop + $(this.dom.scroller).height(),
+			iFirstVisible = null,
+			iLastVisible = null;
+		
+		for (var i = 0, iLen = rows.length; i < iLen; ++i) {
+		  var $row = $(rows[i]),
+				iRowHeight = $row.height(),
+				iRowHalfHeight = iRowHeight / 2,
+				iRowOffsetTop = $row.offset().top,
+				iRowOffsetBottom = iRowOffsetTop + iRowHeight;
+			if (iFirstVisible === null && (iRowOffsetTop + iRowHalfHeight)  > iScrollerOffsetTop) {
+				iFirstVisible = i;
+			} else if (iLastVisible === null && (iRowOffsetBottom + iRowHalfHeight) >= iScrollerOffsetBottom) {
+				iLastVisible = i;
+				break;
+			}
+		}
+		
+		if (iFirstVisible === null) { iFirstVisible = 0; }
+		if (iLastVisible === null) { iLastVisible = iLen; }
+		
+		var
+			iStart = this.oLastDrawnSettings._iDisplayStart + iFirstVisible + 1,
 			iMax = dt.fnRecordsTotal(),
 			iTotal = dt.fnRecordsDisplay(),
-			iPossibleEnd = this.fnPixelsToRow(iScrollTop+$(this.dom.scroller).height()),
+			iPossibleEnd = this.oLastDrawnSettings._iDisplayStart + iLastVisible + 1,
 			iEnd = iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
 			sStart = dt.fnFormatNumber( iStart ),
 			sEnd = dt.fnFormatNumber( iEnd ),
