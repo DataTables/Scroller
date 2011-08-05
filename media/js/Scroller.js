@@ -549,6 +549,11 @@ Scroller.prototype = {
 	 */
 	"_fnInfo": function ()
 	{
+		if ( !this.s.dt.oFeatures.bInfo )
+		{
+			return;
+		}
+		
 		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
