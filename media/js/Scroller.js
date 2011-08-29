@@ -584,6 +584,7 @@ Scroller.prototype = {
 	"_fnCalcRowHeight": function ()
 	{
 		var
+			nDiv = document.createElement('div'),
 			nTable = this.s.dt.nTable.cloneNode( false ),
 			nBody = document.createElement( 'tbody' ),
 			nTr = document.createElement('tr'),
@@ -593,9 +594,11 @@ Scroller.prototype = {
 		nTr.appendChild( nTd );
 		nBody.appendChild( nTr );
 		nTable.appendChild( nBody );
-		document.body.appendChild( nTable );
+		nDiv.className = this.s.dt.oClasses.sScrollBody;
+		nDiv.appendChild( nTable );
+		document.body.appendChild( nDiv );
 		this.s.rowHeight = $(nTr).height();
-		document.body.removeChild( nTable );
+		document.body.removeChild( nDiv );
 	},
 
 
