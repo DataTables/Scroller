@@ -665,11 +665,13 @@ Scroller.prototype = {
 		}
 		
 		var n = dt.aanFeatures.i;
-		if (typeof n != 'undefined')
+		if ( typeof n != 'undefined' )
+		{
 			for ( var i=0, iLen=n.length ; i<iLen ; i++ )
 			{
 				$(n[i]).html( sOut );
 			}
+		}
 	}
 };
 
