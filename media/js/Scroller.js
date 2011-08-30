@@ -665,10 +665,11 @@ Scroller.prototype = {
 		}
 		
 		var n = dt.aanFeatures.i;
-		for ( var i=0, iLen=n.length ; i<iLen ; i++ )
-		{
-			$(n[i]).html( sOut );
-		}
+		if (typeof n != 'undefined')
+			for ( var i=0, iLen=n.length ; i<iLen ; i++ )
+			{
+				$(n[i]).html( sOut );
+			}
 	}
 };
 
