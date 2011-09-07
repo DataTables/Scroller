@@ -373,7 +373,7 @@ Scroller.prototype = {
 		{
 			this.s.rowHeight = false;
 		}
-		this.fnMeasure();
+		this.fnMeasure(false);
 
 		/* Scrolling callback to see if a page change is needed */
 		$(this.dom.scroller).scroll( function () {
