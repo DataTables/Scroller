@@ -359,7 +359,7 @@ Scroller.prototype = {
 		this.dom.force.style.width = "1px";
 		//this.dom.force.style.backgroundColor = "blue";
 
-		this.dom.scroller = $('div.dataTables_scrollBody', this.s.dt.nTableWrapper)[0];
+		this.dom.scroller = $('div.' + this.s.dt.oClasses.sScrollBody, this.s.dt.nTableWrapper)[0];
 		this.dom.scroller.appendChild( this.dom.force );
 		this.dom.scroller.style.position = "relative";
 
