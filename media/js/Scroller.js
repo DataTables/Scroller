@@ -630,6 +630,11 @@ Scroller.prototype = {
 			sTotal = dt.fnFormatNumber( iTotal ),
 			sOut;
 		
+		if(iEnd>iMax){
+			iEnd = iMax;
+			sEnd = dt.fnFormatNumber( iEnd );
+		}
+		
 		if ( dt.fnRecordsDisplay() === 0 && 
 			   dt.fnRecordsDisplay() == dt.fnRecordsTotal() )
 		{
