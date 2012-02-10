@@ -769,7 +769,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @static
  */
 Scroller.VERSION = "1.0.2.dev";
-Scroller.prototype.CLASS = Scroller.VERSION;
+Scroller.prototype.VERSION = Scroller.VERSION;
 
 
 
