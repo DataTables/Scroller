@@ -383,7 +383,9 @@ Scroller.prototype = {
 		/* Update the scroller when the DataTable is redrawn */
 		this.s.dt.aoDrawCallback.push( {
 			"fn": function () {
-				that._fnDrawCallback.call( that );
+				if ( that.s.dt.bInitialised ) {
+					that._fnDrawCallback.call( that );
+				}
 			},
 			"sName": "Scroller"
 		} );
