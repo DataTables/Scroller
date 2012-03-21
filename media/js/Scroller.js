@@ -29,7 +29,7 @@
  * forced to the height it would be for the full table display using an extra 
  * element. 
  * 
- * Note that rows in the table MUST all be the same hight. Information in a cell
+ * Note that rows in the table MUST all be the same height. Information in a cell
  * which expands on to multiple lines will cause some odd behaviour in the scrolling.
  *
  * Scroller is initialised by simply including the letter 'S' in the sDom for the
