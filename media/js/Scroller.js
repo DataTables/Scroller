@@ -2,7 +2,7 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @file        Scroller.js
- * @version     1.0.2.dev
+ * @version     1.0.2
  * @author      Allan Jardine (www.sprymedia.co.uk)
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
@@ -770,7 +770,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @default   See code
  *  @static
  */
-Scroller.VERSION = "1.0.2.dev";
+Scroller.VERSION = "1.0.2";
 Scroller.prototype.VERSION = Scroller.VERSION;
 
 
