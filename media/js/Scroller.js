@@ -15,7 +15,7 @@
  *   http://datatables.net/license_bsd
  */
 
-(function($, window, document) {
+(/** @lends <global> */function($, window, document) {
 
 
 /** 
@@ -81,7 +81,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 	 * @namespace
 	 * @extends Scroller.DEFAULTS
 	 */
-	this.s = $.extend( {
+	this.s = {
 		/** 
 		 * DataTables settings object
 		 *  @type     object
@@ -166,7 +166,8 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @default  null
 		 */
 		"drawTO": null
-	}, Scroller.oDefaults, oOpts );
+	};
+	this.s = $.extend( this.s, Scroller.oDefaults, oOpts );
 	
 	/**
 	 * DOM elements used by the class instance
@@ -753,16 +754,15 @@ Scroller.oDefaults = {
 
 /**
  * Name of this class
- *  @constant CLASS
  *  @type     String
  *  @default  Scroller
+ *  @static
  */
 Scroller.prototype.CLASS = "Scroller";
 
 
 /**
  * Scroller version
- *  @constant  Scroller.VERSION
  *  @type      String
  *  @default   See code
  *  @static
