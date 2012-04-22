@@ -2,7 +2,7 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @file        Scroller.js
- * @version     1.0.2.dev
+ * @version     1.0.3.dev
  * @author      Allan Jardine (www.sprymedia.co.uk)
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
@@ -29,7 +29,7 @@
  * forced to the height it would be for the full table display using an extra 
  * element. 
  * 
- * Note that rows in the table MUST all be the same hight. Information in a cell
+ * Note that rows in the table MUST all be the same height. Information in a cell
  * which expands on to multiple lines will cause some odd behaviour in the scrolling.
  *
  * Scroller is initialised by simply including the letter 'S' in the sDom for the
@@ -393,12 +393,9 @@ Scroller.prototype = {
 		/* Add a state saving parameter to the DT state saving so we can restore the exact
 		 * position of the scrolling
 		 */
-		this.s.dt.aoStateSave.push( {
-			"fn": function (oS, sVal) {
-				return sVal+',"iScroller":'+that.dom.scroller.scrollTop;
-			},
-			"sName": "Scroller_State"
-		} );
+		this.s.dt.oApi._fnCallbackReg( this.s.dt, 'aoStateSaveParams', function (oS, oData) {
+			oData.iScroller = that.dom.scroller.scrollTop;
+		}, "Scroller_State" );
 	},
 
 
@@ -770,7 +767,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @default   See code
  *  @static
  */
-Scroller.VERSION = "1.0.2.dev";
+Scroller.VERSION = "1.0.3.dev";
 Scroller.prototype.VERSION = Scroller.VERSION;
 
 
@@ -784,7 +781,7 @@ Scroller.prototype.VERSION = Scroller.VERSION;
  */
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-     $.fn.dataTableExt.fnVersionCheck('1.8.0') )
+     $.fn.dataTableExt.fnVersionCheck('1.9.0') )
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
@@ -799,7 +796,7 @@ if ( typeof $.fn.dataTable == "function" &&
 }
 else
 {
-	alert( "Warning: Scroller requires DataTables 1.8.0 or greater - www.datatables.net/download");
+	alert( "Warning: Scroller requires DataTables 1.9.0 or greater - www.datatables.net/download");
 }
 
 
