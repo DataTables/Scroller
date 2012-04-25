@@ -415,6 +415,14 @@ Scroller.prototype = {
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTopRow;
 
+		/* If the table has been sorted or filtered, then we use the redraw that
+		 * DataTables as done, rather than performing our own
+		 */
+		if ( this.s.dt.bFiltered || this.s.dt.bSorted )
+		{
+			return;
+		}
+
 		if ( this.s.trace )
 		{
 			console.log(
