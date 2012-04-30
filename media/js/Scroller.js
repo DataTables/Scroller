@@ -132,7 +132,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		/** 
 		 * Auto row height or not indicator
 		 *  @type     bool
-		 *  @default  0
+		 *  @default  true
 		 */
 		"autoHeight": true,
 		
@@ -165,7 +165,15 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @type     int
 		 *  @default  null
 		 */
-		"drawTO": null
+		"drawTO": null,
+
+		/**
+		 * Flag indicating whether the user started scrolling outside the redraw trigger boundary
+		 *  @type     bool
+		 *  @default  false
+		 */
+		"scrollStartedOutsideRedrawBoundary": false
+
 	};
 	this.s = $.extend( this.s, Scroller.oDefaults, oOpts );
 	
@@ -413,7 +421,8 @@ Scroller.prototype = {
 		var 
 			that = this,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iTopRow;
+			iTopRow,
+			scrollStartedOutsideRedrawBoundary = this.s.scrollStartedOutsideRedrawBoundary;
 
 		/* If the table has been sorted or filtered, then we use the redraw that
 		 * DataTables as done, rather than performing our own
@@ -448,7 +457,7 @@ Scroller.prototype = {
 		/* Check if the scroll point is outside the trigger boundary which would required
 		 * a DataTables redraw
 		 */
-		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom )
+		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom || scrollStartedOutsideRedrawBoundary )
 		{
 			iTopRow = parseInt( iScrollTop / this.s.rowHeight, 10 ) - this.s.viewportRows;
 			if ( iTopRow < 0 )
@@ -473,7 +482,7 @@ Scroller.prototype = {
 				iTopRow++;
 			}
 
-			if ( iTopRow != this.s.dt._iDisplayStart )
+			if ( iTopRow != this.s.dt._iDisplayStart || scrollStartedOutsideRedrawBoundary )
 			{
 				/* Cache the new table position for quick lookups */
 				this.s.tableTop = $(this.s.dt.nTable).offset().top;
@@ -483,11 +492,22 @@ Scroller.prototype = {
 				 * using server-side processing we introduce a small delay to not DoS the server...
 				 */
 				if ( this.s.dt.oFeatures.bServerSide ) {
+				
+					/**
+					 * Show the loading indicator the moment the scroll position is
+					 * outside the redraw trigger boundary
+					 */
+					if ( !this.s.scrollStartedOutsideRedrawBoundary ) {
+						this.s.dt.oApi._fnProcessingDisplay( this.s.dt, true )
+						this.s.scrollStartedOutsideRedrawBoundary = true;
+					}
+
 					clearTimeout( this.s.drawTO );
 					this.s.drawTO = setTimeout( function () {
 						that.s.dt._iDisplayStart = iTopRow;
 						that.s.dt.oApi._fnCalculateEnd( that.s.dt );
 						that.s.dt.oApi._fnDraw( that.s.dt );
+						that.s.scrollStartedOutsideRedrawBoundary = false;
 					}, this.s.serverWait );
 				}
 				else
@@ -541,7 +561,7 @@ Scroller.prototype = {
 		this.s.tableTop = iTableTop;
 		this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
 
-		this.s.redrawTop = iScrollTop - (this.s.viewportHeight/2);
+		this.s.redrawTop = iTableTop + (this.s.viewportHeight/2);
 		this.s.redrawBottom = this.s.tableBottom - (1.5 * this.s.viewportHeight);
 
 		if ( this.s.trace )
