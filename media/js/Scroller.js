@@ -370,9 +370,9 @@ Scroller.prototype = {
 		this.dom.table.style.left = "0px";
 
 		/* Initial size calculations */
-		if ( this.s.rowHeight != 'auto' )
+		if ( this.s.rowHeight && this.s.rowHeight != 'auto' )
 		{
-			this.s.rowHeight = false;
+			this.s.autoHeight = false;
 		}
 		this.fnMeasure( false );
 
