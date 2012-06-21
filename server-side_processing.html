@@ -5,21 +5,24 @@
 		<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico" />
 		
 		<title>DataTables example</title>
-		<style type="text/css" title="currentStyle">
+		<style type="text/css">
 			@import "../../media/css/demo_page.css";
 			@import "../../media/css/demo_table.css";
-			td { white-space: nowrap; }
+			@import "media/css/dataTables.scroller.css";
 		</style>
 		<script type="text/javascript" language="javascript" src="../../media/js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../../media/js/jquery.dataTables.js"></script>
-		<script type="text/javascript" language="javascript" src="media/js/Scroller.js"></script>
+		<script type="text/javascript" language="javascript" src="media/js/dataTables.scroller.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
 				var oTable = $('#example').dataTable( {
 					"sScrollY": "200px",
 					"sAjaxSource": "media/data/server_processing.php",
 					"bServerSide": true,
-					"sDom": "frtiS"
+					"sDom": "frtiS",
+					"oScroller": {
+						"loadingIndicator": true
+					}
 				} );
 			} );
 		</script>
@@ -31,7 +34,7 @@
 			</div>
 			
 			<h1>Preamble</h1>
-			<p>When using server-side processing, Scroller will wait a small amount of time to allow the scrolling to finish before requesting more data from the server (200mS by default). This prevents you from DoSing your own server! This example shows Scroller in action with a database of 10'000 records, although of course server-side processing can scale much larger if you require.</p>
+			<p>When using server-side processing, Scroller will wait a small amount of time to allow the scrolling to finish before requesting more data from the server (200mS by default). This prevents you from DoSing your own server! This example shows Scroller in action with a database of 10'000 records, although of course server-side processing can scale much larger if you require. In this example we also enable the <i>loadingIndicator</i> option of Scroller to show the end user what is happening when they scroll passed the currently loaded data.</p>
 			
 			<h1>Live example</h1>
 			<div id="demo">
@@ -56,7 +59,10 @@
 		"sScrollY": "200px",
 		"sAjaxSource": "media/data/server_processing.php",
 		"bServerSide": true,
-		"sDom": "frtiS"
+		"sDom": "frtiS",
+		"oScroller": {
+			"loadingIndicator": true
+		}
 	} );
 } );</pre>
 			

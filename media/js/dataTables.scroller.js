@@ -726,7 +726,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "trace": true
 	 *        }
@@ -744,7 +744,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "rowHeight": 30
 	 *        }
@@ -763,7 +763,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "serverWait": 100
 	 *        }
@@ -788,7 +788,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "displayBuffer": 10
 	 *        }
@@ -810,7 +810,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "boundaryScale": 0.75
 	 *        }
@@ -828,7 +828,7 @@ Scroller.oDefaults = {
 	 *    var oTable = $('#example').dataTable( {
 	 *        "sScrollY": "200px",
 	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true
+	 *        "bDeferRender": true,
 	 *        "oScroller": {
 	 *          "loadingIndicator": true
 	 *        }
@@ -891,5 +891,8 @@ else
 	alert( "Warning: Scroller requires DataTables 1.9.0 or greater - www.datatables.net/download");
 }
 
+
+// Attach Scroller to DataTables so it can be accessed as an 'extra'
+$.fn.dataTable.Scroller = Scroller;
 
 })(jQuery, window, document);
