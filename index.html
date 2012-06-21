@@ -8,7 +8,7 @@
 		<style type="text/css" title="currentStyle">
 			@import "../../media/css/demo_page.css";
 			@import "../../media/css/demo_table.css";
-			td { white-space: nowrap; }
+			@import "media/css/dataTables.scroller.css";
 		</style>
 		<script type="text/javascript" language="javascript" src="../../media/js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../../media/js/jquery.dataTables.js"></script>
@@ -16,7 +16,7 @@
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
 				var oTable = $('#example').dataTable( {
-					"sScrollY": "200px",
+					"sScrollY": "192px",
 					"sAjaxSource": "media/data/2500.txt",
 					"sDom": "frtiS",
 					"bDeferRender": true
