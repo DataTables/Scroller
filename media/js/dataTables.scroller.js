@@ -610,22 +610,28 @@ Scroller.prototype = {
 	 */
 	"_fnCalcRowHeight": function ()
 	{
-		var
-			nDiv = document.createElement('div'),
-			nTable = this.s.dt.nTable.cloneNode( false ),
-			nBody = document.createElement( 'tbody' ),
-			nTr = document.createElement('tr'),
-			nTd = document.createElement('td');
-		
-		nTd.innerHTML = "&nbsp;";
-		nTr.appendChild( nTd );
-		nBody.appendChild( nTr );
-		nTable.appendChild( nBody );
-		nDiv.className = this.s.dt.oClasses.sScrollBody;
-		nDiv.appendChild( nTable );
-		document.body.appendChild( nDiv );
-		this.s.rowHeight = $(nTr).height();
-		document.body.removeChild( nDiv );
+		var nTable = this.s.dt.nTable.cloneNode( false );
+		var nContainer = $(
+			'<div class="'+this.s.dt.oClasses.sWrapper+' DTS">'+
+				'<div class="'+this.s.dt.oClasses.sScrollWrapper+'">'+
+					'<div class="'+this.s.dt.oClasses.sScrollBody+'"></div>'+
+				'</div>'+
+			'</div>'
+		)[0];
+
+		$(nTable).append(
+			'<tbody>'+
+				'<tr>'+
+					'<td>&nbsp;</td>'+
+				'</tr>'+
+			'</tbody>'
+		);
+
+		$('div.'+this.s.dt.oClasses.sScrollBody, nContainer).append( nTable );
+
+		document.body.appendChild( nContainer );
+		this.s.rowHeight = $('tbody tr', nTable).outerHeight();
+		document.body.removeChild( nContainer );
 	},
 
 
