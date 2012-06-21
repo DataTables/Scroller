@@ -3,10 +3,6 @@
  * Namespace: DTS (DataTables Scroller)
  */
 
-div.DTS div.dataTables_scrollHead {
-	background-color: white;
-}
-
 div.DTS tbody th,
 div.DTS tbody td {
 	white-space: nowrap;
