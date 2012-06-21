@@ -7,7 +7,7 @@
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
  *
- * @copyright Copyright 2011 Allan Jardine, all rights reserved.
+ * @copyright Copyright 2011-2012 Allan Jardine, all rights reserved.
  *
  * This source file is free software, under either the GPL v2 license or a
  * BSD style license, available at:
