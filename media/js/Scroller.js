@@ -822,7 +822,7 @@ Scroller.oDefaults = {
 	 * Show (or not) the loading element in the background of the table. Note that you should
 	 * include the dataTables.scroller.css file for this to be displayed correctly.
 	 *  @type     boolean
-	 *  @default  true
+	 *  @default  false
 	 *  @static
 	 *  @example
 	 *    var oTable = $('#example').dataTable( {
@@ -830,11 +830,11 @@ Scroller.oDefaults = {
 	 *        "sDom": "frtiS",
 	 *        "bDeferRender": true
 	 *        "oScroller": {
-	 *          "loadingIndicator": false
+	 *          "loadingIndicator": true
 	 *        }
 	 *    } );
 	 */
-	"loadingIndicator": true
+	"loadingIndicator": false
 };
 
 
