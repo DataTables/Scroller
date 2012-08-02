@@ -2,7 +2,7 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @file        Scroller.js
- * @version     1.1.0
+ * @version     1.1.1.dev
  * @author      Allan Jardine (www.sprymedia.co.uk)
  * @license     GPL v2 or BSD 3 point style
  * @contact     www.sprymedia.co.uk/contact
@@ -621,9 +621,7 @@ Scroller.prototype = {
 
 		$(nTable).append(
 			'<tbody>'+
-				'<tr>'+
-					'<td>&nbsp;</td>'+
-				'</tr>'+
+				$('tbody tr:eq(0)', this.s.dt.nTable).html()+
 			'</tbody>'
 		);
 
@@ -865,7 +863,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @default   See code
  *  @static
  */
-Scroller.VERSION = "1.1.0";
+Scroller.VERSION = "1.1.1.dev";
 Scroller.prototype.VERSION = Scroller.VERSION;
 
 
