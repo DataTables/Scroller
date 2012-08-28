@@ -407,6 +407,11 @@ Scroller.prototype = {
 			},
 			"sName": "Scroller"
 		} );
+
+		/* On resize, update the information element, since the number of rows shown might change */
+		$(window).resize( function () {
+			that._fnInfo();
+		} );
 		
 		/* Add a state saving parameter to the DT state saving so we can restore the exact
 		 * position of the scrolling
