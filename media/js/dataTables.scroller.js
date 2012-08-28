@@ -619,11 +619,11 @@ Scroller.prototype = {
 			'</div>'
 		)[0];
 
-		$(nTable).append(
-			'<tbody>'+
-				$('tbody tr:eq(0)', this.s.dt.nTable).html()+
-			'</tbody>'
-		);
+		var sRow = $('tbody tr:eq(0)', this.s.dt.nTable).length > 0 ?
+			$('tbody tr:eq(0)', this.s.dt.nTable).html() :
+			'<tr><td>&nbsp;</td></tr>';
+
+		$(nTable).append( '<tbody>'+sRow+'</tbody>' );
 
 		$('div.'+this.s.dt.oClasses.sScrollBody, nContainer).append( nTable );
 
