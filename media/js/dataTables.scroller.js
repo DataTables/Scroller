@@ -547,7 +547,8 @@ Scroller.prototype = {
 		var
 			that = this,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iScrollBottom = iScrollTop + this.s.viewportHeight;
+			iScrollBottom = iScrollTop + this.s.viewportHeight,
+			iTableHeight = $(this.s.dt.nTable).height();
 		
 		/* Set the height of the scrolling forcer to be suitable for the number of rows
 		 * in this draw
@@ -569,7 +570,7 @@ Scroller.prototype = {
 
 		/* Cache some information for the scroller */
 		this.s.tableTop = iTableTop;
-		this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
+		this.s.tableBottom = iTableHeight + this.s.tableTop;
 
 		this.s.redrawTop = iScrollTop - ( (iScrollTop - this.s.tableTop) * this.s.boundaryScale );
 		this.s.redrawBottom = iScrollTop + ( (this.s.tableBottom - iScrollBottom) * this.s.boundaryScale );
