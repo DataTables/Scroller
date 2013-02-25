@@ -425,6 +425,16 @@ Scroller.prototype = {
 		this.s.dt.oApi._fnCallbackReg( this.s.dt, 'aoStateSaveParams', function (oS, oData) {
 			oData.iScroller = that.dom.scroller.scrollTop;
 		}, "Scroller_State" );
+
+		/* Destructor */
+		this.s.dt.aoDestroyCallback.push( {
+			"sName": "Scroller",
+			"fn": function () {
+				that.dom.table.style.position = "";
+				that.dom.table.style.top = "";
+				that.dom.table.style.left = "";
+			}
+		} );
 	},
 
 
