@@ -525,14 +525,18 @@ Scroller.prototype = {
 					clearTimeout( this.s.drawTO );
 					this.s.drawTO = setTimeout( function () {
 						that.s.dt._iDisplayStart = iTopRow;
-						that.s.dt.oApi._fnCalculateEnd( that.s.dt );
+						if ( that.s.dt.oApi._fnCalculateEnd ) { // Removed in 1.10
+							that.s.dt.oApi._fnCalculateEnd( that.s.dt );
+						}
 						that.s.dt.oApi._fnDraw( that.s.dt );
 					}, this.s.serverWait );
 				}
 				else
 				{
 					this.s.dt._iDisplayStart = iTopRow;
-					this.s.dt.oApi._fnCalculateEnd( this.s.dt );
+					if ( that.s.dt.oApi._fnCalculateEnd ) { // Removed in 1.10
+						this.s.dt.oApi._fnCalculateEnd( this.s.dt );
+					}
 					this.s.dt.oApi._fnDraw( this.s.dt );
 				}
 
