@@ -18,24 +18,24 @@
 (/** @lends <global> */function($, window, document) {
 
 
-/** 
+/**
  * Scroller is a virtual rendering plug-in for DataTables which allows large
  * datasets to be drawn on screen every quickly. What the virtual rendering means
  * is that only the visible portion of the table (and a bit to either side to make
- * the scrolling smooth) is drawn, while the scrolling container gives the 
+ * the scrolling smooth) is drawn, while the scrolling container gives the
  * visual impression that the whole table is visible. This is done by making use
  * of the pagination abilities of DataTables and moving the table around in the
  * scrolling container DataTables adds to the page. The scrolling container is
- * forced to the height it would be for the full table display using an extra 
- * element. 
- * 
+ * forced to the height it would be for the full table display using an extra
+ * element.
+ *
  * Note that rows in the table MUST all be the same height. Information in a cell
  * which expands on to multiple lines will cause some odd behaviour in the scrolling.
  *
  * Scroller is initialised by simply including the letter 'S' in the sDom for the
  * table you want to have this feature enabled on. Note that the 'S' must come
  * AFTER the 't' parameter in sDom.
- * 
+ *
  * Key features include:
  *   <ul class="limit_length">
  *     <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
@@ -49,19 +49,19 @@
  *  @constructor
  *  @param {object} oDT DataTables settings object
  *  @param {object} [oOpts={}] Configuration object for FixedColumns. Options are defined by {@link Scroller.oDefaults}
- * 
+ *
  *  @requires jQuery 1.4+
  *  @requires DataTables 1.9.0+
- * 
+ *
  *  @example
- * 		$(document).ready(function() {
- * 			$('#example').dataTable( {
- * 				"sScrollY": "200px",
- * 				"sAjaxSource": "media/dataset/large.txt",
- * 				"sDom": "frtiS",
- * 				"bDeferRender": true
- * 			} );
- * 		} );
+ *    $(document).ready(function() {
+ *        $('#example').dataTable( {
+ *            "sScrollY": "200px",
+ *            "sAjaxSource": "media/dataset/large.txt",
+ *            "sDom": "frtiS",
+ *            "bDeferRender": true
+ *        } );
+ *    } );
  */
 var Scroller = function ( oDTSettings, oOpts ) {
 	/* Sanity check - you just know it will happen */
@@ -70,40 +70,40 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		alert( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
 		return;
 	}
-	
+
 	if ( typeof oOpts == 'undefined' )
 	{
 		oOpts = {};
 	}
-	
+
 	/**
 	 * Settings object which contains customisable information for the Scroller instance
 	 * @namespace
 	 * @extends Scroller.DEFAULTS
 	 */
 	this.s = {
-		/** 
+		/**
 		 * DataTables settings object
 		 *  @type     object
 		 *  @default  Passed in as first parameter to constructor
 		 */
 		"dt": oDTSettings,
-		
-		/** 
+
+		/**
 		 * Pixel location of the top of the drawn table in the viewport
 		 *  @type     int
 		 *  @default  0
 		 */
 		"tableTop": 0,
-		
-		/** 
+
+		/**
 		 * Pixel location of the bottom of the drawn table in the viewport
 		 *  @type     int
 		 *  @default  0
 		 */
 		"tableBottom": 0,
-		
-		/** 
+
+		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
 		 * when scrolling up the way.
 		 *  @type     int
@@ -111,8 +111,8 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @private
 		 */
 		"redrawTop": 0,
-		
-		/** 
+
+		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
 		 * when scrolling down the way. Note that this is actually caluated as the offset from
 		 * the top.
@@ -121,36 +121,36 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @private
 		 */
 		"redrawBottom": 0,
-		
-		/** 
+
+		/**
 		 * Height of rows in the table
 		 *  @type     int
 		 *  @default  0
 		 */
 		"rowHeight": null,
-		
-		/** 
+
+		/**
 		 * Auto row height or not indicator
 		 *  @type     bool
 		 *  @default  0
 		 */
 		"autoHeight": true,
-		
-		/** 
+
+		/**
 		 * Pixel height of the viewport
 		 *  @type     int
 		 *  @default  0
 		 */
 		"viewportHeight": 0,
-		
-		/** 
+
+		/**
 		 * Number of rows calculated as visible in the visible viewport
 		 *  @type     int
 		 *  @default  0
 		 */
 		"viewportRows": 0,
-		
-		/** 
+
+		/**
 		 * setTimeout reference for state saving, used when state saving is enabled in the DataTable
 		 * and when the user scrolls the viewport in order to stop the cookie set taking too much
 		 * CPU!
@@ -158,8 +158,8 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @default  0
 		 */
 		"stateTO": null,
-		
-		/** 
+
+		/**
 		 * setTimeout reference for the redraw, used when server-side processing is enabled in the
 		 * DataTables in order to prevent DoSing the server
 		 *  @type     int
@@ -168,11 +168,11 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		"drawTO": null
 	};
 	this.s = $.extend( this.s, Scroller.oDefaults, oOpts );
-	
+
 	/**
 	 * DOM elements used by the class instance
 	 * @namespace
-	 * 
+	 *
 	 */
 	this.dom = {
 		"force": document.createElement('div'),
@@ -182,7 +182,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 
 	/* Attach the instance to the DataTables instance so it can be accessed */
 	this.s.dt.oScroller = this;
-	
+
 	/* Let's do it */
 	this._fnConstruct();
 };
@@ -193,7 +193,7 @@ Scroller.prototype = {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	/**
 	 * Calculate the pixel position from the top of the scrolling container for a given row
 	 *  @param {int} iRow Row number to calculate the position of
@@ -245,7 +245,7 @@ Scroller.prototype = {
 	/**
 	 * Calculate the row number that will be found at the given pixel position (y-scroll)
 	 *  @param {int} iRow Row index to scroll to
-	 *  @param {bool} [bAnimate=true] Animate the transision or not 
+	 *  @param {bool} [bAnimate=true] Animate the transision or not
 	 *  @returns {void}
 	 *  @example
 	 *    $(document).ready(function() {
@@ -259,7 +259,7 @@ Scroller.prototype = {
 	 *          o.oScroller.fnScrollToRow( 1000 );
 	 *        }
 	 *      } );
-	 *      
+	 *     
 	 *      // Sometime later on use the following to scroll to row 500...
 	 *          var oSettings = $('#example').dataTable().fnSettings();
 	 *      oSettings.oScroller.fnScrollToRow( 500 );
@@ -279,14 +279,14 @@ Scroller.prototype = {
 			$(this.dom.scroller).scrollTop( px );
 		}
 	},
-	
-	
+
+
 	/**
 	 * Calculate and store information about how many rows are to be displayed in the scrolling
 	 * viewport, based on current dimensions in the browser's rendering. This can be particularly
 	 * useful if the table is initially drawn in a hidden element - for example in a tab.
 	 *  @param {bool} [bRedraw=true] Redraw the table automatically after the recalculation, with
-	 *    the new dimentions forming the basis for the draw. 
+	 *    the new dimentions forming the basis for the draw.
 	 *  @returns {void}
 	 *  @example
 	 *    $(document).ready(function() {
@@ -302,7 +302,7 @@ Scroller.prototype = {
 	 *          o.oScroller.fnScrollToRow( 1000 );
 	 *        }
 	 *      } );
-	 *      
+	 *     
 	 *      setTimeout( function () {
 	 *        // Make the example container visible and recalculate the scroller sizes
 	 *        document.getElementById('container').style.display = "block";
@@ -319,7 +319,7 @@ Scroller.prototype = {
 		this.s.viewportHeight = $(this.dom.scroller).height();
 		this.s.viewportRows = parseInt( this.s.viewportHeight/this.s.rowHeight, 10 )+1;
 		this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
-		
+
 		if ( this.s.trace )
 		{
 				console.log(
@@ -329,19 +329,19 @@ Scroller.prototype = {
 					'Display rows: '+ this.s.dt._iDisplayLength
 				);
 		}
-		
+
 		if ( typeof bRedraw == 'undefined' || bRedraw )
 		{
 			this.s.dt.oInstance.fnDraw();
 		}
 	},
-	
-	
-	
+
+
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Private methods (they are of course public in JS, but recommended as private)
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	/**
 	 * Initialisation for Scroller
 	 *  @returns {void}
@@ -403,7 +403,7 @@ Scroller.prototype = {
 		$(this.dom.scroller).bind('touchstart', function () {
 			that._fnScroll.call( that );
 		} );
-		
+
 		/* Update the scroller when the DataTable is redrawn */
 		this.s.dt.aoDrawCallback.push( {
 			"fn": function () {
@@ -418,7 +418,7 @@ Scroller.prototype = {
 		$(window).resize( function () {
 			that._fnInfo();
 		} );
-		
+
 		/* Add a state saving parameter to the DT state saving so we can restore the exact
 		 * position of the scrolling
 		 */
@@ -448,7 +448,7 @@ Scroller.prototype = {
 	 */
 	"_fnScroll": function ()
 	{
-		var 
+		var
 			that = this,
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTopRow;
@@ -517,7 +517,7 @@ Scroller.prototype = {
 				/* Cache the new table position for quick lookups */
 				this.s.tableTop = $(this.s.dt.nTable).offset().top;
 				this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
-				
+
 				/* Do the DataTables redraw based on the calculated start point - note that when
 				 * using server-side processing we introduce a small delay to not DoS the server...
 				 */
@@ -563,12 +563,12 @@ Scroller.prototype = {
 			iScrollTop = this.dom.scroller.scrollTop,
 			iScrollBottom = iScrollTop + this.s.viewportHeight,
 			iTableHeight = $(this.s.dt.nTable).height();
-		
+
 		/* Set the height of the scrolling forcer to be suitable for the number of rows
 		 * in this draw
 		 */
 		this.dom.force.style.height = (this.s.rowHeight * this.s.dt.fnRecordsDisplay())+"px";
-		
+
 		/* Calculate the position that the top of the table should be at */
 		var iTableTop = (this.s.rowHeight*this.s.dt._iDisplayStart);
 		if ( this.s.dt._iDisplayStart === 0 )
@@ -672,11 +672,11 @@ Scroller.prototype = {
 		{
 			return;
 		}
-		
+
 		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iStart = this.fnPixelsToRow(iScrollTop)+1, 
+			iStart = this.fnPixelsToRow(iScrollTop)+1,
 			iMax = dt.fnRecordsTotal(),
 			iTotal = dt.fnRecordsDisplay(),
 			iPossibleEnd = this.fnPixelsToRow(iScrollTop+$(this.dom.scroller).height()),
@@ -686,8 +686,8 @@ Scroller.prototype = {
 			sMax = dt.fnFormatNumber( iMax ),
 			sTotal = dt.fnFormatNumber( iTotal ),
 			sOut;
-		
-		if ( dt.fnRecordsDisplay() === 0 && 
+
+		if ( dt.fnRecordsDisplay() === 0 &&
 			   dt.fnRecordsDisplay() == dt.fnRecordsTotal() )
 		{
 			/* Empty record set */
@@ -696,7 +696,7 @@ Scroller.prototype = {
 		else if ( dt.fnRecordsDisplay() === 0 )
 		{
 			/* Rmpty record set after filtering */
-			sOut = dt.oLanguage.sInfoEmpty +' '+ 
+			sOut = dt.oLanguage.sInfoEmpty +' '+
 				dt.oLanguage.sInfoFiltered.replace('_MAX_', sMax)+
 					dt.oLanguage.sInfoPostFix;
 		}
@@ -706,7 +706,7 @@ Scroller.prototype = {
 			sOut = dt.oLanguage.sInfo.
 					replace('_START_', sStart).
 					replace('_END_',   sEnd).
-					replace('_TOTAL_', sTotal)+ 
+					replace('_TOTAL_', sTotal)+
 				dt.oLanguage.sInfoPostFix;
 		}
 		else
@@ -715,12 +715,12 @@ Scroller.prototype = {
 			sOut = dt.oLanguage.sInfo.
 					replace('_START_', sStart).
 					replace('_END_',   sEnd).
-					replace('_TOTAL_', sTotal) +' '+ 
-				dt.oLanguage.sInfoFiltered.replace('_MAX_', 
-					dt.fnFormatNumber(dt.fnRecordsTotal()))+ 
+					replace('_TOTAL_', sTotal) +' '+
+				dt.oLanguage.sInfoFiltered.replace('_MAX_',
+					dt.fnFormatNumber(dt.fnRecordsTotal()))+
 				dt.oLanguage.sInfoPostFix;
 		}
-		
+
 		var n = dt.aanFeatures.i;
 		if ( typeof n != 'undefined' )
 		{
@@ -745,8 +745,8 @@ Scroller.prototype = {
  *  @static
  */
 Scroller.oDefaults = {
-	/** 
-	 * Indicate if Scroller show show trace information on the console or not. This can be 
+	/**
+	 * Indicate if Scroller show show trace information on the console or not. This can be
 	 * useful when debugging Scroller or if just curious as to what it is doing, but should
 	 * be turned off for production.
 	 *  @type     bool
@@ -764,7 +764,7 @@ Scroller.oDefaults = {
 	 */
 	"trace": false,
 
-	/** 
+	/**
 	 * Scroller will attempt to automatically calculate the height of rows for it's internal
 	 * calculations. However the height that is used can be overridden using this parameter.
 	 *  @type     int|string
@@ -782,7 +782,7 @@ Scroller.oDefaults = {
 	 */
 	"rowHeight": "auto",
 
-	/** 
+	/**
 	 * When using server-side processing, Scroller will wait a small amount of time to allow
 	 * the scrolling to finish before requesting more data from the server. This prevents
 	 * you from DoSing your own server! The wait time can be configured by this parameter.
@@ -801,15 +801,15 @@ Scroller.oDefaults = {
 	 */
 	"serverWait": 200,
 
-	/** 
+	/**
 	 * The display buffer is what Scroller uses to calculate how many rows it should pre-fetch
 	 * for scrolling. Scroller automatically adjusts DataTables' display length to pre-fetch
 	 * rows that will be shown in "near scrolling" (i.e. just beyond the current display area).
-	 * The value is based upon the number of rows that can be displayed in the viewport (i.e. 
+	 * The value is based upon the number of rows that can be displayed in the viewport (i.e.
 	 * a value of 1), and will apply the display range to records before before and after the
 	 * current viewport - i.e. a factor of 3 will allow Scroller to pre-fetch 1 viewport's worth
 	 * of rows before the current viewport, the current viewport's rows and 1 viewport's worth
-	 * of rows after the current viewport. Adjusting this value can be useful for ensuring 
+	 * of rows after the current viewport. Adjusting this value can be useful for ensuring
 	 * smooth scrolling based on your data set.
 	 *  @type     int
 	 *  @default  7
@@ -826,12 +826,12 @@ Scroller.oDefaults = {
 	 */
 	"displayBuffer": 9,
 
-	/** 
+	/**
 	 * Scroller uses the boundary scaling factor to decide when to redraw the table - which it
 	 * typically does before you reach the end of the currently loaded data set (in order to
 	 * allow the data to look continuous to a user scrolling through the data). If given as 0
 	 * then the table will be redrawn whenever the viewport is scrolled, while 1 would not
-	 * redraw the table until the currently loaded data has all been shown. You will want 
+	 * redraw the table until the currently loaded data has all been shown. You will want
 	 * something in the middle - the default factor of 0.5 is usually suitable.
 	 *  @type     float
 	 *  @default  0.5
@@ -848,7 +848,7 @@ Scroller.oDefaults = {
 	 */
 	"boundaryScale": 0.5,
 
-	/** 
+	/**
 	 * Show (or not) the loading element in the background of the table. Note that you should
 	 * include the dataTables.scroller.css file for this to be displayed correctly.
 	 *  @type     boolean
