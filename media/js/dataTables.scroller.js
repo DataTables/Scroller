@@ -422,8 +422,16 @@ Scroller.prototype = {
 		/* Add a state saving parameter to the DT state saving so we can restore the exact
 		 * position of the scrolling
 		 */
+		var initialStateSave = true;
 		this.s.dt.oApi._fnCallbackReg( this.s.dt, 'aoStateSaveParams', function (oS, oData) {
-			oData.iScroller = that.dom.scroller.scrollTop;
+			/* Set iScroller to saved scroll position on initialization.
+			 */
+			if(initialStateSave && that.s.dt.oLoadedState){
+				oData.iScroller = that.s.dt.oLoadedState.iScroller;
+				initialStateSave = false;
+			} else {
+				oData.iScroller = that.dom.scroller.scrollTop;
+			}
 		}, "Scroller_State" );
 
 		/* Destructor */
