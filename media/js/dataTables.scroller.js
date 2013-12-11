@@ -223,9 +223,21 @@ Scroller.prototype = {
 	 *      } );
 	 *    } );
 	 */
-	"fnRowToPixels": function ( rowIdx )
+	"fnRowToPixels": function ( rowIdx, intParse, virtual )
 	{
-		return this._domain( 'virtualToPhysical', rowIdx * this.s.heights.row );
+		var pixels;
+
+		if ( virtual ) {
+			pixels = this._domain( 'virtualToPhysical', rowIdx * this.s.heights.row );
+		}
+		else {
+			var diff = rowIdx - this.s.baseRowTop;
+			pixels = this.s.baseScrollTop + (diff * this.s.heights.row);
+		}
+
+		return intParse || intParse === undefined ?
+			parseInt( pixels, 10 ) :
+			pixels;
 	},
 
 
@@ -238,6 +250,8 @@ Scroller.prototype = {
 	 * all of the records into a finite area, but this function returns a linear
 	 * value (relative to the last non-linear positioning).
 	 *  @param {int} iPixels Offset from top to calculate the row number of
+	 *  @param {int} [intParse=true] If an integer value should be returned
+	 *  @param {int} [virtual=false] Perform the calculations in the virtual domain
 	 *  @returns {int} Row index
 	 *  @example
 	 *    $(document).ready(function() {
@@ -253,10 +267,12 @@ Scroller.prototype = {
 	 *      } );
 	 *    } );
 	 */
-	"fnPixelsToRow": function ( pixels, intParse )
+	"fnPixelsToRow": function ( pixels, intParse, virtual )
 	{
 		var diff = pixels - this.s.baseScrollTop;
-		var row = ( diff / this.s.heights.row ) + this.s.baseRowTop;
+		var row = virtual ?
+			this._domain( 'physicalToVirtual', pixels ) / this.s.heights.row :
+			( diff / this.s.heights.row ) + this.s.baseRowTop;
 
 		return intParse || intParse === undefined ?
 			parseInt( row, 10 ) :
@@ -289,11 +305,37 @@ Scroller.prototype = {
 	 */
 	"fnScrollToRow": function ( iRow, bAnimate )
 	{
+		var that = this;
+		var ani = false;
 		var px = this.fnRowToPixels( iRow );
+
+		// We need to know if the table will redraw or not before doing the
+		// scroll. If it will not redraw, then we need to use the currently
+		// displayed table, and scroll with the physical pixels. Otherwise, we
+		// need to calculate the table's new position from the virtual
+		// transform.
+		var preRows = ((this.s.displayBuffer-1)/2) * this.s.viewportRows;
+		var drawRow = iRow - preRows;
+		if ( drawRow < 0 ) {
+			drawRow = 0;
+		}
+
+		if ( (px > this.s.redrawBottom || px < this.s.redrawTop) && this.s.dt._iDisplayStart !== drawRow ) {
+			ani = true;
+			px = this.fnRowToPixels( iRow, false, true );
+		}
+
 		if ( typeof bAnimate == 'undefined' || bAnimate )
 		{
+			this.s.ani = ani;
 			$(this.dom.scroller).animate( {
-				"scrollTop": px
+				"scrollTop": px,
+			}, function () {
+				// This needs to happen after the animation has completed and
+				// the final scroll event fired
+				setTimeout( function () {
+					that.s.ani = false;
+				}, 0 );
 			} );
 		}
 		else
@@ -508,7 +550,7 @@ Scroller.prototype = {
 		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
 			var preRows = ((this.s.displayBuffer-1)/2) * this.s.viewportRows;
 
-			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport ) {
+			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
 				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
 				this.s.topRowFloat = (this._domain( 'physicalToVirtual', iScrollTop ) / heights.row);
 			}
@@ -680,7 +722,7 @@ Scroller.prototype = {
 		// scroll event listener
 		var boundaryPx = (iScrollTop - this.s.tableTop) * this.s.boundaryScale;
 		this.s.redrawTop = iScrollTop - boundaryPx;
-		this.s.redrawBottom = iScrollTop + heights.viewport + boundaryPx;
+		this.s.redrawBottom = iScrollTop + boundaryPx;
 
 		this.s.skip = false;
 
@@ -784,10 +826,10 @@ Scroller.prototype = {
 		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iStart = Math.floor( this.fnPixelsToRow(iScrollTop)+1 ),
+			iStart = Math.floor( this.fnPixelsToRow(iScrollTop, false, this.s.ani)+1 ),
 			iMax = dt.fnRecordsTotal(),
 			iTotal = dt.fnRecordsDisplay(),
-			iPossibleEnd = Math.ceil( this.fnPixelsToRow(iScrollTop+$(this.dom.scroller).height()) ),
+			iPossibleEnd = Math.ceil( this.fnPixelsToRow(iScrollTop+this.s.heights.viewport, false, this.s.ani) ),
 			iEnd = iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
 			sStart = dt.fnFormatNumber( iStart ),
 			sEnd = dt.fnFormatNumber( iEnd ),
