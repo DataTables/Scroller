@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="scroller" order="5">
+
+<css lib="datatables scroller" />
+<js lib="jquery datatables scroller">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		ajax:        "data/2500.txt",
+		deferRender: true,
+		dom:         "frtiS",
+		scrollY:     200,
+		initComplete: function () {
+			var api = this.api();
+			api.scroller.scrollToRow( 1000 );
+		}
+	} );
+} );
+]]>
+</js>
+
+<title lib="Scroller">API</title>
+
+<info><![CDATA[
+
+This example shows a trivial use of the API methods that Scroller adds to the DataTables API to scroll to a row once the table's data has been loaded. In this case `scroller.scrollToRow()` is used to jump to row 1000.
+
+]]></info>
+
+</dt-example>

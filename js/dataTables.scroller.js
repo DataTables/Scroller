@@ -1017,21 +1017,13 @@ Scroller.oDefaults = {
 	"loadingIndicator": false
 };
 
+Scroller.defaults = Scroller.oDefaults;
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Constants
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-
-/**
- * Name of this class
- *  @type     String
- *  @default  Scroller
- *  @static
- */
-Scroller.prototype.CLASS = "Scroller";
-
 
 /**
  * Scroller version
@@ -1039,8 +1031,7 @@ Scroller.prototype.CLASS = "Scroller";
  *  @default   See code
  *  @static
  */
-Scroller.VERSION = "1.2.0-dev";
-Scroller.prototype.VERSION = Scroller.VERSION;
+Scroller.version = "1.2.0-dev";
 
 
 
@@ -1057,9 +1048,9 @@ if ( typeof $.fn.dataTable == "function" &&
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
-			var init = (typeof oDTSettings.oInit.oScroller == 'undefined') ?
-				{} : oDTSettings.oInit.oScroller;
-			var oScroller = new Scroller( oDTSettings, init );
+			var init = oDTSettings.oInit;
+			var opts = init.scroller || init.oScroller || {};
+			var oScroller = new Scroller( oDTSettings, opts );
 			return oScroller.dom.wrapper;
 		},
 		"cFeature": "S",
@@ -1074,5 +1065,51 @@ else
 
 // Attach Scroller to DataTables so it can be accessed as an 'extra'
 $.fn.dataTable.Scroller = Scroller;
+$.fn.DataTable.Scroller = Scroller;
+
+
+// DataTables 1.10 API method aliases
+if ( $.fn.dataTable.Api ) {
+	var Api = $.fn.dataTable.Api;
+
+	Api.register( 'scroller.rowToPixels()', function ( rowIdx, intParse, virtual ) {
+		var ctx = this.context;
+
+		if ( ctx.length && ctx[0].oScroller ) {
+			return ctx[0].oScroller.fnRowToPixels( rowIdx, intParse, virtual );
+		}
+		// undefined
+	} );
+
+	Api.register( 'scroller.pixelsToRow()', function ( pixels, intParse, virtual ) {
+		var ctx = this.context;
+
+		if ( ctx.length && ctx[0].oScroller ) {
+			return ctx[0].oScroller.fnPixelsToRow( pixels, intParse, virtual );
+		}
+		// undefined
+	} );
+
+	Api.register( 'scroller.scrollToRow()', function ( row, ani ) {
+		this.iterator( 'table', function ( ctx ) {
+			if ( ctx.oScroller ) {
+				ctx.oScroller.fnScrollToRow( row, ani );
+			}
+		} );
+
+		return this;
+	} );
+
+	Api.register( 'scroller.measure()', function ( redraw ) {
+		this.iterator( 'table', function ( ctx ) {
+			if ( ctx.oScroller ) {
+				ctx.oScroller.fnMeasure( redraw );
+			}
+		} );
+
+		return this;
+	} );
+}
+
 
 })(jQuery, window, document);
