@@ -21,8 +21,11 @@
  * For details please refer to: http://www.datatables.net
  */
 
-(/** @lends <global> */function($, window, document) {
+(function(window, document, undefined) {
 
+
+var factory = function( $, DataTable ) {
+"use strict";
 
 /**
  * Scroller is a virtual rendering plug-in for DataTables which allows large
@@ -1118,4 +1121,19 @@ if ( $.fn.dataTable.Api ) {
 }
 
 
-})(jQuery, window, document);
+return Scroller;
+}; // /factory
+
+
+// Define as an AMD module if possible
+if ( typeof define === 'function' && define.amd ) {
+	define( 'datatables-scroller', ['jquery', 'datatables'], factory );
+}
+else if ( jQuery && !jQuery.fn.dataTable.Scroller ) {
+	// Otherwise simply initialise as normal, stopping multiple evaluation
+	factory( jQuery, jQuery.fn.dataTable );
+}
+
+
+})(window, document);
+
