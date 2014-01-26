@@ -1,18 +1,24 @@
+/*! Scroller 1.2.0-dev
+ * 2009-2014 SpryMedia Ltd - datatables.net/license
+ */
+
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @file        Scroller.js
  * @version     1.2.0-dev
- * @author      Allan Jardine (www.sprymedia.co.uk)
- * @license     GPL v2 or BSD 3 point style
+ * @file        dataTables.tableTools.js
+ * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
+ * @copyright   Copyright 2011-2014 SpryMedia Ltd.
  *
- * @copyright Copyright 2011-2012 Allan Jardine, all rights reserved.
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license/mit
  *
- * This source file is free software, under either the GPL v2 license or a
- * BSD style license, available at:
- *   http://datatables.net/license_gpl2
- *   http://datatables.net/license_bsd
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ *
+ * For details please refer to: http://www.datatables.net
  */
 
 (/** @lends <global> */function($, window, document) {
