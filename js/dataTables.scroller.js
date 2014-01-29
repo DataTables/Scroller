@@ -338,7 +338,7 @@ Scroller.prototype = {
 		{
 			this.s.ani = ani;
 			$(this.dom.scroller).animate( {
-				"scrollTop": px,
+				"scrollTop": px
 			}, function () {
 				// This needs to happen after the animation has completed and
 				// the final scroll event fired
@@ -666,7 +666,9 @@ Scroller.prototype = {
 			}
 			else {
 				val = (yMax*2) - val;
-				return (xMax*2) - Math.pow(val / coeff, 0.5);
+				return val < 0 ?
+					heights.scroll :
+					(xMax*2) - Math.pow(val / coeff, 0.5);
 			}
 		}
 		else if ( dir === 'physicalToVirtual' ) {
@@ -675,7 +677,9 @@ Scroller.prototype = {
 			}
 			else {
 				val = (xMax*2) - val;
-				return (yMax*2) - (val * val * coeff);
+				return val < 0 ?
+					heights.virtual :
+					(yMax*2) - (val * val * coeff);
 			}
 		}
 	},
@@ -696,17 +700,30 @@ Scroller.prototype = {
 			iScrollTop = this.dom.scroller.scrollTop,
 			iActualScrollTop = iScrollTop,
 			iScrollBottom = iScrollTop + heights.viewport,
-			iTableHeight = $(this.s.dt.nTable).height();
+			iTableHeight = $(this.s.dt.nTable).height(),
+			displayStart = this.s.dt._iDisplayStart,
+			displayLen = this.s.dt._iDisplayLength,
+			displayEnd = this.s.dt.fnRecordsDisplay();
 
 		// Disable the scroll event listener while we are updating the DOM
 		this.s.skip = true;
 
+		// Resize the scroll forcing element
 		this._fnScrollForce();
 
 		// Reposition the scrolling for the updated virtual position if needed
-		iScrollTop = this.s.dt._iDisplayStart === 0 ?
-			this.s.topRowFloat * heights.row :
-			this._domain( 'virtualToPhysical', this.s.topRowFloat * heights.row );
+		if ( displayStart === 0 ) {
+			// Linear calculation at the top of the table
+			iScrollTop = this.s.topRowFloat * heights.row;
+		}
+		else if ( displayStart + displayLen >= displayEnd ) {
+			// Linear calculation that the bottom as well
+			iScrollTop = heights.scroll - ((displayEnd - this.s.topRowFloat) * heights.row);
+		}
+		else {
+			// Domain scaled in the middle
+			iScrollTop = this._domain( 'virtualToPhysical', this.s.topRowFloat * heights.row );
+		}
 
 		this.dom.scroller.scrollTop = iScrollTop;
 
@@ -716,9 +733,12 @@ Scroller.prototype = {
 		this.s.baseRowTop = this.s.topRowFloat;
 
 		// Position the table in the virtual scroller
-		var tableTop = iScrollTop - ((this.s.topRowFloat - this.s.dt._iDisplayStart) * heights.row);
-		if ( this.s.dt._iDisplayStart === 0 ) {
+		var tableTop = iScrollTop - ((this.s.topRowFloat - displayStart) * heights.row);
+		if ( displayStart === 0 ) {
 			tableTop = 0;
+		}
+		else if ( displayStart + displayLen >= displayEnd ) {
+			tableTop = heights.scroll - iTableHeight;
 		}
 
 		this.dom.table.style.top = tableTop+'px';
@@ -748,6 +768,7 @@ Scroller.prototype = {
 		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
 			 typeof this.s.dt.oLoadedState.iScroller != 'undefined' )
 		{
+			// xxx
 			if ( (this.s.dt.sAjaxSource !== null && this.s.dt.iDraw == 2) ||
 			     (this.s.dt.sAjaxSource === null && this.s.dt.iDraw == 1) )
 			{
@@ -796,25 +817,27 @@ Scroller.prototype = {
 	"_fnCalcRowHeight": function ()
 	{
 		var nTable = this.s.dt.nTable.cloneNode( false );
-		var nContainer = $(
+		var tbody = $('<tbody/>').appendTo( nTable );
+		var container = $(
 			'<div class="'+this.s.dt.oClasses.sWrapper+' DTS">'+
 				'<div class="'+this.s.dt.oClasses.sScrollWrapper+'">'+
 					'<div class="'+this.s.dt.oClasses.sScrollBody+'"></div>'+
 				'</div>'+
 			'</div>'
-		)[0];
+		);
 
-		var sRow = $('tbody tr:eq(0)', this.s.dt.nTable).length > 0 ?
-			$('tbody tr:eq(0)', this.s.dt.nTable).html() :
-			'<tr><td>&nbsp;</td></tr>';
+		// Want 3 rows in the sizing table so :first-child and :last-child
+		// CSS styles don't come into play - take the size of the middle row
+		$('tbody tr:lt(4)', nTable).clone().appendTo( tbody );
+		while( $('tr', tbody).length < 3 ) {
+			tbody.append( '<tr><td>&nbsp;</td></tr>' );
+		}
 
-		$(nTable).append( '<tbody>'+sRow+'</tbody>' );
+		$('div.'+this.s.dt.oClasses.sScrollBody, container).append( nTable );
 
-		$('div.'+this.s.dt.oClasses.sScrollBody, nContainer).append( nTable );
-
-		document.body.appendChild( nContainer );
-		this.s.heights.row = $('tbody tr', nTable).outerHeight();
-		document.body.removeChild( nContainer );
+		container.appendTo( 'body' );
+		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
+		container.remove();
 	},
 
 
