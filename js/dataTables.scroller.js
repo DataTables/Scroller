@@ -1112,7 +1112,7 @@ $.fn.DataTable.Scroller = Scroller;
 if ( $.fn.dataTable.Api ) {
 	var Api = $.fn.dataTable.Api;
 
-	Api.register( 'scroller.rowToPixels()', function ( rowIdx, intParse, virtual ) {
+	Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual ) {
 		var ctx = this.context;
 
 		if ( ctx.length && ctx[0].oScroller ) {
@@ -1121,7 +1121,7 @@ if ( $.fn.dataTable.Api ) {
 		// undefined
 	} );
 
-	Api.register( 'scroller.pixelsToRow()', function ( pixels, intParse, virtual ) {
+	Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual ) {
 		var ctx = this.context;
 
 		if ( ctx.length && ctx[0].oScroller ) {
@@ -1130,7 +1130,7 @@ if ( $.fn.dataTable.Api ) {
 		// undefined
 	} );
 
-	Api.register( 'scroller.scrollToRow()', function ( row, ani ) {
+	Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
 		this.iterator( 'table', function ( ctx ) {
 			if ( ctx.oScroller ) {
 				ctx.oScroller.fnScrollToRow( row, ani );
@@ -1140,7 +1140,7 @@ if ( $.fn.dataTable.Api ) {
 		return this;
 	} );
 
-	Api.register( 'scroller.measure()', function ( redraw ) {
+	Api.register( 'scroller().measure()', function ( redraw ) {
 		this.iterator( 'table', function ( ctx ) {
 			if ( ctx.oScroller ) {
 				ctx.oScroller.fnMeasure( redraw );
