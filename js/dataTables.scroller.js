@@ -768,9 +768,12 @@ Scroller.prototype = {
 		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
 			 typeof this.s.dt.oLoadedState.iScroller != 'undefined' )
 		{
-			// xxx
-			if ( (this.s.dt.sAjaxSource !== null && this.s.dt.iDraw == 2) ||
-			     (this.s.dt.sAjaxSource === null && this.s.dt.iDraw == 1) )
+			var ajaxSourced = this.s.dt.sAjaxSource || that.s.dt.ajax ?
+				true :
+				false;
+
+			if ( ( ajaxSourced && this.s.dt.iDraw == 2) ||
+			     (!ajaxSourced && this.s.dt.iDraw == 1) )
 			{
 				setTimeout( function () {
 					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.iScroller );
