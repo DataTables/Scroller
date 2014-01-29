@@ -1,5 +1,5 @@
 /*! Scroller 1.2.0
- * 2009-2014 SpryMedia Ltd - datatables.net/license
+ * 2011-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
@@ -21,7 +21,7 @@
  * For details please refer to: http://www.datatables.net
  */
 
-(function(window, document, undefined) {
+(function(window, document, undefined){
 
 
 var factory = function( $, DataTable ) {
@@ -43,23 +43,25 @@ var factory = function( $, DataTable ) {
  *
  * Scroller is initialised by simply including the letter 'S' in the sDom for the
  * table you want to have this feature enabled on. Note that the 'S' must come
- * AFTER the 't' parameter in sDom.
+ * AFTER the 't' parameter in `dom`.
  *
  * Key features include:
  *   <ul class="limit_length">
  *     <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
  *     <li>Full compatibility with deferred rendering in DataTables 1.9 for maximum speed</li>
- *     <li>Correct visual scrolling implementation, similar to "infinite scrolling" in DataTable core</li>
+ *     <li>Display millions of rows</li>
  *     <li>Integration with state saving in DataTables (scrolling position is saved)</li>
  *     <li>Easy to use</li>
  *   </ul>
  *
  *  @class
  *  @constructor
+ *  @global
  *  @param {object} oDT DataTables settings object
- *  @param {object} [oOpts={}] Configuration object for FixedColumns. Options are defined by {@link Scroller.oDefaults}
+ *  @param {object} [oOpts={}] Configuration object for FixedColumns. Options 
+ *    are defined by {@link Scroller.defaults}
  *
- *  @requires jQuery 1.4+
+ *  @requires jQuery 1.7+
  *  @requires DataTables 1.9.0+
  *
  *  @example
@@ -88,7 +90,8 @@ var Scroller = function ( oDTSettings, oOpts ) {
 	/**
 	 * Settings object which contains customisable information for the Scroller instance
 	 * @namespace
-	 * @extends Scroller.DEFAULTS
+	 * @private
+	 * @extends Scroller.defaults
 	 */
 	this.s = {
 		/**
@@ -190,6 +193,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 
 	/**
 	 * DOM elements used by the class instance
+	 * @private
 	 * @namespace
 	 *
 	 */
@@ -208,7 +212,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 
 
 
-Scroller.prototype = {
+Scroller.prototype = /** @lends Scroller.prototype */{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -797,6 +801,8 @@ Scroller.prototype = {
 	 * value (1 million pixels - hard-coded) the forcing element will be set
 	 * only to that maximum value and virtual / physical domain transforms will
 	 * be used to allow Scroller to display tables of any number of records.
+	 *  @returns {void}
+	 *  @private
 	 */
 	_fnScrollForce: function ()
 	{
@@ -932,9 +938,10 @@ Scroller.prototype = {
 /**
  * Scroller default settings for initialisation
  *  @namespace
+ *  @name Scroller.defaults
  *  @static
  */
-Scroller.oDefaults = {
+Scroller.defaults = {
 	/**
 	 * Indicate if Scroller show show trace information on the console or not. This can be
 	 * useful when debugging Scroller or if just curious as to what it is doing, but should
@@ -1057,7 +1064,7 @@ Scroller.oDefaults = {
 	"loadingIndicator": false
 };
 
-Scroller.defaults = Scroller.oDefaults;
+Scroller.oDefaults = Scroller.defaults;
 
 
 
@@ -1069,6 +1076,7 @@ Scroller.defaults = Scroller.oDefaults;
  * Scroller version
  *  @type      String
  *  @default   See code
+ *  @name      Scroller.version
  *  @static
  */
 Scroller.version = "1.2.0";
