@@ -11,10 +11,11 @@
 		}
 		
 		var oTable = $('#example').dataTable( {
-			data:        data,
-			deferRender: true,
-			dom:         "frtiS",
-			scrollY:     200
+			data:           data,
+			deferRender:    true,
+			dom:            "frtiS",
+			scrollY:        200,
+			scrollCollapse: true
 		} );
 	} );
 ]]>

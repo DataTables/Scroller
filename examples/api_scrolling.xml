@@ -10,6 +10,7 @@ $(document).ready(function() {
 		deferRender: true,
 		dom:         "frtiS",
 		scrollY:     200,
+		scrollCollapse: true,
 		initComplete: function () {
 			var api = this.api();
 			api.scroller.scrollToRow( 1000 );
