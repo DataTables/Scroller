@@ -6,7 +6,7 @@
  * @summary     Scroller
  * @description Virtual rendering for DataTables
  * @version     1.2.0-dev
- * @file        dataTables.tableTools.js
+ * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
  * @copyright   Copyright 2011-2014 SpryMedia Ltd.
