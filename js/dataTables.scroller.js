@@ -459,14 +459,14 @@ Scroller.prototype = {
 		this.fnMeasure( false );
 
 		/* Scrolling callback to see if a page change is needed */
-		$(this.dom.scroller).scroll( function () {
+		$(this.dom.scroller).on( 'scroll.DTS', function () {
 			that._fnScroll.call( that );
 		} );
 
 		/* In iOS we catch the touchstart event incase the user tries to scroll
 		 * while the display is already scrolling
 		 */
-		$(this.dom.scroller).bind('touchstart', function () {
+		$(this.dom.scroller).on('touchstart.DTS', function () {
 			that._fnScroll.call( that );
 		} );
 
@@ -481,7 +481,7 @@ Scroller.prototype = {
 		} );
 
 		/* On resize, update the information element, since the number of rows shown might change */
-		$(window).resize( function () {
+		$(window).on( 'resize.DTS', function () {
 			that._fnInfo();
 		} );
 
@@ -504,6 +504,11 @@ Scroller.prototype = {
 		this.s.dt.aoDestroyCallback.push( {
 			"sName": "Scroller",
 			"fn": function () {
+				$(window).off( 'resize.DTS' );
+				$(that.dom.scroller).off('touchstart.DTS scroll.DTS');
+				$(that.s.dt.nTableWrapper).removeClass('DTS');
+				$('div.DTS_Loading', that.dom.scroller.parentNode).remove();
+
 				that.dom.table.style.position = "";
 				that.dom.table.style.top = "";
 				that.dom.table.style.left = "";
