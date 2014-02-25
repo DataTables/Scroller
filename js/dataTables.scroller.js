@@ -1,11 +1,11 @@
-/*! Scroller 1.2.0
+/*! Scroller 1.2.1-dev
  * 2011-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.2.0
+ * @version     1.2.1-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -830,7 +830,8 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 	 */
 	"_fnCalcRowHeight": function ()
 	{
-		var nTable = this.s.dt.nTable.cloneNode( false );
+		var origTable = this.s.dt.nTable;
+		var nTable = origTable.cloneNode( false );
 		var tbody = $('<tbody/>').appendTo( nTable );
 		var container = $(
 			'<div class="'+this.s.dt.oClasses.sWrapper+' DTS">'+
@@ -842,7 +843,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		// Want 3 rows in the sizing table so :first-child and :last-child
 		// CSS styles don't come into play - take the size of the middle row
-		$('tbody tr:lt(4)', nTable).clone().appendTo( tbody );
+		$('tbody tr:lt(4)', origTable).clone().appendTo( tbody );
 		while( $('tr', tbody).length < 3 ) {
 			tbody.append( '<tr><td>&nbsp;</td></tr>' );
 		}
@@ -941,7 +942,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
  *  @name Scroller.defaults
  *  @static
  */
-Scroller.defaults = {
+Scroller.defaults = /** @lends Scroller.defaults */{
 	/**
 	 * Indicate if Scroller show show trace information on the console or not. This can be
 	 * useful when debugging Scroller or if just curious as to what it is doing, but should
@@ -1079,7 +1080,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.2.0";
+Scroller.version = "1.2.1-dev";
 
 
 
