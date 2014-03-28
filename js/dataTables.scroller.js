@@ -850,9 +850,18 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		$('div.'+this.s.dt.oClasses.sScrollBody, container).append( nTable );
 
-		this.s.dt.nHolding.replaceWith(container);
+		if(this.s.dt.nTableWrapper.parent().length) {
+			container.insertBefore(this.s.dt.nTableWrapper);
+		} else if(this.s.dt.nHolding) {
+			this.s.dt.nHolding.replaceWith(container);
+		} else {
+			container.appendTo('body');
+		}
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
-		container.replaceWith(this.s.dt.nHolding).remove();
+		if(this.s.dt.nHolding) {
+			container.replaceWith(this.s.dt.nHolding);
+		}
+		container.remove();
 	},
 
 
