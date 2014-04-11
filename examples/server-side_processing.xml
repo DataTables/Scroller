@@ -7,6 +7,8 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		serverSide: true,
+		ordering: false,
+		searching: false,
 		ajax: function ( data, callback, settings ) {
 			var out = [];
 
