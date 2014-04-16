@@ -189,7 +189,13 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		topRowFloat: 0,
 		scrollDrawDiff: null
 	};
+
+	// @todo The defaults should extend a `c` property and the internal settings
+	// only held in the `s` property. At the moment they are mixed
 	this.s = $.extend( this.s, Scroller.oDefaults, oOpts );
+
+	// Workaround for row height being read from height object (see above comment)
+	this.s.heights.row = this.s.rowHeight;
 
 	/**
 	 * DOM elements used by the class instance
