@@ -572,7 +572,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		 * a DataTables redraw
 		 */
 		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
-			var preRows = ((this.s.displayBuffer-1)/2) * this.s.viewportRows;
+			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
 			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
 				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
