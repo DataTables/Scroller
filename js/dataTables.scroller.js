@@ -856,7 +856,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		$('div.'+this.s.dt.oClasses.sScrollBody, container).append( nTable );
 
-		container.appendTo( 'body' );
+		container.appendTo( this.s.dt.nHolding );
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
 		container.remove();
 	},
