@@ -1,11 +1,11 @@
-/*! Scroller 1.2.1
+/*! Scroller 1.2.2-dev
  * 2011-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.2.1
+ * @version     1.2.2-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -836,13 +836,14 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 	 */
 	"_fnCalcRowHeight": function ()
 	{
-		var origTable = this.s.dt.nTable;
+		var dt = this.s.dt;
+		var origTable = dt.nTable;
 		var nTable = origTable.cloneNode( false );
 		var tbody = $('<tbody/>').appendTo( nTable );
 		var container = $(
-			'<div class="'+this.s.dt.oClasses.sWrapper+' DTS">'+
-				'<div class="'+this.s.dt.oClasses.sScrollWrapper+'">'+
-					'<div class="'+this.s.dt.oClasses.sScrollBody+'"></div>'+
+			'<div class="'+dt.oClasses.sWrapper+' DTS">'+
+				'<div class="'+dt.oClasses.sScrollWrapper+'">'+
+					'<div class="'+dt.oClasses.sScrollBody+'"></div>'+
 				'</div>'+
 			'</div>'
 		);
@@ -854,9 +855,12 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			tbody.append( '<tr><td>&nbsp;</td></tr>' );
 		}
 
-		$('div.'+this.s.dt.oClasses.sScrollBody, container).append( nTable );
+		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
-		container.appendTo( this.s.dt.nHolding );
+		container.appendTo( dt._bInitComplete ?
+			origTable.parentNode :
+			dt.nHolding
+		);
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
 		container.remove();
 	},
@@ -1086,7 +1090,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.2.1";
+Scroller.version = "1.2.2-dev";
 
 
 
