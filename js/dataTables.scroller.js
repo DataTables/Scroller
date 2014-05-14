@@ -1131,6 +1131,10 @@ $.fn.DataTable.Scroller = Scroller;
 if ( $.fn.dataTable.Api ) {
 	var Api = $.fn.dataTable.Api;
 
+	Api.register( 'scroller()', function () {
+		return this;
+	} );
+
 	Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual ) {
 		var ctx = this.context;
 

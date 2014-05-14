@@ -13,7 +13,7 @@ $(document).ready(function() {
 		scrollCollapse: true,
 		initComplete: function () {
 			var api = this.api();
-			api.scroller.scrollToRow( 1000 );
+			api.scroller().scrollToRow( 1000 );
 		}
 	} );
 } );
@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows a trivial use of the API methods that Scroller adds to the DataTables API to scroll to a row once the table's data has been loaded. In this case `scroller.scrollToRow()` is used to jump to row 1000.
+This example shows a trivial use of the API methods that Scroller adds to the DataTables API to scroll to a row once the table's data has been loaded. In this case `scroller().scrollToRow()` is used to jump to row 1000.
 
 ]]></info>
 
