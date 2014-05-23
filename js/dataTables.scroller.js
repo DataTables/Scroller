@@ -480,7 +480,18 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			that._fnScroll.call( that );
 		} );
 
-		/* Update the scroller when the DataTable is redrawn */
+	    /* Update the scroller when the DataTable is redrawn */
+		for (var i = 0; i < this.s.dt.aoDrawCallback.length; i++) {
+		    if (this.s.dt.aoDrawCallback[i].sName === 'scrolling') {
+		        var oldFunc = this.s.dt.aoDrawCallback[i].fn;
+		        this.s.dt.aoDrawCallback[i].fn = function (o) {
+		            if (!that.bTriggeredDraw) {
+		                oldFunc(o);
+		            }
+		        };
+		    }
+		}
+
 		this.s.dt.aoDrawCallback.push( {
 			"fn": function () {
 				if ( that.s.dt.bInitialised ) {
@@ -615,7 +626,9 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 					if ( that.s.dt.oApi._fnCalculateEnd ) { // Removed in 1.10
 						that.s.dt.oApi._fnCalculateEnd( that.s.dt );
 					}
+					that.bTriggeredDraw = true;
 					that.s.dt.oApi._fnDraw( that.s.dt );
+					that.bTriggeredDraw = false;
 				};
 
 				/* Do the DataTables redraw based on the calculated start point - note that when
