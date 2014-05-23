@@ -362,7 +362,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		}
 		else
 		{
-		    $(this.dom.scroller).scrollTop(px);
+		    $(this.dom.scroller).scrollTop( px );
 		    dfd.resolve();
 		}
 
