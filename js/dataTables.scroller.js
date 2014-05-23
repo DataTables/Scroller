@@ -857,10 +857,17 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
-		container.appendTo( dt._bInitComplete ?
-			origTable.parentNode :
-			dt.nHolding
-		);
+		var appendTo;
+		if (dt._bInitComplete) {
+			appendTo = origTable.parentNode;
+		} else {
+			if (!this.s.dt.nHolding) {
+				this.s.dt.nHolding = $( '<div></div>' ).insertBefore( this.s.dt.nTable );
+			}
+			appendTo = this.s.dt.nHolding;
+		}
+
+		container.appendTo( appendTo );
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
 		container.remove();
 	},
