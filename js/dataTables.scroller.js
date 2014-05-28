@@ -126,7 +126,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 
 		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
-		 * when scrolling down the way. Note that this is actually caluated as the offset from
+		 * when scrolling down the way. Note that this is actually calculated as the offset from
 		 * the top.
 		 *  @type     int
 		 *  @default  0
@@ -302,7 +302,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 	/**
 	 * Calculate the row number that will be found at the given pixel position (y-scroll)
 	 *  @param {int} iRow Row index to scroll to
-	 *  @param {bool} [bAnimate=true] Animate the transision or not
+	 *  @param {bool} [bAnimate=true] Animate the transition or not
 	 *  @returns {void}
 	 *  @example
 	 *    $(document).ready(function() {
@@ -370,7 +370,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 	 * rendering. This can be particularly useful if the table is initially
 	 * drawn in a hidden element - for example in a tab.
 	 *  @param {bool} [bRedraw=true] Redraw the table automatically after the recalculation, with
-	 *    the new dimentions forming the basis for the draw.
+	 *    the new dimensions forming the basis for the draw.
 	 *  @returns {void}
 	 *  @example
 	 *    $(document).ready(function() {
@@ -473,7 +473,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			that._fnScroll.call( that );
 		} );
 
-		/* In iOS we catch the touchstart event incase the user tries to scroll
+		/* In iOS we catch the touchstart event in case the user tries to scroll
 		 * while the display is already scrolling
 		 */
 		$(this.dom.scroller).on('touchstart.DTS', function () {
@@ -771,7 +771,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		this.s.skip = false;
 
 		// Because of the order of the DT callbacks, the info update will
-		// take precidence over the one we want here. So a 'thread' break is
+		// take precedence over the one we want here. So a 'thread' break is
 		// needed
 		setTimeout( function () {
 			that._fnInfo.call( that );
@@ -902,7 +902,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		}
 		else if ( dt.fnRecordsDisplay() === 0 )
 		{
-			/* Rmpty record set after filtering */
+			/* Empty record set after filtering */
 			sOut = dt.oLanguage.sInfoEmpty +' '+
 				dt.oLanguage.sInfoFiltered.replace('_MAX_', sMax)+
 					dt.oLanguage.sInfoPostFix;
