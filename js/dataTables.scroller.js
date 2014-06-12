@@ -789,16 +789,6 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		this.s.skip = false;
 
-<<<<<<< HEAD
-=======
-		// Because of the order of the DT callbacks, the info update will
-		// take precedence over the one we want here. So a 'thread' break is
-		// needed
-		setTimeout( function () {
-			that._fnInfo.call( that );
-		}, 0 );
-
->>>>>>> 9042a7f92891502942f6a1ebdb8806e73d3e26cf
 		// Restore the scrolling position that was saved by DataTable's state
 		// saving Note that this is done on the second draw when data is Ajax
 		// sourced, and the first draw when DOM soured
