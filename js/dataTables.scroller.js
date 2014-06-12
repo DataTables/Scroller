@@ -468,8 +468,16 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		}
 		this.fnMeasure( false );
 
-		/* Scrolling callback to see if a page change is needed */
-		$(this.dom.scroller).on( 'scroll.DTS', function () {
+		/* Scrolling callback to see if a page change is needed - use a throttled
+		 * function for the save save callback so we aren't hitting it on every
+		 * scroll
+		 */
+
+		this.s.ingnoreScroll = true;
+		this.s.stateSaveThrottle = this.s.dt.oApi._fnThrottle( function () {
+			that.s.dt.oApi._fnSaveState( that.s.dt );
+		}, 500 );
+		$(this.dom.scroller).on( 'scroll.DTS', function (e) {
 			that._fnScroll.call( that );
 		} );
 
@@ -504,11 +512,17 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			 */
 			if(initialStateSave && that.s.dt.oLoadedState){
 				oData.iScroller = that.s.dt.oLoadedState.iScroller;
+				oData.iScrollerTopRow = that.s.dt.oLoadedState.iScrollerTopRow;
 				initialStateSave = false;
 			} else {
 				oData.iScroller = that.dom.scroller.scrollTop;
+				oData.iScrollerTopRow = that.s.topRowFloat;
 			}
 		}, "Scroller_State" );
+
+		if ( this.s.dt.oLoadedState ) {
+			this.s.topRowFloat = this.s.dt.oLoadedState.iScrollerTopRow || 0;
+		}
 
 		/* Destructor */
 		this.s.dt.aoDestroyCallback.push( {
@@ -545,6 +559,10 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			iTopRow;
 
 		if ( this.s.skip ) {
+			return;
+		}
+
+		if ( this.s.ingnoreScroll ) {
 			return;
 		}
 
@@ -632,6 +650,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		}
 
 		this.s.lastScrollTop = iScrollTop;
+		this.s.stateSaveThrottle();
 	},
 
 
@@ -770,20 +789,15 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		this.s.skip = false;
 
-		// Because of the order of the DT callbacks, the info update will
-		// take precidence over the one we want here. So a 'thread' break is
-		// needed
-		setTimeout( function () {
-			that._fnInfo.call( that );
-		}, 0 );
-
 		// Restore the scrolling position that was saved by DataTable's state
 		// saving Note that this is done on the second draw when data is Ajax
 		// sourced, and the first draw when DOM soured
 		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
 			 typeof this.s.dt.oLoadedState.iScroller != 'undefined' )
 		{
-			var ajaxSourced = this.s.dt.sAjaxSource || that.s.dt.ajax ?
+			// A quirk of DataTables is that the draw callback will occur on an
+			// empty set if Ajax sourced, but not if server-side processing.
+			var ajaxSourced = (this.s.dt.sAjaxSource || that.s.dt.ajax) && ! this.s.dt.oFeatures.bServerSide ?
 				true :
 				false;
 
@@ -793,9 +807,25 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				setTimeout( function () {
 					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.iScroller );
 					that.s.redrawTop = that.s.dt.oLoadedState.iScroller - (heights.viewport/2);
+
+					// In order to prevent layout thrashing we need another
+					// small delay
+					setTimeout( function () {
+						that.s.ingnoreScroll = false;
+					}, 0 );
 				}, 0 );
 			}
 		}
+		else {
+			that.s.ingnoreScroll = false;
+		}
+
+		// Because of the order of the DT callbacks, the info update will
+		// take precidence over the one we want here. So a 'thread' break is
+		// needed
+		setTimeout( function () {
+			that._fnInfo.call( that );
+		}, 0 );
 	},
 
 
