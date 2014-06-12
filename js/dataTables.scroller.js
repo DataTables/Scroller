@@ -821,7 +821,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		}
 
 		// Because of the order of the DT callbacks, the info update will
-		// take precidence over the one we want here. So a 'thread' break is
+		// take precedence over the one we want here. So a 'thread' break is
 		// needed
 		setTimeout( function () {
 			that._fnInfo.call( that );
