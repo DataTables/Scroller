@@ -16,12 +16,14 @@ $(document).ready(function() {
 				out.push( [ i+'-1', i+'-2', i+'-3', i+'-4', i+'-5' ] );
 			}
 
-			callback( {
-				draw: data.draw,
-				data: out,
-				recordsTotal: 5000000,
-				recordsFiltered: 5000000
-			} );
+			setTimeout( function () {
+				callback( {
+					draw: data.draw,
+					data: out,
+					recordsTotal: 5000000,
+					recordsFiltered: 5000000
+				} );
+			}, 50 );
 		},
 		dom: "rtiS",
 		scrollY: 200,
