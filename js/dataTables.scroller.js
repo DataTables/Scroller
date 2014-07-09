@@ -1,5 +1,5 @@
 /*! Scroller 1.2.2-dev
- * 2011-2014 SpryMedia Ltd - datatables.net/license
+ * ©2011-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
@@ -1211,7 +1211,11 @@ return Scroller;
 
 // Define as an AMD module if possible
 if ( typeof define === 'function' && define.amd ) {
-	define( 'datatables-scroller', ['jquery', 'datatables'], factory );
+	define( ['jquery', 'datatables'], factory );
+}
+else if ( typeof exports === 'object' ) {
+    // Node/CommonJS
+    factory( require('jquery'), require('datatables') );
 }
 else if ( jQuery && !jQuery.fn.dataTable.Scroller ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation
