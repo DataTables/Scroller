@@ -406,7 +406,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
 		this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
 
-		if ( typeof bRedraw == 'undefined' || bRedraw )
+		if ( bRedraw === undefined || bRedraw )
 		{
 			this.s.dt.oInstance.fnDraw();
 		}
@@ -500,6 +500,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		/* On resize, update the information element, since the number of rows shown might change */
 		$(window).on( 'resize.DTS', function () {
+			that.fnMeasure( false );
 			that._fnInfo();
 		} );
 
