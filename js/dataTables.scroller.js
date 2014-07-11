@@ -187,7 +187,8 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		},
 
 		topRowFloat: 0,
-		scrollDrawDiff: null
+		scrollDrawDiff: null,
+		loaderVisible: false
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
@@ -204,9 +205,10 @@ var Scroller = function ( oDTSettings, oOpts ) {
 	 *
 	 */
 	this.dom = {
-		"force": document.createElement('div'),
+		"force":    document.createElement('div'),
 		"scroller": null,
-		"table": null
+		"table":    null,
+		"loader":   null
 	};
 
 	/* Attach the instance to the DataTables instance so it can be accessed */
@@ -456,9 +458,12 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		// Add a 'loading' indicator
 		if ( this.s.loadingIndicator )
 		{
+			this.dom.loader = $('<div class="DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
+				.css('display', 'none');
+
 			$(this.dom.scroller.parentNode)
 				.css('position', 'relative')
-				.append('<div class="DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>');
+				.append( this.dom.loader );
 		}
 
 		/* Initial size calculations */
@@ -472,7 +477,6 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		 * function for the save save callback so we aren't hitting it on every
 		 * scroll
 		 */
-
 		this.s.ingnoreScroll = true;
 		this.s.stateSaveThrottle = this.s.dt.oApi._fnThrottle( function () {
 			that.s.dt.oApi._fnSaveState( that.s.dt );
@@ -646,6 +650,11 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				}
 				else {
 					draw();
+				}
+
+				if ( this.dom.loader && ! this.s.loaderVisible ) {
+					this.dom.loader.css( 'display', 'block' );
+					this.s.loaderVisible = true;
 				}
 			}
 		}
@@ -827,6 +836,12 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		setTimeout( function () {
 			that._fnInfo.call( that );
 		}, 0 );
+
+		// Hide the loading indicator
+		if ( this.dom.loader && this.s.loaderVisible ) {
+			this.dom.loader.css( 'display', 'none' );
+			this.s.loaderVisible = false;
+		}
 	},
 
 
