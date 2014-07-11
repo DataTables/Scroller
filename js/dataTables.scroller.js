@@ -326,6 +326,8 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 	 */
 	"fnScrollToRow": function ( iRow, bAnimate )
 	{
+	    var dfd = $.Deferred();
+
 		var that = this;
 		var ani = false;
 		var px = this.fnRowToPixels( iRow );
@@ -355,14 +357,18 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				// This needs to happen after the animation has completed and
 				// the final scroll event fired
 				setTimeout( function () {
-					that.s.ani = false;
+				    that.s.ani = false;
+				    dfd.resolve();
 				}, 0 );
 			} );
 		}
 		else
 		{
-			$(this.dom.scroller).scrollTop( px );
+		    $(this.dom.scroller).scrollTop( px );
+		    dfd.resolve();
 		}
+
+		return dfd.promise();
 	},
 
 
