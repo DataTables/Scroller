@@ -935,6 +935,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		var
 			dt = this.s.dt,
+			language = dt.oLanguage,
 			iScrollTop = this.dom.scroller.scrollTop,
 			iStart = Math.floor( this.fnPixelsToRow(iScrollTop, false, this.s.ani)+1 ),
 			iMax = dt.fnRecordsTotal(),
@@ -951,34 +952,45 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			   dt.fnRecordsDisplay() == dt.fnRecordsTotal() )
 		{
 			/* Empty record set */
-			sOut = dt.oLanguage.sInfoEmpty+ dt.oLanguage.sInfoPostFix;
+			sOut = language.sInfoEmpty+ language.sInfoPostFix;
 		}
 		else if ( dt.fnRecordsDisplay() === 0 )
 		{
 			/* Empty record set after filtering */
-			sOut = dt.oLanguage.sInfoEmpty +' '+
-				dt.oLanguage.sInfoFiltered.replace('_MAX_', sMax)+
-					dt.oLanguage.sInfoPostFix;
+			sOut = language.sInfoEmpty +' '+
+				language.sInfoFiltered.replace('_MAX_', sMax)+
+					language.sInfoPostFix;
 		}
 		else if ( dt.fnRecordsDisplay() == dt.fnRecordsTotal() )
 		{
 			/* Normal record set */
-			sOut = dt.oLanguage.sInfo.
+			sOut = language.sInfo.
 					replace('_START_', sStart).
 					replace('_END_',   sEnd).
+					replace('_MAX_',   sMax).
 					replace('_TOTAL_', sTotal)+
-				dt.oLanguage.sInfoPostFix;
+				language.sInfoPostFix;
 		}
 		else
 		{
 			/* Record set after filtering */
-			sOut = dt.oLanguage.sInfo.
+			sOut = language.sInfo.
 					replace('_START_', sStart).
 					replace('_END_',   sEnd).
+					replace('_MAX_',   sMax).
 					replace('_TOTAL_', sTotal) +' '+
-				dt.oLanguage.sInfoFiltered.replace('_MAX_',
-					dt.fnFormatNumber(dt.fnRecordsTotal()))+
-				dt.oLanguage.sInfoPostFix;
+				language.sInfoFiltered.replace(
+					'_MAX_',
+					dt.fnFormatNumber(dt.fnRecordsTotal())
+				)+
+				language.sInfoPostFix;
+		}
+
+		var callback = language.fnInfoCallback;
+		if ( callback ) {
+			sOut = callback.call( dt.oInstance,
+				dt, iStart, iEnd, iMax, iTotal, sOut
+			);
 		}
 
 		var n = dt.aanFeatures.i;
