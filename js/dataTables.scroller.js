@@ -356,7 +356,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				// the final scroll event fired
 				setTimeout( function () {
 					that.s.ani = false;
-				}, 0 );
+				}, 25 );
 			} );
 		}
 		else
