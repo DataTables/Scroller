@@ -541,6 +541,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				that.dom.table.style.position = "";
 				that.dom.table.style.top = "";
 				that.dom.table.style.left = "";
+				that = null;
 			}
 		} );
 	},
