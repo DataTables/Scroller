@@ -742,6 +742,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			that = this,
 			heights = this.s.heights,
 			iScrollTop = this.dom.scroller.scrollTop,
+			iScrollHeight = this.dom.scroller.scrollHeight,
 			iActualScrollTop = iScrollTop,
 			iScrollBottom = iScrollTop + heights.viewport,
 			iTableHeight = $(this.s.dt.nTable).height(),
@@ -794,8 +795,8 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		// Calculate the boundaries for where a redraw will be triggered by the
 		// scroll event listener
 		var boundaryPx = (iScrollTop - this.s.tableTop) * this.s.boundaryScale;
-		this.s.redrawTop = iScrollTop - boundaryPx;
-		this.s.redrawBottom = iScrollTop + boundaryPx;
+		this.s.redrawTop = Math.max(iScrollTop - boundaryPx, 0);
+		this.s.redrawBottom = Math.min(iScrollTop + boundaryPx, iScrollBottom - iScrollTop);
 
 		this.s.skip = false;
 
