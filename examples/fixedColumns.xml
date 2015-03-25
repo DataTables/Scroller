@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="scroller" order="1" table-class="stripe row-border order-column nowrap">
+<dt-example table-type="scroller" order="6" table-class="stripe row-border order-column nowrap">
 
 <css lib="datatables fixedcolumns scroller">
 	/* For this example, force x-scrolling by making the table width smaller */
