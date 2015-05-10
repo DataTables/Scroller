@@ -1,0 +1,20 @@
+{
+  "name": "datatables-scroller",
+  "version": "1.2.2",
+  "description": "DataTables Scroller extension",
+  "main": "js/dataTables.scroller.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DataTables/Scroller.git"
+  },
+  "keywords": [
+    "datatables",
+    "scroller"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DataTables/Scroller/issues"
+  },
+  "homepage": "https://github.com/DataTables/Scroller"
+}
