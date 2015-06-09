@@ -48,7 +48,7 @@ var factory = function( $, DataTable ) {
  * Key features include:
  *   <ul class="limit_length">
  *     <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
- *     <li>Full compatibility with deferred rendering in DataTables 1.9 for maximum speed</li>
+ *     <li>Full compatibility with deferred rendering in DataTables for maximum speed</li>
  *     <li>Display millions of rows</li>
  *     <li>Integration with state saving in DataTables (scrolling position is saved)</li>
  *     <li>Easy to use</li>
@@ -57,34 +57,32 @@ var factory = function( $, DataTable ) {
  *  @class
  *  @constructor
  *  @global
- *  @param {object} oDT DataTables settings object
- *  @param {object} [oOpts={}] Configuration object for FixedColumns. Options 
+ *  @param {object} dt DataTables settings object or API instance
+ *  @param {object} [opts={}] Configuration object for FixedColumns. Options 
  *    are defined by {@link Scroller.defaults}
  *
  *  @requires jQuery 1.7+
- *  @requires DataTables 1.9.0+
+ *  @requires DataTables 1.10.0+
  *
  *  @example
  *    $(document).ready(function() {
- *        $('#example').dataTable( {
- *            "sScrollY": "200px",
- *            "sAjaxSource": "media/dataset/large.txt",
- *            "sDom": "frtiS",
- *            "bDeferRender": true
+ *        $('#example').DataTable( {
+ *            "scrollY": "200px",
+ *            "ajax": "media/dataset/large.txt",
+ *            "dom": "frtiS",
+ *            "deferRender": true
  *        } );
  *    } );
  */
-var Scroller = function ( oDTSettings, oOpts ) {
+var Scroller = function ( dt, opts ) {
 	/* Sanity check - you just know it will happen */
-	if ( ! this instanceof Scroller )
-	{
+	if ( ! (this instanceof Scroller) ) {
 		alert( "Scroller warning: Scroller must be initialised with the 'new' keyword." );
 		return;
 	}
 
-	if ( typeof oOpts == 'undefined' )
-	{
-		oOpts = {};
+	if ( opts === undefined ) {
+		opts = {};
 	}
 
 	/**
@@ -99,7 +97,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		 *  @type     object
 		 *  @default  Passed in as first parameter to constructor
 		 */
-		"dt": oDTSettings,
+		"dt": $.fn.dataTable.Api( dt ).settings()[0],
 
 		/**
 		 * Pixel location of the top of the drawn table in the viewport
@@ -193,7 +191,7 @@ var Scroller = function ( oDTSettings, oOpts ) {
 
 	// @todo The defaults should extend a `c` property and the internal settings
 	// only held in the `s` property. At the moment they are mixed
-	this.s = $.extend( this.s, Scroller.oDefaults, oOpts );
+	this.s = $.extend( this.s, Scroller.oDefaults, opts );
 
 	// Workaround for row height being read from height object (see above comment)
 	this.s.heights.row = this.s.rowHeight;
@@ -211,7 +209,12 @@ var Scroller = function ( oDTSettings, oOpts ) {
 		"loader":   null
 	};
 
-	/* Attach the instance to the DataTables instance so it can be accessed */
+	// Attach the instance to the DataTables instance so it can be accessed in
+	// future. Don't initialise Scroller twice on the same table
+	if ( this.s.dt.oScroller ) {
+		return;
+	}
+
 	this.s.dt.oScroller = this;
 
 	/* Let's do it */
@@ -635,9 +638,6 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 					}
 
 					that.s.dt._iDisplayStart = iTopRow;
-					if ( that.s.dt.oApi._fnCalculateEnd ) { // Removed in 1.10
-						that.s.dt.oApi._fnCalculateEnd( that.s.dt );
-					}
 					that.s.dt.oApi._fnDraw( that.s.dt );
 				};
 
@@ -1158,7 +1158,7 @@ Scroller.version = "1.3.0-dev";
 // Legacy `dom` parameter initialisation support
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-     $.fn.dataTableExt.fnVersionCheck('1.9.0') )
+     $.fn.dataTableExt.fnVersionCheck('1.10.0') )
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
@@ -1173,7 +1173,7 @@ if ( typeof $.fn.dataTable == "function" &&
 }
 else
 {
-	alert( "Warning: Scroller requires DataTables 1.9.0 or greater - www.datatables.net/download");
+	alert( "Warning: Scroller requires DataTables 1.10.0 or greater - www.datatables.net/download");
 }
 
 // Attach a listener to the document which listens for DataTables initialisation
@@ -1202,51 +1202,49 @@ $.fn.DataTable.Scroller = Scroller;
 
 
 // DataTables 1.10 API method aliases
-if ( $.fn.dataTable.Api ) {
-	var Api = $.fn.dataTable.Api;
+var Api = $.fn.dataTable.Api;
 
-	Api.register( 'scroller()', function () {
-		return this;
-	} );
+Api.register( 'scroller()', function () {
+	return this;
+} );
 
-	Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual ) {
-		var ctx = this.context;
+Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual ) {
+	var ctx = this.context;
 
-		if ( ctx.length && ctx[0].oScroller ) {
-			return ctx[0].oScroller.fnRowToPixels( rowIdx, intParse, virtual );
+	if ( ctx.length && ctx[0].oScroller ) {
+		return ctx[0].oScroller.fnRowToPixels( rowIdx, intParse, virtual );
+	}
+	// undefined
+} );
+
+Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual ) {
+	var ctx = this.context;
+
+	if ( ctx.length && ctx[0].oScroller ) {
+		return ctx[0].oScroller.fnPixelsToRow( pixels, intParse, virtual );
+	}
+	// undefined
+} );
+
+Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
+	this.iterator( 'table', function ( ctx ) {
+		if ( ctx.oScroller ) {
+			ctx.oScroller.fnScrollToRow( row, ani );
 		}
-		// undefined
 	} );
 
-	Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual ) {
-		var ctx = this.context;
+	return this;
+} );
 
-		if ( ctx.length && ctx[0].oScroller ) {
-			return ctx[0].oScroller.fnPixelsToRow( pixels, intParse, virtual );
+Api.register( 'scroller().measure()', function ( redraw ) {
+	this.iterator( 'table', function ( ctx ) {
+		if ( ctx.oScroller ) {
+			ctx.oScroller.fnMeasure( redraw );
 		}
-		// undefined
 	} );
 
-	Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
-		this.iterator( 'table', function ( ctx ) {
-			if ( ctx.oScroller ) {
-				ctx.oScroller.fnScrollToRow( row, ani );
-			}
-		} );
-
-		return this;
-	} );
-
-	Api.register( 'scroller().measure()', function ( redraw ) {
-		this.iterator( 'table', function ( ctx ) {
-			if ( ctx.oScroller ) {
-				ctx.oScroller.fnMeasure( redraw );
-			}
-		} );
-
-		return this;
-	} );
-}
+	return this;
+} );
 
 
 return Scroller;
