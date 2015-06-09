@@ -1,11 +1,11 @@
-/*! Scroller 1.2.3-dev
+/*! Scroller 1.3.0-dev
  * ©2011-2015 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.2.3-dev
+ * @version     1.3.0-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -458,7 +458,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		// Add a 'loading' indicator
 		if ( this.s.loadingIndicator )
 		{
-			this.dom.loader = $('<div class="DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
+			this.dom.loader = $('<div class="dataTables_processing DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
 				.css('display', 'none');
 
 			$(this.dom.scroller.parentNode)
@@ -1147,7 +1147,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.2.3-dev";
+Scroller.version = "1.3.0-dev";
 
 
 
@@ -1186,7 +1186,7 @@ $(document).on( 'preInit.dt.dtscroller', function (e, settings) {
 	var init = settings.oInit.scroller;
 	var defaults = DataTable.defaults.scroller;
 
-	if ( init || defailts ) {
+	if ( init || defaults ) {
 		var opts = $.extend( {}, init, defaults );
 
 		if ( init !== false ) {

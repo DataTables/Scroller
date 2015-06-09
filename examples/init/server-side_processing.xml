@@ -42,9 +42,9 @@ DataTables' server-side processing mode is a feature that naturally fits in with
 
 When using server-side processing, Scroller will wait a small amount of time to allow the scrolling to finish before requesting more data from the server (200mS by default). This prevents you from DoSing your own server!
 
-This example shows Scroller using server-side processing mode and 5 million rows. **Important** This particular example uses `dt-init ajax` as a function to 'fake' the data to show Scroller's ability to show large data sets. It does not have a real database behind it! You would normally not use `dt-init ajax` as a function to generate data, but rather as a url for where to fetch the real data!
+This example shows Scroller using server-side processing mode and 5 million rows. **Important** This particular example uses `dt-init ajax` as a function to _fake_ the data to show Scroller's ability to show large data sets. It does not have a real database behind it! You would normally not use `dt-init ajax` as a function to generate data, but rather as a url for where to fetch the real data!
 
-In this example we also enable the `loadingIndicator` option of Scroller to show the end user what is happening when they scroll passed the currently loaded data.
+In this example we also enable the `s-init loadingIndicator` option of Scroller to show the end user what is happening when they scroll passed the currently loaded data.
 
 ]]></info>
 

@@ -12,18 +12,16 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 
 # Copy CSS
 rsync -r css $OUT_DIR
-css_compress $OUT_DIR/css/dataTables.scroller.css
-
-# Copy images
-rsync -r images $OUT_DIR
+css_frameworks scroller $OUT_DIR/css
 
 # Copy JS
 rsync -r js $OUT_DIR
 js_compress $OUT_DIR/js/dataTables.scroller.js
+js_frameworks scroller $OUT_DIR/js
 
 # Copy and build examples
 rsync -r examples $OUT_DIR
-examples_process $OUT_DIR
+examples_process $OUT_DIR/examples
 
 # Readme and license
 cp Readme.md $OUT_DIR

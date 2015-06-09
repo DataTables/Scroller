@@ -6,7 +6,7 @@
 <![CDATA[
 $(document).ready(function() {
 	$('#example').DataTable( {
-		ajax:           "data/2500.txt",
+		ajax:           "../data/2500.txt",
 		deferRender:    true,
 		scrollY:        200,
 		scrollCollapse: true,
@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows a trivial use of the API methods that Scroller adds to the DataTables API to scroll to a row once the table's data has been loaded. In this case `scroller().scrollToRow()` is used to jump to row 1000.
+This example shows a trivial use of the API methods that Scroller adds to the DataTables API to scroll to a row once the table's data has been loaded. In this case `s-api scroller().scrollToRow()` is used to jump to row 1000.
 
 ]]></info>
 
