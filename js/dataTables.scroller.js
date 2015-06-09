@@ -903,18 +903,10 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
-		var appendTo;
-		if (dt._bInitComplete) {
-			appendTo = origTable.parentNode;
-		} else {
-			if (!this.s.dt.nHolding) {
-				this.s.dt.nHolding = $( '<div></div>' ).insertBefore( this.s.dt.nTable );
-			}
-			appendTo = this.s.dt.nHolding;
-		}
-
-		container.appendTo( appendTo );
+		// If initialised using `dom`, use the holding element as the insert point
+		container.appendTo( this.s.dt.nHolding || origTable.parentNode );
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
+
 		container.remove();
 	},
 
@@ -1163,9 +1155,7 @@ Scroller.version = "1.2.3-dev";
  * Initialisation
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*
- * Register a new feature with DataTables
- */
+// Legacy `dom` parameter initialisation support
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
      $.fn.dataTableExt.fnVersionCheck('1.9.0') )
@@ -1174,8 +1164,8 @@ if ( typeof $.fn.dataTable == "function" &&
 		"fnInit": function( oDTSettings ) {
 			var init = oDTSettings.oInit;
 			var opts = init.scroller || init.oScroller || {};
-			var oScroller = new Scroller( oDTSettings, opts );
-			return oScroller.dom.wrapper;
+			
+			new Scroller( oDTSettings, opts );
 		},
 		"cFeature": "S",
 		"sFeature": "Scroller"
@@ -1185,6 +1175,25 @@ else
 {
 	alert( "Warning: Scroller requires DataTables 1.9.0 or greater - www.datatables.net/download");
 }
+
+// Attach a listener to the document which listens for DataTables initialisation
+// events so we can automatically initialise
+$(document).on( 'preInit.dt.dtscroller', function (e, settings) {
+	if ( e.namespace !== 'dt' ) {
+		return;
+	}
+
+	var init = settings.oInit.scroller;
+	var defaults = DataTable.defaults.scroller;
+
+	if ( init || defailts ) {
+		var opts = $.extend( {}, init, defaults );
+
+		if ( init !== false ) {
+			new Scroller( settings, opts  );
+		}
+	}
+} );
 
 
 // Attach Scroller to DataTables so it can be accessed as an 'extra'

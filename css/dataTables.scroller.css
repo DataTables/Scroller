@@ -42,3 +42,6 @@ div.DTS div.dataTables_scroll {
 	background: url('../images/loading-background.png') repeat 0 0;
 }
 
+div.DTS div.dataTables_paginate {
+	display: none;
+}

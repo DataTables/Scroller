@@ -25,7 +25,6 @@ $(document).ready(function() {
 				} );
 			}, 50 );
 		},
-		dom: "rtiS",
 		scrollY: 200,
 		scroller: {
 			loadingIndicator: true

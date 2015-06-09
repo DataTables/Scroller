@@ -10,12 +10,12 @@
 			data.push( [ i, i, i, i, i ] );
 		}
 		
-		var oTable = $('#example').dataTable( {
+		$('#example').DataTable( {
 			data:           data,
 			deferRender:    true,
-			dom:            "frtiS",
 			scrollY:        200,
-			scrollCollapse: true
+			scrollCollapse: true,
+			scroller:       true
 		} );
 	} );
 ]]>

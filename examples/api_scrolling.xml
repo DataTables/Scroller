@@ -6,11 +6,11 @@
 <![CDATA[
 $(document).ready(function() {
 	$('#example').DataTable( {
-		ajax:        "data/2500.txt",
-		deferRender: true,
-		dom:         "frtiS",
-		scrollY:     200,
+		ajax:           "data/2500.txt",
+		deferRender:    true,
+		scrollY:        200,
 		scrollCollapse: true,
+		scroller:       true,
 		initComplete: function () {
 			var api = this.api();
 			api.scroller().scrollToRow( 1000 );

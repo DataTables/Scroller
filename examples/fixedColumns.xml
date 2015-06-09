@@ -14,10 +14,10 @@ $(document).ready(function() {
 	var table = $('#example').DataTable( {
 		ajax:           "data/2500.txt",
 		deferRender:    true,
-		dom:            "frtiS",
 		scrollY:        200,
 		scrollX:        true,
-		scrollCollapse: true
+		scrollCollapse: true,
+		scroller:       true
 	} );
 
 	new $.fn.dataTable.FixedColumns( table );

@@ -8,9 +8,9 @@ $(document).ready(function() {
 	$('#example').DataTable( {
 		ajax:           "data/2500.txt",
 		deferRender:    true,
-		dom:            "frtiS",
 		scrollY:        200,
 		scrollCollapse: true,
+		scroller:       true,
 		stateSave:      true
 	} );
 } );
