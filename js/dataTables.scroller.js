@@ -1208,6 +1208,7 @@ Api.register( 'scroller()', function () {
 	return this;
 } );
 
+// Undocumented and deprecated - is it actually useful at all?
 Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual ) {
 	var ctx = this.context;
 
@@ -1217,6 +1218,7 @@ Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual )
 	// undefined
 } );
 
+// Undocumented and deprecated - is it actually useful at all?
 Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual ) {
 	var ctx = this.context;
 
@@ -1226,6 +1228,7 @@ Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual )
 	// undefined
 } );
 
+// Undocumented and deprecated - use `row().scrollTo()` instead
 Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx.oScroller ) {
@@ -1236,7 +1239,24 @@ Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
 	return this;
 } );
 
-Api.register( 'scroller().measure()', function ( redraw ) {
+Api.register( 'row().scrollTo()', function ( ani ) {
+	var that = this;
+
+	this.iterator( 'row', function ( ctx, rowIdx ) {
+		if ( ctx.oScroller ) {
+			var displayIdx = that
+				.rows( { order: 'applied', search: 'applied' } )
+				.indexes()
+				.indexOf( rowIdx );
+
+			ctx.oScroller.fnScrollToRow( displayIdx, ani );
+		}
+	} );
+
+	return this;
+} );
+
+Api.register( 'scroller.measure()', function ( redraw ) {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx.oScroller ) {
 			ctx.oScroller.fnMeasure( redraw );
