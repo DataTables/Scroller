@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="Scroller">
+<dt-option group="scroller">
 	<name>scroller.boundaryScale</name>
 	<summary>Set the point at which new data will be loaded and drawn</summary>
 
