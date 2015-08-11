@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-api group="scroller">
+<dt-api library="Scroller">
 	<name>row().scrollTo()</name>
 	<summary>Scroll to a specific row</summary>
 	<since>1.3.0</since>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-api group="scroller">
+<dt-api library="Scroller">
 	<name>scroller.measure()</name>
 	<summary>Recalculate the cached measurements that Scroller uses</summary>
 	<since>1.2.0</since>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="scroller">
+<dt-option library="Scroller">
 	<name>scroller.loadingIndicator</name>
 	<summary>Display a _loading_ message while Scroller is loading additional data</summary>
 
