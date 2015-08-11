@@ -407,8 +407,6 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		var heights = this.s.heights;
 
-		console.log( 'measure', $(this.dom.scroller).height() );
-
 		heights.viewport = $(this.dom.scroller).height();
 		this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
 		this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
