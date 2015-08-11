@@ -407,6 +407,8 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 
 		var heights = this.s.heights;
 
+		console.log( 'measure', $(this.dom.scroller).height() );
+
 		heights.viewport = $(this.dom.scroller).height();
 		this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
 		this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
@@ -441,7 +443,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 		/* Insert a div element that we can use to force the DT scrolling container to
 		 * the height that would be required if the whole table was being displayed
 		 */
-		this.dom.force.style.position = "absolute";
+		this.dom.force.style.position = "relative";
 		this.dom.force.style.top = "0px";
 		this.dom.force.style.left = "0px";
 		this.dom.force.style.width = "1px";
@@ -532,6 +534,10 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			this.s.topRowFloat = this.s.dt.oLoadedState.iScrollerTopRow || 0;
 		}
 
+		$(this.s.dt.nTable).on( 'init.dt', function () {
+			that.fnMeasure();
+		} );
+
 		/* Destructor */
 		this.s.dt.aoDestroyCallback.push( {
 			"sName": "Scroller",
@@ -540,6 +546,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 				$(that.dom.scroller).off('touchstart.DTS scroll.DTS');
 				$(that.s.dt.nTableWrapper).removeClass('DTS');
 				$('div.DTS_Loading', that.dom.scroller.parentNode).remove();
+				$(that.s.dt.nTable).off( 'init.dt' );
 
 				that.dom.table.style.position = "";
 				that.dom.table.style.top = "";
@@ -868,7 +875,11 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			heights.scroll = max;
 		}
 
-		this.dom.force.style.height = heights.scroll+"px";
+		// Minimum height so there is always a row visible (the 'no rows found'
+		// if reduced to zero filtering)
+		this.dom.force.style.height = heights.scroll > this.s.heights.row ?
+			heights.scroll+'px' :
+			this.s.heights.row+'px';
 	},
 
 
