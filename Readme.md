@@ -13,17 +13,17 @@ Key features include:
 
 # Installation
 
-To use Scroller, first download DataTables ( http://datatables.net/download ) and place the unzipped Scroller package into a `extensions` directory in the DataTables package. This will allow the pages in the examples to operate correctly. To see the examples running, open the `examples` directory in your web-browser.
+To use Scroller the best way to obtain the software is to use the [DataTables downloader](//datatables.net/download). You can also include the individual files from the [DataTables CDN](//cdn.datatables.net). See the [documentation](http://datatables.net/extensions/scroller/) for full details.
 
 
 # Basic usage
 
-Scroller is initialised by simply including the letter `dt-string S` in the `dt-init dom` for the table you want to have this feature enabled on. Note that the `dt-string S` must come after the `dt-string t` parameter in `dom`. For example:
+Scroller is initialised using the `scroller` option in the DataTables constructor - a simple boolean `true` will enable the feature. Further options can be specified using this option as an object - see the documentation for details.
 
 ```js
 $(document).ready( function () {
 	$('#example').DataTable( {
-		dom: 'lfrtipS'
+		scroller: true
 	} );
 } );
 ```
@@ -33,11 +33,11 @@ Note that rows in the table must all be the same height. Information in a cell w
 
 # Documentation / support
 
-* Documentation: http://datatables.net/extensions/scroller/
-* DataTables support forums: http://datatables.net/forums
+* [Documentation](https://datatables.net/extensions/scroller/)
+* [DataTables support forums](http://datatables.net/forums)
 
 
 # GitHub
 
-If you fancy getting involved with the development of Scroller and help make it better, please refer to its GitHub repo: https://github.com/DataTables/Scroller
+If you fancy getting involved with the development of Scroller and help make it better, please refer to its [GitHub repo](https://github.com/DataTables/Scroller)
 
