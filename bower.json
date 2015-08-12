@@ -3,7 +3,7 @@
 	"version": "1.3.0",
 	"main": [
 		"js/dataTables.scroller.js",
-		"css/scroller.dataTables.css"
+		"css/scroller.dataTables.scss"
 	],
 	"dependencies": {
 		"jquery": ">=1.7.0",
