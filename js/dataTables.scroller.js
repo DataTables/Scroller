@@ -1,11 +1,11 @@
-/*! Scroller 1.3.0
+/*! Scroller 1.3.1-dev
  * ©2011-2015 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.3.0
+ * @version     1.3.1-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -223,7 +223,7 @@ var Scroller = function ( dt, opts ) {
 
 
 
-Scroller.prototype = /** @lends Scroller.prototype */{
+$.extend( Scroller.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1003,7 +1003,7 @@ Scroller.prototype = /** @lends Scroller.prototype */{
 			}
 		}
 	}
-};
+} );
 
 
 
@@ -1156,7 +1156,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.3.0";
+Scroller.version = "1.3.1-dev";
 
 
 
