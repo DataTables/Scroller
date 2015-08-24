@@ -10,7 +10,7 @@
 		<parameter type="boolean" name="redraw" default="true">
 			Flag to indicate if the table should immediately redraw or not. `true` will redraw the table, `false` will not.
 		</parameter>
-		<returns type="DataTable.Api">DataTables API instance for chaining</returns>
+		<returns type="DataTables.Api">DataTables API instance for chaining</returns>
 	</type>
 
 	<description>

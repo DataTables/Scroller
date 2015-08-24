@@ -10,7 +10,7 @@
 		<parameter type="boolean" name="animate" default="true">
 			Animate the scroll (`true`) or not (`false`).
 		</parameter>
-		<returns type="DataTable.Api">DataTables API instance for chaining</returns>
+		<returns type="DataTables.Api">DataTables API instance for chaining</returns>
 	</type>
 
 	<description>
