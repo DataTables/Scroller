@@ -1,0 +1,23 @@
+{
+  "name": "datatables-scroller",
+  "version": "1.3.0",
+  "description": "Virtual scrolling plug-in for DataTables",
+  "main": "js/dataTables.scroller.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DataTables/Scroller.git"
+  },
+  "author": "datatables",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DataTables/Scroller/issues"
+  },
+  "homepage": "http://datatables.net/extensions/scroller/"
+}
