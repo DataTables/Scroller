@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="Scroller">
 	<name>scroller.rowHeight</name>
-	<summary>Time delay before new data is requested when server-side processing is enabled</summary>
+	<summary>Set the row height, or how the row height is calculated</summary>
 
 	<type type="integer">
 		<description>
