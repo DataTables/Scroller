@@ -413,7 +413,7 @@ $.extend( Scroller.prototype, {
 
 		if ( bRedraw === undefined || bRedraw )
 		{
-			this.s.dt.oInstance.fnDraw();
+			this.s.dt.oInstance.fnDraw( false );
 		}
 	},
 
