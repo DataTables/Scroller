@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="Scroller">
 	<name>scroller.displayBuffer</name>
-	<summary>Display a _loading_ message while Scroller is loading additional data</summary>
+	<summary>The amount of data that Scroller should pre-buffer to ensure smooth scrolling</summary>
 
 	<type type="number">
 		<description>
