@@ -1,11 +1,11 @@
-/*! Scroller 1.3.1-dev
+/*! Scroller 1.4.0-dev
  * ©2011-2015 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.3.1-dev
+ * @version     1.4.0-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -24,13 +24,13 @@
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables'], factory );
+		define( ['jquery', 'datatables.net'], factory );
 	}
 	else if ( typeof exports === 'object' ) {
 		// CommonJS
 		module.exports = function ($) {
 			if ( ! $ ) { $ = require('jquery'); }
-			if ( ! $.fn.dataTable ) { require('datatables')($); }
+			if ( ! $.fn.dataTable ) { require('datatables.net')($); }
 
 			factory( $ );
 		};
@@ -1166,7 +1166,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.3.1-dev";
+Scroller.version = "1.4.0-dev";
 
 
 
