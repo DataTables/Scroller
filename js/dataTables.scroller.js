@@ -431,9 +431,11 @@ $.extend( Scroller.prototype, {
 
 		var heights = this.s.heights;
 
-		heights.viewport = $(this.dom.scroller).height();
-		this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
-		this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
+		if ( heights.row ) {
+			heights.viewport = $(this.dom.scroller).height();
+			this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
+			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
+		}
 
 		if ( bRedraw === undefined || bRedraw )
 		{
