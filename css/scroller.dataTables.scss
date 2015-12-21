@@ -1,6 +1,8 @@
 
 // Scroller adds the class `DTS` to the DataTabes wrapper div
 div.DTS {
+	display: block !important;
+
 	tbody th,
 	tbody td {
 		white-space: nowrap;
