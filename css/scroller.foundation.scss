@@ -24,7 +24,8 @@ div.DTS {
 		}
 	}
 
-	div.dataTables_paginate {
+	div.dataTables_paginate,
+	div.dataTables_length {
 		display: none;
 	}
 }
