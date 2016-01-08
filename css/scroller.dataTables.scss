@@ -8,11 +8,6 @@ div.DTS {
 		white-space: nowrap;
 	}
 
-	// Don't have transparent rows
-	tbody tr.even {
-		background-color: white;
-	}
-
 	// Show the loading message behind the table
 	div.DTS_Loading {
 		z-index: 1;
