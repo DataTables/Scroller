@@ -558,9 +558,11 @@ $.extend( Scroller.prototype, {
 			this.s.topRowFloat = this.s.dt.oLoadedState.iScrollerTopRow || 0;
 		}
 
-		$(this.s.dt.nTable).on( 'init.dt', function () {
-			that.fnMeasure();
-		} );
+		// Measure immediately. Scroller will have been added using preInit, so
+		// we can reliably do this here. We could potentially also measure on
+		// init complete, which would be useful for cases where the data is Ajax
+		// loaded and longer than a single line.
+		this.fnMeasure( false );
 
 		/* Destructor */
 		this.s.dt.aoDestroyCallback.push( {
