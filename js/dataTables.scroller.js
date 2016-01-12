@@ -562,7 +562,7 @@ $.extend( Scroller.prototype, {
 		// we can reliably do this here. We could potentially also measure on
 		// init complete, which would be useful for cases where the data is Ajax
 		// loaded and longer than a single line.
-		$(this.s.dt.nTable).on( 'init.dt', function () {
+		$(this.s.dt.nTable).one( 'init.dt', function () {
 			that.fnMeasure();
 		} );
 
