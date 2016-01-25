@@ -444,6 +444,34 @@ $.extend( Scroller.prototype, {
 	},
 
 
+        /**
+         * Get information about current displayed record range. This corresponds to
+         * the information usually displayed in the "Info" block of the table.
+         *
+         * @returns {object} info as an object:
+         *  {
+         *      start: {int}, // the 1-based index of the record at the top of the viewport
+         *      end:   {int}, // the 1-based index of the record at the bottom of the viewport
+         *      max:   {int}, // TODO: what's that?
+         *      total: {int}  // total number of records in the dataset 
+         *  }
+        */
+        "fnGetInfo": function()
+        {
+            var 
+                dt = this.s.dt,
+                iScrollTop = this.dom.scroller.scrollTop,
+                iTotal = dt.fnRecordsDisplay(),
+                iPossibleEnd = Math.ceil(this.fnPixelsToRow(iScrollTop + this.s.heights.viewport, false, this.s.ani));
+
+            return {
+                start: Math.floor(this.fnPixelsToRow(iScrollTop, false, this.s.ani) + 1),
+                end: iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
+                max: dt.fnRecordsTotal(),
+                total: iTotal
+            };
+        },
+
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Private methods (they are of course public in JS, but recommended as private)
@@ -1304,6 +1332,17 @@ Api.register( 'scroller.measure()', function ( redraw ) {
 	return this;
 } );
 
+Api.register('scroller.info()', function() {
+        var ret = null;
+
+        this.iterator('table', function(ctx) {
+        	if(ctx.oScroller) {
+        		ret = ctx.oScroller.fnGetInfo();
+        	}
+        } );
+
+        return ret;
+} );
 
 return Scroller;
 }));
