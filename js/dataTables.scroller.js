@@ -444,33 +444,29 @@ $.extend( Scroller.prototype, {
 	},
 
 
-        /**
-         * Get information about current displayed record range. This corresponds to
-         * the information usually displayed in the "Info" block of the table.
-         *
-         * @returns {object} info as an object:
-         *  {
-         *      start: {int}, // the 1-based index of the record at the top of the viewport
-         *      end:   {int}, // the 1-based index of the record at the bottom of the viewport
-         *      max:   {int}, // TODO: what's that?
-         *      total: {int}  // total number of records in the dataset 
-         *  }
-        */
-        "fnGetInfo": function()
-        {
-            var 
-                dt = this.s.dt,
-                iScrollTop = this.dom.scroller.scrollTop,
-                iTotal = dt.fnRecordsDisplay(),
-                iPossibleEnd = Math.ceil(this.fnPixelsToRow(iScrollTop + this.s.heights.viewport, false, this.s.ani));
+	/**
+	 * Get information about current displayed record range. This corresponds to
+	 * the information usually displayed in the "Info" block of the table.
+	 *
+	 * @returns {object} info as an object:
+	 *  {
+	 *      start: {int}, // the 0-indexed record at the top of the viewport
+	 *      end:   {int}, // the 0-indexed record at the bottom of the viewport
+	 *  }
+	*/
+	"fnPageInfo": function()
+	{
+		var 
+			dt = this.s.dt,
+			iScrollTop = this.dom.scroller.scrollTop,
+			iTotal = dt.fnRecordsDisplay(),
+			iPossibleEnd = Math.ceil(this.fnPixelsToRow(iScrollTop + this.s.heights.viewport, false, this.s.ani));
 
-            return {
-                start: Math.floor(this.fnPixelsToRow(iScrollTop, false, this.s.ani) + 1),
-                end: iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
-                max: dt.fnRecordsTotal(),
-                total: iTotal
-            };
-        },
+		return {
+			start: Math.floor(this.fnPixelsToRow(iScrollTop, false, this.s.ani)),
+			end: iTotal < iPossibleEnd ? iTotal-1 : iPossibleEnd-1
+		};
+	},
 
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1332,16 +1328,13 @@ Api.register( 'scroller.measure()', function ( redraw ) {
 	return this;
 } );
 
-Api.register('scroller.info()', function() {
-        var ret = null;
+Api.register( 'scroller.page()', function() {
+	var ctx = this.context;
 
-        this.iterator('table', function(ctx) {
-        	if(ctx.oScroller) {
-        		ret = ctx.oScroller.fnGetInfo();
-        	}
-        } );
-
-        return ret;
+	if ( ctx.length && ctx[0].oScroller ) {
+		return ctx[0].oScroller.fnPageInfo();
+	}
+	// undefined
 } );
 
 return Scroller;
