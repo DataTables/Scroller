@@ -668,7 +668,11 @@ $.extend( Scroller.prototype, {
 				this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false );
 			}
 
-			if ( iTopRow <= 0 ) {
+			if ( !isFinite(this.s.topRowFloat) ) {
+				this.s.topRowFloat = 0;
+			}
+
+			if ( !isFinite(iTopRow) || iTopRow <= 0 ) {
 				/* At the start of the table */
 				iTopRow = 0;
 			}
