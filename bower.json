@@ -1,6 +1,5 @@
 {
 	"name": "datatables-scroller",
-	"version": "1.4.0",
 	"main": [
 		"js/dataTables.scroller.js",
 		"css/scroller.dataTables.scss"
