@@ -884,10 +884,12 @@ $.extend( Scroller.prototype, {
 
 		// Because of the order of the DT callbacks, the info update will
 		// take precedence over the one we want here. So a 'thread' break is
-		// needed
-		setTimeout( function () {
-			that._fnInfo.call( that );
-		}, 0 );
+		// needed.  Only add the thread break if bInfo is set
+		if ( this.s.dt.oFeatures.bInfo ) {
+			setTimeout( function () {
+				that._fnInfo.call( that );
+			}, 0 );
+		}
 
 		// Hide the loading indicator
 		if ( this.dom.loader && this.s.loaderVisible ) {
