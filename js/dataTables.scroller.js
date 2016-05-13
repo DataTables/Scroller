@@ -1,11 +1,11 @@
-/*! Scroller 1.4.1
+/*! Scroller 1.4.2-dev
  * ©2011-2016 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.4.1
+ * @version     1.4.2-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -661,7 +661,7 @@ $.extend( Scroller.prototype, {
 
 			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
 				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
-				this.s.topRowFloat = (this._domain( 'physicalToVirtual', iScrollTop ) / heights.row);
+				this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
 			}
 			else {
 				iTopRow = this.fnPixelsToRow( iScrollTop ) - preRows;
@@ -716,6 +716,9 @@ $.extend( Scroller.prototype, {
 					this.s.loaderVisible = true;
 				}
 			}
+		}
+		else {
+			this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
 		}
 
 		this.s.lastScrollTop = iScrollTop;
@@ -1211,7 +1214,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.4.1";
+Scroller.version = "1.4.2-dev";
 
 
 
