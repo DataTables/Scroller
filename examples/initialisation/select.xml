@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="scroller" table-class="display nowrap" order="7">
+
+<css lib="datatables scroller select" />
+<js lib="jquery datatables scroller select">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		ajax:           "../data/2500.txt",
+		deferRender:    true,
+		scrollY:        200,
+		scrollCollapse: true,
+		scroller:       true,
+		select:         true
+	} );
+} );
+]]>
+</js>
+
+<title lib="Scroller">Select integration</title>
+
+<info><![CDATA[
+
+This example demonstrates the integration between Scroller and [the Select extension](//datatables.net/extensions/select) for DataTables. For the most part these two extensions provide orthogonal features (i.e. they don't overlap), but the one area that they do is the table's information element.
+
+In the information element Select will show information about the items selected in the table while Scroller updates the information as the user scrolls the table. This example has both Scroller and Select enabled to demonstrate them being used together.
+
+]]></info>
+
+</dt-example>

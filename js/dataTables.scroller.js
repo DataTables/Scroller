@@ -1060,6 +1060,9 @@ $.extend( Scroller.prototype, {
 				$(n[i]).html( sOut );
 			}
 		}
+
+		// DT doesn't actually (yet) trigger this event, but it will in future
+		$(dt.nTable).triggerHandler( 'info.dt' );
 	}
 } );
 
