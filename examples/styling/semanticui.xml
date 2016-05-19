@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="scroller" table-class="display nowrap" order="4" framework="semanticui">
+
+<css lib="datatables scroller" />
+<js lib="jquery datatables scroller">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		ajax:           "../data/2500.txt",
+		deferRender:    true,
+		scrollY:        200,
+		scrollCollapse: true,
+		scroller:       true
+	} );
+} );
+]]>
+</js>
+
+<title lib="Scroller">Semantic UI</title>
+
+<info><![CDATA[
+
+This example shows DataTables and the Scroller extension being used with [Semantic UI](http://semantic-ui.com/) providing the styling. The DataTables / Semantic UI integration provides seamless integration for DataTables to be used in a Semantic UI page.
+
+]]></info>
+
+</dt-example>
