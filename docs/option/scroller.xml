@@ -39,7 +39,7 @@
 $('#example').DataTable( {
 	ajax:        '/api/data',
 	deferRender: true,
-	scrollY:     true,
+	scrollY:     300,
 	scroller:    true
 } );
 
@@ -50,7 +50,7 @@ $('#example').DataTable( {
 $('#example').DataTable( {
 	ajax:        '/api/data',
 	deferRender: true,
-	scrollY:     true,
+	scrollY:     300,
 	scroller: {
 		loadingIndicator: true
 	}
