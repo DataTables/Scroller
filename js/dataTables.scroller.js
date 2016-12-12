@@ -532,7 +532,14 @@ $.extend( Scroller.prototype, {
 		 */
 		this.s.ingnoreScroll = true;
 		this.s.stateSaveThrottle = this.s.dt.oApi._fnThrottle( function () {
+			var displayStart = that.s.dt._iDisplayStart;
+			if (typeof(that.s.nextDisplayStart) !== 'undefined') {
+				/* save a display start that fits current Scroller state */
+				that.s.dt._iDisplayStart = that.s.nextDisplayStart;
+			}
 			that.s.dt.oApi._fnSaveState( that.s.dt );
+			/* keep original display start to avoid mis-calculations */
+			that.s.dt._iDisplayStart = displayStart;
 		}, 500 );
 		$(this.dom.scroller).on( 'scroll.DTS', function (e) {
 			that._fnScroll.call( that );
@@ -653,74 +660,72 @@ $.extend( Scroller.prototype, {
 			that.s.dt.oApi._fnSaveState( that.s.dt );
 		}, 250 );
 
-		/* Check if the scroll point is outside the trigger boundary which would required
-		 * a DataTables redraw
-		 */
-		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
-			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
+		/* calculate top row for state saving, and if needed, redraw */
+		var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
-			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
-				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
-				this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
-			}
-			else {
-				iTopRow = this.fnPixelsToRow( iScrollTop ) - preRows;
-				this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false );
-			}
-
-			if ( iTopRow <= 0 ) {
-				/* At the start of the table */
-				iTopRow = 0;
-			}
-			else if ( iTopRow + this.s.dt._iDisplayLength > this.s.dt.fnRecordsDisplay() ) {
-				/* At the end of the table */
-				iTopRow = this.s.dt.fnRecordsDisplay() - this.s.dt._iDisplayLength;
-				if ( iTopRow < 0 ) {
-					iTopRow = 0;
-				}
-			}
-			else if ( iTopRow % 2 !== 0 ) {
-				// For the row-striping classes (odd/even) we want only to start
-				// on evens otherwise the stripes will change between draws and
-				// look rubbish
-				iTopRow++;
-			}
-
-			if ( iTopRow != this.s.dt._iDisplayStart ) {
-				/* Cache the new table position for quick lookups */
-				this.s.tableTop = $(this.s.dt.nTable).offset().top;
-				this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
-
-				var draw =  function () {
-					if ( that.s.scrollDrawReq === null ) {
-						that.s.scrollDrawReq = iScrollTop;
-					}
-
-					that.s.dt._iDisplayStart = iTopRow;
-					that.s.dt.oApi._fnDraw( that.s.dt );
-				};
-
-				/* Do the DataTables redraw based on the calculated start point - note that when
-				 * using server-side processing we introduce a small delay to not DoS the server...
-				 */
-				if ( this.s.dt.oFeatures.bServerSide ) {
-					clearTimeout( this.s.drawTO );
-					this.s.drawTO = setTimeout( draw, this.s.serverWait );
-				}
-				else {
-					draw();
-				}
-
-				if ( this.dom.loader && ! this.s.loaderVisible ) {
-					this.dom.loader.css( 'display', 'block' );
-					this.s.loaderVisible = true;
-				}
-			}
-		}
-		else {
+		if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
+			iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
 			this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
 		}
+		else {
+			iTopRow = this.fnPixelsToRow( iScrollTop ) - preRows;
+			this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false );
+		}
 
+		if ( iTopRow <= 0 ) {
+			/* At the start of the table */
+			iTopRow = 0;
+		}
+		else if ( iTopRow + this.s.dt._iDisplayLength > this.s.dt.fnRecordsDisplay() ) {
+			/* At the end of the table */
+			iTopRow = this.s.dt.fnRecordsDisplay() - this.s.dt._iDisplayLength;
+			if ( iTopRow < 0 ) {
+				iTopRow = 0;
+			}
+		}
+		else if ( iTopRow % 2 !== 0 ) {
+			// For the row-striping classes (odd/even) we want only to start
+			// on evens otherwise the stripes will change between draws and
+			// look rubbish
+			iTopRow++;
+		}
+
+		/* Check if the scroll point is outside the trigger boundary which would required
+		 * a DataTables redraw, and display start would change
+		 */
+		var outdated = ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom );
+		if (outdated && (iTopRow != this.s.dt._iDisplayStart)) {
+			/* Cache the new table position for quick lookups */
+			this.s.tableTop = $(this.s.dt.nTable).offset().top;
+			this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
+
+			var draw =  function () {
+				if ( that.s.scrollDrawReq === null ) {
+					that.s.scrollDrawReq = iScrollTop;
+				}
+				that.s.dt._iDisplayStart = iTopRow;
+				that.s.dt.oApi._fnDraw( that.s.dt );
+			};
+
+			/* Do the DataTables redraw based on the calculated start point - note that when
+			 * using server-side processing we introduce a small delay to not DoS the server...
+			 */
+			if ( this.s.dt.oFeatures.bServerSide ) {
+				clearTimeout( this.s.drawTO );
+				this.s.drawTO = setTimeout( draw, this.s.serverWait );
+			}
+			else {
+				draw();
+			}
+
+			if ( this.dom.loader && ! this.s.loaderVisible ) {
+				this.dom.loader.css( 'display', 'block' );
+				this.s.loaderVisible = true;
+			}
+		}
+
+		/* Remember display start for state save */
+		this.s.nextDisplayStart = iTopRow;
 		this.s.lastScrollTop = iScrollTop;
 		this.s.stateSaveThrottle();
 	},
