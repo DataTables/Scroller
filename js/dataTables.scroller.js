@@ -1,11 +1,11 @@
-/*! Scroller 1.4.2
+/*! Scroller 1.4.3-dev
  * ©2011-2016 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.4.2
+ * @version     1.4.3-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -210,7 +210,8 @@ var Scroller = function ( dt, opts ) {
 
 		topRowFloat: 0,
 		scrollDrawDiff: null,
-		loaderVisible: false
+		loaderVisible: false,
+		forceReposition: false
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
@@ -371,6 +372,14 @@ $.extend( Scroller.prototype, {
 		if ( (px > this.s.redrawBottom || px < this.s.redrawTop) && this.s.dt._iDisplayStart !== drawRow ) {
 			ani = true;
 			px = this.fnRowToPixels( iRow, false, true );
+
+			// If we need records outside the current draw region, but the new
+			// scrolling position is inside that (due to the non-linear nature
+			// for larger numbers of records), we need to force position update.
+			if ( this.s.redrawTop < px && px < this.s.redrawBottom ) {
+				this.s.forceReposition = true;
+				bAnimate = false;
+			}
 		}
 
 		if ( typeof bAnimate == 'undefined' || bAnimate )
@@ -656,10 +665,11 @@ $.extend( Scroller.prototype, {
 		/* Check if the scroll point is outside the trigger boundary which would required
 		 * a DataTables redraw
 		 */
-		if ( iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
+		if ( this.s.forceReposition || iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
+
 			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
-			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani ) {
+			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani || this.s.forceReposition ) {
 				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
 				this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
 			}
@@ -667,6 +677,8 @@ $.extend( Scroller.prototype, {
 				iTopRow = this.fnPixelsToRow( iScrollTop ) - preRows;
 				this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false );
 			}
+
+			this.s.forceReposition = false;
 
 			if ( iTopRow <= 0 ) {
 				/* At the start of the table */
@@ -1219,7 +1231,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.4.2";
+Scroller.version = "1.4.3-dev";
 
 
 
