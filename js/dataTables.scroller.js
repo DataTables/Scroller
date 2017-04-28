@@ -442,6 +442,12 @@ $.extend( Scroller.prototype, {
 
 		if ( heights.row ) {
 			heights.viewport = $(this.dom.scroller).height();
+
+			// If collapsed (no height) use the max-height parameter
+			if ( ! heights.viewport ) {
+				heights.viewport = 1*$(this.dom.scroller).css('max-height').replace('px', '');
+			}
+
 			this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
 			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
 		}
