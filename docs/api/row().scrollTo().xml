@@ -25,7 +25,7 @@ table.row( 100 ).scrollTo();
 
 	<example title="Immediate draw at row index 0"><![CDATA[
 
-table.row( 0 ).scrollTo();
+table.row( 0 ).scrollTo(false);
 
 ]]></example>
 </dt-api>

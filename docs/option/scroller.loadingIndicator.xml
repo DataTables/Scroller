@@ -15,7 +15,7 @@
 	</default>
 
 	<description>
-		While scrolling quickly through a table it is quite possible that Scroller will not be able to display the data to shown in the table as quickly as the user is scrolling (particularly if server-side processing is used - `dt-init serverSide`).
+		While scrolling quickly through a table, it is possible that Scroller will not be able to display the data in the table as quickly as the user is scrolling (particularly if server-side processing is used - `dt-init serverSide`).
 
 		To indicate to the end user that something is happening while new data is being loaded, this option can be used to display a loading message. The text shown is taken from the `dt-init language.loadingRecords` option.
 	</description>
