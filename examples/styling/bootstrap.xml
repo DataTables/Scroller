@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows DataTables and the Scroller extension being used with the [Bootstrap](http://getbootstrap.com) framework providing the styling. The [DataTables / Bootstrap integration](//datatables.net/manual/styling/bootstrap) prove seamless integration for DataTables to be used in a Bootstrap page.
+This example shows DataTables and the Scroller extension being used with the [Bootstrap](http://getbootstrap.com) framework providing the styling. The [DataTables / Bootstrap integration](//datatables.net/manual/styling/bootstrap) provides seamless integration for DataTables to be used in a Bootstrap page.
 
 ]]></info>
 

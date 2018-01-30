@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-DataTables' server-side processing mode is a feature that naturally fits in with Scroller perfectly. Server-side processing can be used to show large data sets, with the server being used to do the data processing, and Scroller optimising the display of the data in a scrolling viewport.
+DataTables' server-side processing mode is a feature that naturally fits with Scroller. Server-side processing can be used to show large data sets, with the server being used to do the data processing, and Scroller optimising the display of the data in a scrolling viewport.
 
 When using server-side processing, Scroller will wait a small amount of time to allow the scrolling to finish before requesting more data from the server (200mS by default). This prevents you from DoSing your own server!
 

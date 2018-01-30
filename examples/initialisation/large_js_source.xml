@@ -25,9 +25,9 @@
 
 <info><![CDATA[
 
-This example is completely artificial in that the data generated is created on the client-side by just looping around a Javascript array and then passing that to DataTables. However, it does show quite nicely that DataTables and Scroller can cope with large amounts of data on the client-side quite nicely. Typically data such as this would be Ajax sourced and server-side processing should be considered.
+This example is completely artificial in that the data generated is created on the client-side by just looping around a Javascript array and then passing that to DataTables. However, it does show that DataTables and Scroller can easily cope with large amounts of data on the client-side. Typically, data such as this would be Ajax sourced and server-side processing would be implemented.
 
-Please be aware that the performance of this page will depend on your browser as the array of data is generated - for example IE6 will crawl!
+Please be aware that because of the data generation, the performance of this page will depend on your browser - for example IE6 will crawl!
 
 ]]></info>
 
