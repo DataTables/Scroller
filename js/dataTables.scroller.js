@@ -1364,11 +1364,11 @@ Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual )
 	// undefined
 } );
 
-// Undocumented and deprecated - use `row().scrollTo()` instead
-Api.register( 'scroller().scrollToRow()', function ( row, ani ) {
+// `scroller().scrollToRow()` is undocumented and deprecated. Use `scroller.toPosition()
+Api.register( ['scroller().scrollToRow()', 'scroller.toPosition()'], function ( idx, ani ) {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx.oScroller ) {
-			ctx.oScroller.fnScrollToRow( row, ani );
+			ctx.oScroller.fnScrollToRow( idx, ani );
 		}
 	} );
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Scroller">
+	<name>scroller.toPosition()</name>
+	<summary>Scroll to a specific row display index</summary>
+	<since>1.5.0</since>
+
+	<type type="function">
+		<signature>scroller.toPosition( index [, animate ] )</signature>
+		<description>Move the display to show the row at the index given.</description>
+		<parameter type="number" name="index">
+			Display index to jump to.
+		</parameter>
+		<parameter type="boolean" name="animate" default="true">
+			Animate the scroll (`true`) or not (`false`).
+		</parameter>
+		<returns type="DataTables.Api">DataTables API instance for chaining</returns>
+	</type>
+
+	<description>
+		This method can be used to move the scrolling position to a given row in the current display order. If you know the row you wish to scroll to, use the `-api row().scrollTo()` method - this method is useful for cases where you don't know what row is in the position you wish to scroll to!
+	</description>
+
+	<example title="Animated scroll to display index 100"><![CDATA[
+
+table.scroller.toPosition( 100 );
+
+]]></example>
+
+	<related>-api row().scrollTo()</related>
+</dt-api>
