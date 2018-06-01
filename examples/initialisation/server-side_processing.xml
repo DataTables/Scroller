@@ -28,7 +28,8 @@ $(document).ready(function() {
 		scrollY: 200,
 		scroller: {
 			loadingIndicator: true
-		}
+		},
+		stateSave: true
 	} );
 } );
 ]]>
