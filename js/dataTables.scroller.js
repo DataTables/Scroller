@@ -587,7 +587,7 @@ $.extend( Scroller.prototype, {
 		dt.on( 'stateSaveParams.scroller', function ( e, settings, data ) {
 			// Need to used the saved position on init
 			data.scroller = {
-				topRow: initialStateSave && loadedState.scroller ?
+				topRow: initialStateSave && loadedState && loadedState.scroller ?
 					loadedState.scroller.topRow :
 					that.s.topRowFloat,
 				baseScrollTop: that.s.baseScrollTop,
