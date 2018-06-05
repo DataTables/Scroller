@@ -682,15 +682,8 @@ $.extend( Scroller.prototype, {
 
 			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
-			if ( Math.abs( iScrollTop - this.s.lastScrollTop ) > heights.viewport || this.s.ani || this.s.forceReposition ) {
-				iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
-				this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
-			}
-			else {
-				iTopRow = this.fnPixelsToRow( iScrollTop ) - preRows;
-				this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false );
-			}
-
+			iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
+			this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
 			this.s.forceReposition = false;
 
 			if ( iTopRow <= 0 ) {
