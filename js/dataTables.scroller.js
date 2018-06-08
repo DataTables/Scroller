@@ -614,6 +614,12 @@ $.extend( Scroller.prototype, {
 			});
 		} );
 
+		// Set height before the draw happens, allowing everything else to update
+		// on draw complete without worry for roder.
+		dt.on( 'preDraw.dt.scroller', function () {
+			that._fnScrollForce();
+		} );
+
 		// Destructor
 		dt.on( 'destroy.scroller', function () {
 			$(window).off( 'resize.dt-scroller' );
@@ -863,9 +869,6 @@ $.extend( Scroller.prototype, {
 
 		// Disable the scroll event listener while we are updating the DOM
 		this.s.skip = true;
-
-		// Resize the scroll forcing element
-		this._fnScrollForce();
 
 		// Reposition the scrolling for the updated virtual position if needed
 		if ( displayStart === 0 ) {
