@@ -381,7 +381,7 @@ $.extend( Scroller.prototype, {
 
 		if ( (px > this.s.redrawBottom || px < this.s.redrawTop) && this.s.dt._iDisplayStart !== drawRow ) {
 			ani = true;
-			px = this.fnRowToPixels( iRow, false, true );
+			px = this._domain( 'virtualToPhysical', iRow * this.s.heights.row );
 
 			// If we need records outside the current draw region, but the new
 			// scrolling position is inside that (due to the non-linear nature
