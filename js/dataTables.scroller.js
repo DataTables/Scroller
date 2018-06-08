@@ -870,6 +870,11 @@ $.extend( Scroller.prototype, {
 		// Disable the scroll event listener while we are updating the DOM
 		this.s.skip = true;
 
+		// If paging is reset
+		if ( (this.s.dt.bSorted || this.s.dt.bFiltered) && displayStart === 0 ) {
+			this.s.topRowFloat = 0;
+		}
+
 		// Reposition the scrolling for the updated virtual position if needed
 		if ( displayStart === 0 ) {
 			// Linear calculation at the top of the table
