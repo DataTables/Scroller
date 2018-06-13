@@ -1,11 +1,11 @@
-/*! Scroller 1.5.0-dev
+/*! Scroller 1.5.0
  * ©2011-2018 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.5.0-dev
+ * @version     1.5.0
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -1284,7 +1284,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.5.0-dev";
+Scroller.version = "1.5.0";
 
 
 
