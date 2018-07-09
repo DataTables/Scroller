@@ -219,7 +219,9 @@ var Scroller = function ( dt, opts ) {
 		topRowFloat: 0,
 		scrollDrawDiff: null,
 		loaderVisible: false,
-		forceReposition: false
+		forceReposition: false,
+		baseRowTop: 0,
+		baseScrollTop: 0
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
