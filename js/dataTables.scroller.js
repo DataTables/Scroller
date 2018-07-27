@@ -1150,25 +1150,6 @@ $.extend( Scroller.prototype, {
  */
 Scroller.defaults = /** @lends Scroller.defaults */{
 	/**
-	 * Indicate if Scroller show show trace information on the console or not. This can be
-	 * useful when debugging Scroller or if just curious as to what it is doing, but should
-	 * be turned off for production.
-	 *  @type     bool
-	 *  @default  false
-	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "trace": true
-	 *        }
-	 *    } );
-	 */
-	"trace": false,
-
-	/**
 	 * Scroller will attempt to automatically calculate the height of rows for it's internal
 	 * calculations. However the height that is used can be overridden using this parameter.
 	 *  @type     int|string
