@@ -1,11 +1,11 @@
-/*! Scroller 1.5.1
+/*! Scroller 1.6.0-dev
  * ©2011-2018 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.5.1
+ * @version     1.6.0-dev
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -663,6 +663,10 @@ $.extend( Scroller.prototype, {
 			return;
 		}
 
+		if ( iScrollTop === this.s.lastScrollTop ) {
+			return;
+		}
+
 		/* If the table has been sorted or filtered, then we use the redraw that
 		 * DataTables as done, rather than performing our own
 		 */
@@ -683,6 +687,18 @@ $.extend( Scroller.prototype, {
 			that.s.dtApi.state.save();
 		}, 250 );
 
+		this.s.scrollType = Math.abs(iScrollTop - this.s.lastScrollTop) > heights.viewport ?
+			'jump' :
+			'cont';
+
+		this.s.topRowFloat = this.s.scrollType === 'cont' ?
+			this.fnPixelsToRow( iScrollTop, false, false ) :
+			this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
+
+		if ( this.s.topRowFloat < 0 ) {
+			this.s.topRowFloat = 0;
+		}
+
 		/* Check if the scroll point is outside the trigger boundary which would required
 		 * a DataTables redraw
 		 */
@@ -690,8 +706,7 @@ $.extend( Scroller.prototype, {
 
 			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
-			iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
-			this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
+			iTopRow = parseInt(this.s.topRowFloat, 10) - preRows;
 			this.s.forceReposition = false;
 
 			if ( iTopRow <= 0 ) {
@@ -711,6 +726,7 @@ $.extend( Scroller.prototype, {
 				// look rubbish
 				iTopRow++;
 			}
+
 
 			if ( iTopRow != this.s.dt._iDisplayStart ) {
 				/* Cache the new table position for quick lookups */
@@ -798,13 +814,13 @@ $.extend( Scroller.prototype, {
 		}
 		else if ( dir === 'physicalToVirtual' ) {
 			if ( val < xMax ) {
-				return val * val * coeff;
+				return (val * val * coeff) + val;
 			}
 			else {
 				val = (xMax*2) - val;
 				return val < 0 ?
 					heights.virtual :
-					(yMax*2) - (val * val * coeff);
+					(yMax*2) - (val * val * coeff) - val;
 			}
 		}
 	},
@@ -877,21 +893,12 @@ $.extend( Scroller.prototype, {
 			this.s.topRowFloat = 0;
 		}
 
-		// Reposition the scrolling for the updated virtual position if needed
-		if ( displayStart === 0 ) {
-			// Linear calculation at the top of the table
-			iScrollTop = this.s.topRowFloat * heights.row;
-		}
-		else if ( displayStart + displayLen >= displayEnd ) {
-			// Linear calculation that the bottom as well
-			iScrollTop = heights.scroll - ((displayEnd - this.s.topRowFloat) * heights.row);
-		}
-		else {
-			// Domain scaled in the middle
-			iScrollTop = this._domain( 'virtualToPhysical', this.s.topRowFloat * heights.row );
-		}
+		iScrollTop = this.scrollType === 'jump' ?
+			this._domain( 'physicalToVirtual', this.s.topRowFloat * heights.row ) :
+			iScrollTop;
 
-		this.dom.scroller.scrollTop = iScrollTop;
+		// This doesn't work when scrolling with the mouse wheel
+		$(that.dom.scroller).scrollTop(iScrollTop);
 
 		// Store positional information so positional calculations can be based
 		// upon the current table draw position
@@ -1267,7 +1274,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.5.1";
+Scroller.version = "1.6.0-dev";
 
 
 
