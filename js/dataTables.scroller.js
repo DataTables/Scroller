@@ -789,6 +789,17 @@ $.extend( Scroller.prototype, {
 			return val;
 		}
 
+		// In the first 10k pixels and the last 10k pixels, we want the scrolling
+		// to be linear. After that it can be non-linear. It would be unusual for
+		// anyone to mouse wheel through that much.
+		if ( val < 10000 ) {
+			return val;
+		}
+		else if ( val > heights.scroll - 10000 ) {
+			var diff = heights.scroll - val;
+			return heights.virtual - diff;
+		}
+
 		// Otherwise, we want a non-linear scrollbar to take account of the
 		// redrawing regions at the start and end of the table, otherwise these
 		// can stutter badly - on large tables 30px (for example) scroll might
@@ -796,8 +807,8 @@ $.extend( Scroller.prototype, {
 		// the start and end. Use a simple quadratic to stop this. It does mean
 		// the scrollbar is non-linear, but with such massive data sets, the
 		// scrollbar is going to be a best guess anyway
-		var xMax = (heights.scroll - heights.viewport) / 2;
-		var yMax = (heights.virtual - heights.viewport) / 2;
+		var xMax = (heights.scroll - heights.viewport - 10000) / 2;
+		var yMax = (heights.virtual - heights.viewport - 10000) / 2;
 
 		coeff = yMax / ( xMax * xMax );
 
