@@ -476,12 +476,12 @@ $.extend( Scroller.prototype, {
 		this.dom.table.style.left = "0px";
 
 		// Add class to 'announce' that we are a Scroller table
-		$(dt.table().container()).addClass('DTS');
+		$(dt.table().container()).addClass('dts DTS');
 
 		// Add a 'loading' indicator
 		if ( this.s.loadingIndicator )
 		{
-			this.dom.loader = $('<div class="dataTables_processing DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
+			this.dom.loader = $('<div class="dataTables_processing dts_loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
 				.css('display', 'none');
 
 			$(this.dom.scroller.parentNode)
