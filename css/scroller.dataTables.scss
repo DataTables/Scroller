@@ -1,6 +1,6 @@
 
 // Scroller adds the class `DTS` to the DataTabes wrapper div
-div.DTS {
+div.dts {
 	display: block !important;
 
 	tbody th,
@@ -9,7 +9,7 @@ div.DTS {
 	}
 
 	// Show the loading message behind the table
-	div.DTS_Loading {
+	div.dts_loading {
 		z-index: 1;
 	}
 
