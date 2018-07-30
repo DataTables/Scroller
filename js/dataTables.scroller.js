@@ -213,7 +213,8 @@ var Scroller = function ( dt, opts ) {
 			 *  @type     int
 			 *  @default  0
 			 */
-			viewport: null
+			viewport: null,
+			labelFactor: 1
 		},
 
 		topRowFloat: 0,
@@ -221,7 +222,8 @@ var Scroller = function ( dt, opts ) {
 		loaderVisible: false,
 		forceReposition: false,
 		baseRowTop: 0,
-		baseScrollTop: 0
+		baseScrollTop: 0,
+		mousedown: false
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
@@ -239,6 +241,7 @@ var Scroller = function ( dt, opts ) {
 	 */
 	this.dom = {
 		"force":    document.createElement('div'),
+		"label":    $('<div class="dts_label">0</div>'),
 		"scroller": null,
 		"table":    null,
 		"loader":   null
@@ -466,6 +469,9 @@ $.extend( Scroller.prototype, {
 			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
 		}
 
+		var label = this.dom.label.outerHeight();
+		heights.labelFactor = (heights.viewport-label) / heights.scroll;
+
 		if ( bRedraw === undefined || bRedraw )
 		{
 			this.s.dt.oInstance.fnDraw( false );
@@ -549,6 +555,8 @@ $.extend( Scroller.prototype, {
 				.append( this.dom.loader );
 		}
 
+		this.dom.label.appendTo(this.dom.scroller);
+
 		/* Initial size calculations */
 		if ( this.s.heights.row && this.s.heights.row != 'auto' )
 		{
@@ -572,6 +580,15 @@ $.extend( Scroller.prototype, {
 		$(this.dom.scroller).on('touchstart.dt-scroller', function () {
 			that._fnScroll.call( that );
 		} );
+
+		$(this.dom.scroller)
+			.on('mousedown', function () {
+				that.s.mousedown = true;
+			})
+			.on('mouseup', function () {
+				that.s.mouseup = false;
+				that.dom.label.css('display', 'none');
+			});
 
 		// On resize, update the information element, since the number of rows shown might change
 		$(window).on( 'resize.dt-scroller', function () {
@@ -703,7 +720,6 @@ $.extend( Scroller.prototype, {
 		 * a DataTables redraw
 		 */
 		if ( this.s.forceReposition || iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
-
 			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
 
 			iTopRow = parseInt(this.s.topRowFloat, 10) - preRows;
@@ -765,6 +781,13 @@ $.extend( Scroller.prototype, {
 
 		this.s.lastScrollTop = iScrollTop;
 		this.s.stateSaveThrottle();
+
+		if ( this.s.scrollType === 'jump' && this.s.mousedown ) {
+			this.dom.label
+				.html( this.s.dt.fnFormatNumber( parseInt( this.s.topRowFloat, 10 )+1 ) )
+				.css( 'top', iScrollTop + (iScrollTop * heights.labelFactor ) )
+				.css( 'display', 'block' );
+		}
 	},
 
 
