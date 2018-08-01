@@ -618,10 +618,18 @@ $.extend( Scroller.prototype, {
 		// Want 3 rows in the sizing table so :first-child and :last-child
 		// CSS styles don't come into play - take the size of the middle row
 		$('tbody tr:lt(4)', origTable).clone().appendTo( tbody );
-		while( $('tr', tbody).length < 3 ) {
-			tbody.append( '<tr><td>&nbsp;</td></tr>' );
-		}
+        var rowsCount = $('tr', tbody).length;
 
+        if ( rowsCount === 1 ) {
+            tbody.prepend('<tr><td>&nbsp;</td></tr>');
+            tbody.append('<tr><td>&nbsp;</td></tr>');
+		}
+		else {
+            for (; rowsCount < 3; rowsCount++) {
+                tbody.append('<tr><td>&nbsp;</td></tr>');
+            }
+		}
+	
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
 		// If initialised using `dom`, use the holding element as the insert point
