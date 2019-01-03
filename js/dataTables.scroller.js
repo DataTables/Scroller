@@ -621,12 +621,12 @@ $.extend( Scroller.prototype, {
         var rowsCount = $('tr', tbody).length;
 
         if ( rowsCount === 1 ) {
-            tbody.prepend('<tr><td>&nbsp;</td></tr>');
-            tbody.append('<tr><td>&nbsp;</td></tr>');
+            tbody.prepend('<tr><td>&#160;</td></tr>');
+            tbody.append('<tr><td>&#160;</td></tr>');
 		}
 		else {
             for (; rowsCount < 3; rowsCount++) {
-                tbody.append('<tr><td>&nbsp;</td></tr>');
+                tbody.append('<tr><td>&#160;</td></tr>');
             }
 		}
 	
