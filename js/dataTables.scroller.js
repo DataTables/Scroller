@@ -286,7 +286,7 @@ $.extend( Scroller.prototype, {
 
 		if ( heights.row ) {
 			heights.viewport = $.contains(document, this.dom.scroller) ?
-				$(this.dom.scroller).height() :
+				this.dom.scroller.clientHeight :
 				this._parseHeight($(this.dom.scroller).css('height'));
 
 			// If collapsed (no height) use the max-height parameter
