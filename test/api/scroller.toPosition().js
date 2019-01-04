@@ -44,7 +44,7 @@ describe('Select - row().select()', function() {
 				let visibleRows = 6;
 				let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq('+halfway+') td:eq(0)').text()).toBe('1000');
+				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
 				done();
 			});
 		});
