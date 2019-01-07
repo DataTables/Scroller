@@ -113,35 +113,34 @@ describe('Select - row().scrollTo()', function() {
 		});
 	});
 
-	// This is disabled because of DD-670
-	// describe('Check the behaviour - non-linear', function() {
-	// 	dt.html('empty');
-	// 	let table;
-	// 	it('Scroll to line 1000', function() {
-	// 		let data = [];
-	// 		for (var i = 0; i < 50000; i++) {
-	// 			data.push([i, i, i, i, i, i]);
-	// 		}
+	describe('Check the behaviour - non-linear', function() {
+		dt.html('empty');
+		let table;
+		it('Scroll to line 1000', function() {
+			let data = [];
+			for (var i = 0; i < 50000; i++) {
+				data.push([i, i, i, i, i, i]);
+			}
 
-	// 		table = $('#example').DataTable({
-	// 			data: data,
-	// 			deferRender: true,
-	// 			scrollY: 200,
-	// 			scrollCollapse: true,
-	// 			scroller: true
-	// 		});
+			table = $('#example').DataTable({
+				data: data,
+				deferRender: true,
+				scrollY: 200,
+				scrollCollapse: true,
+				scroller: true
+			});
 
-	// 		table.row(1000).scrollTo(false);
-	// 	});
-	// 	it('And confirm there', async function(done) {
-	// 		dt.sleep(1000).then(() => {
-	// 			let rowCount = $('#example tbody tr').length;
-	// 			let visibleRows = 6;
-	// 			let halfway = parseInt((rowCount - visibleRows) / 2);
+			table.row(1000).scrollTo(false);
+		});
+		it('And confirm there', async function(done) {
+			dt.sleep(1000).then(() => {
+				let rowCount = $('#example tbody tr').length;
+				let visibleRows = 6;
+				let halfway = parseInt((rowCount - visibleRows) / 2);
 
-	// 			expect($('#example tbody tr:eq('+halfway+') td:eq(0)').text()).toBe('1000');
-	// 			done();
-	// 		});
-	// 	});
-	// });
+				expect($('#example tbody tr:eq('+halfway+') td:eq(0)').text()).toBe('1000');
+				done();
+			});
+		});
+	});
 });
