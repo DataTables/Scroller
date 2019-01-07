@@ -223,7 +223,8 @@ var Scroller = function ( dt, opts ) {
 		forceReposition: false,
 		baseRowTop: 0,
 		baseScrollTop: 0,
-		mousedown: false
+		mousedown: false,
+		lastScrollTop: 0
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
@@ -770,7 +771,8 @@ $.extend( Scroller.prototype, {
 	_domain: function ( dir, val )
 	{
 		var heights = this.s.heights;
-		var coeff;
+		var diff;
+		var magic = 10000; // the point at which the non-linear calculations start to happen
 
 		// If the virtual and physical height match, then we use a linear
 		// transform between the two, allowing the scrollbar to be linear
@@ -781,11 +783,15 @@ $.extend( Scroller.prototype, {
 		// In the first 10k pixels and the last 10k pixels, we want the scrolling
 		// to be linear. After that it can be non-linear. It would be unusual for
 		// anyone to mouse wheel through that much.
-		if ( val < 10000 ) {
+		if ( val < magic ) {
 			return val;
 		}
-		else if ( val > heights.scroll - 10000 ) {
-			var diff = heights.scroll - val;
+		else if ( dir === 'virtualToPhysical' && val > heights.virtual - magic ) {
+			diff = heights.virtual - val;
+			return heights.scroll - diff;
+		}
+		else if ( dir === 'physicalToVirtual' && val > heights.scroll - magic ) {
+			diff = heights.scroll - val;
 			return heights.virtual - diff;
 		}
 
@@ -793,36 +799,21 @@ $.extend( Scroller.prototype, {
 		// redrawing regions at the start and end of the table, otherwise these
 		// can stutter badly - on large tables 30px (for example) scroll might
 		// be hundreds of rows, so the table would be redrawing every few px at
-		// the start and end. Use a simple quadratic to stop this. It does mean
-		// the scrollbar is non-linear, but with such massive data sets, the
-		// scrollbar is going to be a best guess anyway
-		var xMax = (heights.scroll - heights.viewport - 10000) / 2;
-		var yMax = (heights.virtual - heights.viewport - 10000) / 2;
+		// the start and end. Use a simple linear eq. to stop this, effectively
+		// causing a kink in the scrolling ratio. It does mean the scrollbar is
+		// non-linear, but with such massive data sets, the scrollbar is going
+		// to be a best guess anyway
+		var xMax = dir === 'virtualToPhysical' ?
+			heights.virtual :
+			heights.scroll;
+		var yMax = dir === 'virtualToPhysical' ?
+			heights.scroll :
+			heights.virtual;
 
-		coeff = yMax / ( xMax * xMax );
+		var m = (yMax - magic) / (xMax - magic);
+		var c = magic - (m*magic);
 
-		if ( dir === 'virtualToPhysical' ) {
-			if ( val < yMax ) {
-				return Math.pow(val / coeff, 0.5);
-			}
-			else {
-				val = (yMax*2) - val;
-				return val < 0 ?
-					heights.scroll :
-					(xMax*2) - Math.pow(val / coeff, 0.5);
-			}
-		}
-		else if ( dir === 'physicalToVirtual' ) {
-			if ( val < xMax ) {
-				return (val * val * coeff) + val;
-			}
-			else {
-				val = (xMax*2) - val;
-				return val < 0 ?
-					heights.virtual :
-					(yMax*2) - (val * val * coeff) - val;
-			}
-		}
+		return (m*val) + c;
 	},
 
 	/**
