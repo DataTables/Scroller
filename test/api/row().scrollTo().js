@@ -4,14 +4,14 @@ describe('Select - row().scrollTo()', function() {
 		css: ['datatables', 'scroller']
 	});
 
+	let table;
+
 	describe('Check the defaults', function() {
 		dt.html('basic');
-		let table;
 		it('Exists and is a function', function() {
 			table = $('#example').DataTable();
 			expect(typeof table.row().scrollTo).toBe('function');
 		});
-
 		it('Returns an API instance', function() {
 			expect(table.row(0).scrollTo() instanceof $.fn.dataTable.Api).toBe(true);
 		});
@@ -19,7 +19,6 @@ describe('Select - row().scrollTo()', function() {
 
 	describe('Check the behaviour - small tables', function() {
 		dt.html('basic');
-		let table;
 		it('Can scroll to near the end', function() {
 			table = $('#example').DataTable({
 				deferRender: true,
@@ -83,7 +82,6 @@ describe('Select - row().scrollTo()', function() {
 
 	describe('Check the behaviour - linear scrolling', function() {
 		dt.html('empty');
-		let table;
 		it('Scroll to line 1000', function() {
 			let data = [];
 			for (var i = 0; i < 5000; i++) {
@@ -115,7 +113,6 @@ describe('Select - row().scrollTo()', function() {
 
 	describe('Check the behaviour - non-linear', function() {
 		dt.html('empty');
-		let table;
 		it('Scroll to line 1000', function() {
 			let data = [];
 			for (var i = 0; i < 50000; i++) {
@@ -138,7 +135,7 @@ describe('Select - row().scrollTo()', function() {
 				let visibleRows = 6;
 				let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq('+halfway+') td:eq(0)').text()).toBe('1000');
+				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
 				done();
 			});
 		});
