@@ -560,6 +560,9 @@ $.extend( Scroller.prototype, {
 		dt.on( 'init.scroller', function () {
 			that.measure( false );
 
+			// Setting to `jump` will instruct _draw to calculate the scroll top
+			// position
+			that.s.scrollType = 'jump';
 			that._draw();
 
 			// Update the scroller when the DataTable is redrawn
@@ -674,7 +677,7 @@ $.extend( Scroller.prototype, {
 			this.s.topRowFloat = 0;
 		}
 
-		iScrollTop = this.scrollType === 'jump' ?
+		iScrollTop = this.s.scrollType === 'jump' ?
 			this._domain( 'physicalToVirtual', this.s.topRowFloat * heights.row ) :
 			iScrollTop;
 
