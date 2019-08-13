@@ -1,4 +1,4 @@
-describe('Select - row().scrollTo()', function() {
+describe('Scroller - row().scrollTo()', function() {
 	dt.libs({
 		js: ['jquery', 'datatables', 'scroller'],
 		css: ['datatables', 'scroller']
@@ -65,6 +65,7 @@ describe('Select - row().scrollTo()', function() {
 				scroller: true,
 				sorting: false
 			});
+
 			table.row(11).scrollTo(false);
 		});
 		it('And confirm there', async function(done) {

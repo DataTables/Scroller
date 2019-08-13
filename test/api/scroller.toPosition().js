@@ -1,4 +1,4 @@
-describe('Select - scroller.toPosition()', function() {
+describe('Scroller - scroller.toPosition()', function() {
 	var table;
 
 	dt.libs({
