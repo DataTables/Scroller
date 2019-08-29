@@ -1,4 +1,4 @@
-describe('Select - row().select()', function() {
+describe('Scroller - scroller.page()', function() {
 	var table;
 
 	dt.libs({
