@@ -662,8 +662,6 @@ $.extend( Scroller.prototype, {
 			that = this,
 			heights = this.s.heights,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iActualScrollTop = iScrollTop,
-			iScrollBottom = iScrollTop + heights.viewport,
 			iTableHeight = $(this.s.dt.nTable).height(),
 			displayStart = this.s.dt._iDisplayStart,
 			displayLen = this.s.dt._iDisplayLength,
@@ -678,11 +676,8 @@ $.extend( Scroller.prototype, {
 		}
 
 		iScrollTop = this.s.scrollType === 'jump' ?
-			this._domain( 'physicalToVirtual', this.s.topRowFloat * heights.row ) :
+			this._domain( 'virtualToPhysical', this.s.topRowFloat * heights.row ) :
 			iScrollTop;
-
-		// This doesn't work when scrolling with the mouse wheel
-		$(that.dom.scroller).scrollTop(iScrollTop);
 
 		// Store positional information so positional calculations can be based
 		// upon the current table draw position
