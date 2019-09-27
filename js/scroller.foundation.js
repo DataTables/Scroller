@@ -1,4 +1,4 @@
-/*! Bootstrap 4 styling wrapper for Scroller
+/*! Foundation styling wrapper for Scroller
  * ©2018 SpryMedia Ltd - datatables.net/license
  */
 
