@@ -1,5 +1,5 @@
 describe('Scroller - scroller.page()', function() {
-	var table;
+	let table;
 
 	dt.libs({
 		js: ['jquery', 'datatables', 'scroller'],
@@ -8,7 +8,6 @@ describe('Scroller - scroller.page()', function() {
 
 	describe('Check the defaults', function() {
 		dt.html('basic');
-		let table;
 		it('Exists and is a function', function() {
 			table = $('#example').DataTable();
 			expect(typeof table.scroller.page).toBe('function');
@@ -31,7 +30,6 @@ describe('Scroller - scroller.page()', function() {
 
 	describe('Check the behaviour - linear scrolling', function() {
 		dt.html('empty');
-		let table;
 		it('Scroll to line 1000', function() {
 			let data = [];
 			for (var i = 0; i < 5000; i++) {
