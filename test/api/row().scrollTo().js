@@ -85,7 +85,7 @@ describe('Scroller - row().scrollTo()', function() {
 		dt.html('empty');
 		it('Scroll to line 1000', function() {
 			let data = [];
-			for (var i = 0; i < 5000; i++) {
+			for (let i = 0; i < 5000; i++) {
 				data.push([i, i, i, i, i, i]);
 			}
 
@@ -116,7 +116,7 @@ describe('Scroller - row().scrollTo()', function() {
 		dt.html('empty');
 		it('Scroll to line 1000', function() {
 			let data = [];
-			for (var i = 0; i < 50000; i++) {
+			for (let i = 0; i < 50000; i++) {
 				data.push([i, i, i, i, i, i]);
 			}
 
