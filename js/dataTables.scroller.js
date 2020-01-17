@@ -521,6 +521,7 @@ $.extend( Scroller.prototype, {
 				that.s.mousedown = true;
 			})
 			.on('mouseup.dt-scroller', function () {
+				that.s.labelVisible = false;
 				that.s.mouseup = false;
 				that.dom.label.css('display', 'none');
 			});
@@ -1063,6 +1064,9 @@ $.extend( Scroller.prototype, {
 		this.s.stateSaveThrottle();
 
 		if ( this.s.scrollType === 'jump' && this.s.mousedown ) {
+			this.s.labelVisible = true;
+		}
+		if (this.s.labelVisible) {
 			this.dom.label
 				.html( this.s.dt.fnFormatNumber( parseInt( this.s.topRowFloat, 10 )+1 ) )
 				.css( 'top', iScrollTop + (iScrollTop * heights.labelFactor ) )
