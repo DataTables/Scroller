@@ -522,7 +522,7 @@ $.extend( Scroller.prototype, {
 			})
 			.on('mouseup.dt-scroller', function () {
 				that.s.labelVisible = false;
-				that.s.mouseup = false;
+				that.s.mousedown = false;
 				that.dom.label.css('display', 'none');
 			});
 
