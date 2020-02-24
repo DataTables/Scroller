@@ -521,6 +521,7 @@ $.extend( Scroller.prototype, {
 				that.s.mousedown = true;
 			})
 			.on('mouseup.dt-scroller', function () {
+				that.s.mousedown = false;
 				that.s.mouseup = false;
 				that.dom.label.css('display', 'none');
 			});
