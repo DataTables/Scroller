@@ -299,8 +299,11 @@ $.extend( Scroller.prototype, {
 			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
 		}
 
-		var label = this.dom.label.outerHeight();
-		heights.labelFactor = (heights.viewport-label) / heights.scroll;
+    if(this.s.displayLabel)
+    {
+      var label = this.dom.label.outerHeight();
+      heights.labelFactor = (heights.viewport-label) / heights.scroll;
+    }
 
 		if ( redraw === undefined || redraw )
 		{
@@ -490,7 +493,10 @@ $.extend( Scroller.prototype, {
 				.append( this.dom.loader );
 		}
 
-		this.dom.label.appendTo(this.dom.scroller);
+    if(this.s.displayLabel)
+    {
+      this.dom.label.appendTo(this.dom.scroller);
+    }
 
 		/* Initial size calculations */
 		if ( this.s.heights.row && this.s.heights.row != 'auto' )
@@ -521,10 +527,13 @@ $.extend( Scroller.prototype, {
 				that.s.mousedown = true;
 			})
 			.on('mouseup.dt-scroller', function () {
-				that.s.labelVisible = false;
-				that.s.mousedown = false;
-				that.dom.label.css('display', 'none');
-			});
+        that.s.mousedown = false;
+        if (this.s.displayLabel)
+        {
+          that.s.labelVisible = false;
+          that.dom.label.css('display', 'none');
+        }
+      });
 
 		// On resize, update the information element, since the number of rows shown might change
 		$(window).on( 'resize.dt-scroller', function () {
@@ -1063,7 +1072,7 @@ $.extend( Scroller.prototype, {
 		this.s.lastScrollTop = iScrollTop;
 		this.s.stateSaveThrottle();
 
-		if ( this.s.scrollType === 'jump' && this.s.mousedown ) {
+		if ( this.s.scrollType === 'jump' && this.s.mousedown && this.s.displayLabel) {
 			this.s.labelVisible = true;
 		}
 		if (this.s.labelVisible) {
@@ -1174,7 +1183,16 @@ Scroller.defaults = {
 	 *  @default  200
 	 *  @static
 	 */
-	serverWait: 200
+  serverWait: 200,
+  
+  /**
+	 *  While scrolling using the scrollbar, a label is displayed to indicate the user 
+	 *  the approximate position displayed within the whole table content
+	 *  @type     bool
+	 *  @default  true
+	 *  @static
+	 */
+  displayLabel: true
 };
 
 Scroller.oDefaults = Scroller.defaults;
