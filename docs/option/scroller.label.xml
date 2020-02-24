@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Scroller">
+	<name>scroller.label</name>
+	<summary>Display a label while user is scrolling with the scrollbar</summary>
+
+	<type type="boolean">
+		<description>
+			* `true` show the label when scrolling
+			* `false` do not show
+		</description>
+	</type>
+
+	<default value="true">
+		Label is displayed when scrolling using the scrollbar
+	</default>
+
+	<description>
+	  While scrolling using the scrollbar, a label is displayed to indicate the user the approximate position displayed within the whole dataset
+  </description>
+
+	<example title="Do not display label when scrolling using scrollbar"><![CDATA[
+
+$('#example').DataTable( {
+	scrollY: true,
+	scroller: {
+		label: false
+	}
+} );
+
+]]></example>
+
+</dt-option>
