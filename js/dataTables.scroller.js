@@ -714,7 +714,7 @@ $.extend( Scroller.prototype, {
 		// saving Note that this is done on the second draw when data is Ajax
 		// sourced, and the first draw when DOM soured
 		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
-			 typeof this.s.dt.oLoadedState.scroller != 'undefined' )
+			 typeof this.s.dt.oLoadedState.iScroller != 'undefined' )
 		{
 			// A quirk of DataTables is that the draw callback will occur on an
 			// empty set if Ajax sourced, but not if server-side processing.
@@ -726,7 +726,8 @@ $.extend( Scroller.prototype, {
 			     (!ajaxSourced && this.s.dt.iDraw == 1) )
 			{
 				setTimeout( function () {
-					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.scroller.baseScrollTop );
+					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.iScroller );
+					that.s.redrawTop = that.s.dt.oLoadedState.iScroller - (heights.viewport/2);
 
 					// In order to prevent layout thrashing we need another
 					// small delay
@@ -748,8 +749,6 @@ $.extend( Scroller.prototype, {
 				that._info.call( that );
 			}, 0 );
 		}
-
-		$(this.s.dt.nTable).triggerHandler('position.dts.dt', tableTop);
 
 		// Hide the loading indicator
 		if ( this.dom.loader && this.s.loaderVisible ) {
@@ -1025,18 +1024,17 @@ $.extend( Scroller.prototype, {
 				iTopRow++;
 			}
 
+			// Store calcuated value, in case the following condition is not met, but so
+			// that the draw function will still use it.
+			this.s.targetTop = iTopRow;
 
 			if ( iTopRow != this.s.dt._iDisplayStart ) {
 				/* Cache the new table position for quick lookups */
 				this.s.tableTop = $(this.s.dt.nTable).offset().top;
 				this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
 
-				var draw =  function () {
-					if ( that.s.scrollDrawReq === null ) {
-						that.s.scrollDrawReq = iScrollTop;
-					}
-
-					that.s.dt._iDisplayStart = iTopRow;
+				var draw = function () {
+					that.s.dt._iDisplayStart = that.s.targetTop;
 					that.s.dt.oApi._fnDraw( that.s.dt );
 				};
 
@@ -1044,6 +1042,8 @@ $.extend( Scroller.prototype, {
 				 * using server-side processing we introduce a small delay to not DoS the server...
 				 */
 				if ( this.s.dt.oFeatures.bServerSide ) {
+					this.s.forceReposition = true;
+
 					clearTimeout( this.s.drawTO );
 					this.s.drawTO = setTimeout( draw, this.s.serverWait );
 				}
