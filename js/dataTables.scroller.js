@@ -714,7 +714,7 @@ $.extend( Scroller.prototype, {
 		// saving Note that this is done on the second draw when data is Ajax
 		// sourced, and the first draw when DOM soured
 		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
-			 typeof this.s.dt.oLoadedState.iScroller != 'undefined' )
+			 typeof this.s.dt.oLoadedState.scroller != 'undefined' )
 		{
 			// A quirk of DataTables is that the draw callback will occur on an
 			// empty set if Ajax sourced, but not if server-side processing.
@@ -726,8 +726,7 @@ $.extend( Scroller.prototype, {
 			     (!ajaxSourced && this.s.dt.iDraw == 1) )
 			{
 				setTimeout( function () {
-					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.iScroller );
-					that.s.redrawTop = that.s.dt.oLoadedState.iScroller - (heights.viewport/2);
+					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.scroller.baseScrollTop );
 
 					// In order to prevent layout thrashing we need another
 					// small delay
