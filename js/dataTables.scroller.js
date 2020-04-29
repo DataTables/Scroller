@@ -749,6 +749,8 @@ $.extend( Scroller.prototype, {
 			}, 0 );
 		}
 
+		$(this.s.dt.nTable).triggerHandler('position.dts.dt', tableTop);
+
 		// Hide the loading indicator
 		if ( this.dom.loader && this.s.loaderVisible ) {
 			this.dom.loader.css( 'display', 'none' );
