@@ -640,6 +640,9 @@ $.extend( Scroller.prototype, {
 			insertEl = 'body';
 		}
 
+		// Remove form element links as they might select over others (particularly radio and checkboxes)
+		container.find("input").removeAttr("name");
+
 		container.appendTo( insertEl );
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
 
