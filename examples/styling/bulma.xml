@@ -16,7 +16,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="Scroller">Bootstrap 5</title>
+<title lib="Scroller">Bulma</title>
 
 <info><![CDATA[
 
