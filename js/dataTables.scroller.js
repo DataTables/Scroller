@@ -216,7 +216,8 @@ var Scroller = function ( dt, opts ) {
 			 *  @default  0
 			 */
 			viewport: null,
-			labelFactor: 1
+			labelFactor: 1,
+			labelHeight: 0,
 		},
 
 		topRowFloat: 0,
@@ -295,7 +296,9 @@ $.extend( Scroller.prototype, {
 		}
 
 		var label = this.dom.label.outerHeight();
-		heights.labelFactor = (heights.viewport-label) / heights.scroll;
+		var xbar = this.dom.scroller.offsetHeight - this.dom.scroller.clientHeight;
+		heights.labelHeight = label;
+		heights.labelFactor = (heights.viewport-label - xbar) / heights.scroll;
 
 		if ( redraw === undefined || redraw )
 		{
@@ -1068,7 +1071,7 @@ $.extend( Scroller.prototype, {
 		if (this.s.labelVisible) {
 			this.dom.label
 				.html( this.s.dt.fnFormatNumber( parseInt( this.s.topRowFloat, 10 )+1 ) )
-				.css( 'top', iScrollTop + (iScrollTop * heights.labelFactor ) )
+				.css( 'top', iScrollTop + (iScrollTop * heights.labelFactor) )
 				.css( 'display', 'block' );
 		}
 	},
