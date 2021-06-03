@@ -82,7 +82,7 @@ var DataTable = $.fn.dataTable;
  *  @constructor
  *  @global
  *  @param {object} dt DataTables settings object or API instance
- *  @param {object} [opts={}] Configuration object for FixedColumns. Options 
+ *  @param {object} [opts={}] Configuration object for Scroller. Options 
  *    are defined by {@link Scroller.defaults}
  *
  *  @requires jQuery 1.7+
@@ -750,6 +750,8 @@ $.extend( Scroller.prototype, {
 				that._info.call( that );
 			}, 0 );
 		}
+
+		$(this.s.dt.nTable).triggerHandler('position.dts.dt', tableTop);
 
 		// Hide the loading indicator
 		if ( this.dom.loader && this.s.loaderVisible ) {
