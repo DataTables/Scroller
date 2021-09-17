@@ -546,7 +546,9 @@ $.extend( Scroller.prototype, {
 		} );
 
 		dt.on( 'stateLoadParams.scroller', function( e, settings, data ) {
-			that.scrollToRow(data.scroller.topRow);
+			if (data.scroller !== undefined) {
+				that.scrollToRow(data.scroller.topRow);
+			}
 		});
 
 		if ( loadedState && loadedState.scroller ) {
