@@ -4,7 +4,7 @@
 <css lib="datatables fixedcolumns scroller">
 	/* For this example, force x-scrolling by making the table width smaller */
 	div.dataTables_wrapper {
-		width: 75%;
+		width: 60%;
 		margin: 0 auto;
 	}
 </css>
