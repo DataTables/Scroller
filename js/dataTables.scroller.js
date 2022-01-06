@@ -674,7 +674,8 @@ $.extend( Scroller.prototype, {
 			iTableHeight = $(this.s.dt.nTable).height(),
 			displayStart = this.s.dt._iDisplayStart,
 			displayLen = this.s.dt._iDisplayLength,
-			displayEnd = this.s.dt.fnRecordsDisplay();
+			displayEnd = this.s.dt.fnRecordsDisplay(),
+			viewportEndY = iScrollTop + heights.viewport;
 
 		// Disable the scroll event listener while we are updating the DOM
 		this.s.skip = true;
@@ -700,6 +701,17 @@ $.extend( Scroller.prototype, {
 		}
 		else if ( displayStart + displayLen >= displayEnd ) {
 			tableTop = heights.scroll - iTableHeight;
+		}
+		else {
+			var iTableBottomY = tableTop + iTableHeight;
+			if (iTableBottomY < viewportEndY) {
+				// The last row of the data is above the end of the viewport.
+				// This means the background is visible, which is not what the user expects.
+				var newTableTop = viewportEndY - iTableHeight;
+				var diffPx = newTableTop - tableTop;
+				this.s.baseScrollTop += diffPx + 1; // Update start row number in footer.
+				tableTop = newTableTop; // Move table so last line of data is at the bottom of the viewport.
+			}
 		}
 
 		this.dom.table.style.top = tableTop+'px';
