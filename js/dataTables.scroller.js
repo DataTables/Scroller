@@ -718,35 +718,38 @@ $.extend( Scroller.prototype, {
 
 		this.s.skip = false;
 
-		// Restore the scrolling position that was saved by DataTable's state
-		// saving Note that this is done on the second draw when data is Ajax
-		// sourced, and the first draw when DOM soured
-		if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
-			 typeof this.s.dt.oLoadedState.scroller != 'undefined' )
-		{
-			// A quirk of DataTables is that the draw callback will occur on an
-			// empty set if Ajax sourced, but not if server-side processing.
-			var ajaxSourced = (this.s.dt.sAjaxSource || that.s.dt.ajax) && ! this.s.dt.oFeatures.bServerSide ?
-				true :
-				false;
-
-			if ( ( ajaxSourced && this.s.dt.iDraw == 2) ||
-			     (!ajaxSourced && this.s.dt.iDraw == 1) )
+		if(that.s.ingnoreScroll) {
+			// Restore the scrolling position that was saved by DataTable's state
+			// saving Note that this is done on the second draw when data is Ajax
+			// sourced, and the first draw when DOM soured
+			if ( this.s.dt.oFeatures.bStateSave && this.s.dt.oLoadedState !== null &&
+				 typeof this.s.dt.oLoadedState.scroller != 'undefined' )
 			{
-				setTimeout( function () {
-					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.scroller.scrollTop );
-
-					// In order to prevent layout thrashing we need another
-					// small delay
+				// A quirk of DataTables is that the draw callback will occur on an
+				// empty set if Ajax sourced, but not if server-side processing.
+				var ajaxSourced = (this.s.dt.sAjaxSource || that.s.dt.ajax) && ! this.s.dt.oFeatures.bServerSide ?
+					true :
+					false;
+	
+				if ( ( ajaxSourced && this.s.dt.iDraw >= 2) ||
+					 (!ajaxSourced && this.s.dt.iDraw >= 1) )
+				{
 					setTimeout( function () {
-						that.s.ingnoreScroll = false;
+						$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.scroller.scrollTop );
+	
+						// In order to prevent layout thrashing we need another
+						// small delay
+						setTimeout( function () {
+							that.s.ingnoreScroll = false;
+						}, 0 );
 					}, 0 );
-				}, 0 );
+				}
+			}
+			else {
+				that.s.ingnoreScroll = false;
 			}
 		}
-		else {
-			that.s.ingnoreScroll = false;
-		}
+
 
 		// Because of the order of the DT callbacks, the info update will
 		// take precedence over the one we want here. So a 'thread' break is
