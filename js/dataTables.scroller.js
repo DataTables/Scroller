@@ -533,6 +533,7 @@ $.extend( Scroller.prototype, {
 			if ( initialStateSave && loadedState ) {
 				data.scroller = loadedState.scroller;
 				initialStateSave = false;
+				that.s.lastScrollTop = data.scroller.scrollTop;
 			}
 			else {
 				// Need to used the saved position on init
