@@ -1086,6 +1086,7 @@ $.extend( Scroller.prototype, {
 			this.dom.label
 				.html( this.s.dt.fnFormatNumber( parseInt( this.s.topRowFloat, 10 )+1 ) )
 				.css( 'top', iScrollTop + (iScrollTop * labelFactor) )
+				.css( 'right', 10 - this.dom.scroller.scrollLeft)
 				.css( 'display', 'block' );
 		}
 	},
