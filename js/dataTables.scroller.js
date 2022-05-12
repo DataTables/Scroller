@@ -1,15 +1,14 @@
-/*! Scroller 2.0.5
- * ©2011-2021 SpryMedia Ltd - datatables.net/license
+/*! Scroller 2.0.6
+ * ©2011-2022 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     2.0.5
- * @file        dataTables.scroller.js
+ * @version     2.0.6
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
- * @copyright   Copyright 2011-2021 SpryMedia Ltd.
+ * @copyright   SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
@@ -1209,7 +1208,7 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "2.0.5";
+Scroller.version = "2.0.6";
 
 
 
