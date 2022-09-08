@@ -29,8 +29,9 @@ css_frameworks scroller $OUT_DIR/css
 
 # Copy JS
 rsync -r js $OUT_DIR
-js_compress $OUT_DIR/js/dataTables.scroller.js
-js_frameworks scroller $OUT_DIR/js
+js_wrap $OUT_DIR/js/dataTables.scroller.js "jquery datatables.net"
+js_frameworks scroller $OUT_DIR/js "jquery datatables.net-FW datatables.net-scroller"
+
 
 # Copy Types
 if [ -d $OUT_DIR/types ]; then
