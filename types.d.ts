@@ -1,121 +1,143 @@
-// Type definitions for datatables.net-scroller 1.4
-// Project: https://datatables.net
-// Definitions by: Konstantin Rohde <https://github.com/RohdeK>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.4
+// Type definitions for DataTables Scroller
+//
+// Project: https://datatables.net/extensions/scroller/, https://datatables.net
+// Definitions by:
+//   SpryMedia
+//   Konstantin Rohde <https://github.com/RohdeK>
 
-/// <reference types="jquery" />
-/// <reference types="datatables.net"/>
+import DataTables, {Api} from 'datatables.net';
 
-declare namespace DataTables {
-    interface Settings {
-        /*
-         * Select extension options
-         */
-        scroller?: boolean | ScrollerSettings;
-    }
+export default DataTables;
 
-    interface ScrollerSettings {
-        /*
-         * Indicate if Scroller show show trace information on the console or not.
-         */
-        trace?: boolean;
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables' types integration
+ */
+declare module 'datatables.net' {
+	interface Config {
+		/**
+		 * Scroller extension options
+		 */
+		scroller?: boolean | ConfigScroller;
+	}
 
-        /*
-        * Scroller will attempt to automatically calculate the height of rows for it's internal
-        * calculations. However the height that is used can be overridden using this parameter.
-         */
-        rowHeight?: number | string;
+	interface Api<T> {
+		/**
+		 * Scroller methods container
+		 * 
+		 * @returns Api for chaining with the additional Scroller methods
+		 */
+		scroller: ApiScrollerMethods<T>;
+	}
 
-        /*
-        * When using server-side processing, Scroller will wait a small amount of time to allow
-        * the scrolling to finish before requesting more data from the server.
-         */
-        serverWait?: number;
+	interface ApiRowMethods<T> {
+		/**
+		 * Scroll to a row
+		 */
+		scrollTo(animate?: boolean): Api<T>;
+	}
 
-        /*
-        * The display buffer is what Scroller uses to calculate how many rows it should pre-fetch
-        * for scrolling.
-         */
-        displayBuffer?: number;
+	interface ApiStatic {
+		/**
+		 * Scroller class
+		 */
+		Scroller: {
+			/**
+			 * Create a new Scroller instance for the target DataTable
+			 */
+			new (dt: Api<any>, settings: boolean | ConfigScroller);
 
-        /*
-        * Scroller uses the boundary scaling factor to decide when to redraw the table - which it
-        * typically does before you reach the end of the currently loaded data set (in order to
-        * allow the data to look continuous to a user scrolling through the data).
-         */
-        boundaryScale?: number;
+			/**
+			 * Scroller version
+			 */
+			version: string;
 
-        /*
-        * Show (or not) the loading element in the background of the table. Note that you should
-        * include the dataTables.scroller.css file for this to be displayed correctly.
-         */
-        loadingIndicator?: boolean;
-    }
+			/**
+			 * Default configuration values
+			 */
+			defaults: ConfigScroller;
+		}
+	}
+}
 
-    interface Api {
-        scroller: ScrollerMethodsModel;
-    }
 
-    interface ScrollerMethodsModel {
-        /**
-        * Calculate and store information about how many rows are to be displayed
-        * in the scrolling viewport, based on current dimensions in the browser's
-        * rendering.
-        * 
-        * @param redraw Flag to indicate if the table should immediately redraw or not. true will redraw the table, false will not.
-        * @returns DataTables Api instance for chaining
-        */
-        measure(redraw?: boolean): Api;
-        
-        /**
-        * Get information about current displayed record range.
-        * 
-        * @returnsAn object with the parameters start and end, defining the start and end, 0 based, display indexes of the rows that are visible in the table's scrolling viewport.
-        */
-        page(): PageInfo;
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Options
+ */
 
-        /**
-         * Move the display to show the row at the index given.
-         * 
-         * @param index Display index to jump to.
-         * @param animate Animate the scroll (true) or not (false).
-         */
-        toPosition(index: number, animate?: boolean): Api;
-        
-        /**
-        * Get Scroller Api
-        */
-        scroller(): ScrollerMethods;
-    }
+interface ConfigScroller {
+	/**
+	 * Scroller uses the boundary scaling factor to decide when to redraw the table - which it
+	 * typically does before you reach the end of the currently loaded data set (in order to
+	 * allow the data to look continuous to a user scrolling through the data).
+	 */
+	boundaryScale?: number;
 
-    interface ScrollerMethods extends Api {
-        /*
-        * Calculate the pixel position from the top of the scrolling container for
-        * a given row
-        */
-        rowToPixels(rowIdx: number, intParse?: boolean, virtual?: boolean): number;
-        /*
-        * Calculate the row number that will be found at the given pixel position
-        * (y-scroll).
-        */
-        pixelsToRow(pixels: number, intParse?: boolean, virtual?: boolean): number;
-        scrollToRow(rowIdx: number, animate?: boolean): Api;
-    }
+	/**
+	 * The display buffer is what Scroller uses to calculate how many rows it should pre-fetch
+	 * for scrolling.
+	 */
+	displayBuffer?: number;
 
-    /*
-    * start: {int}, // the 0-indexed record at the top of the viewport
-    * end:   {int}, // the 0-indexed record at the bottom of the viewport
-    */
-    interface PageInfo {
-        start: number;
-        end: number;
-    }
+	/**
+	 * Show (or not) the loading element in the background of the table. Note that you should
+	 * include the dataTables.scroller.css file for this to be displayed correctly.
+	 */
+	loadingIndicator?: boolean;
 
-    interface RowMethods {
-        /**
-         * Scroll to a row
-         */
-        scrollTo(animate?: boolean): Api;
-    }
+	/**
+	 * Scroller will attempt to automatically calculate the height of rows for it's internal
+	 * calculations. However the height that is used can be overridden using this parameter.
+	 */
+	rowHeight?: number | string;
+
+	/**
+	 * When using server-side processing, Scroller will wait a small amount of time to allow
+	 * the scrolling to finish before requesting more data from the server.
+	 */
+	serverWait?: number;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * API
+ */
+
+interface ApiScrollerMethods<T> {
+	/**
+	 * Calculate and store information about how many rows are to be displayed
+	 * in the scrolling viewport, based on current dimensions in the browser's
+	 * rendering.
+	 * 
+	 * @param redraw Flag to indicate if the table should immediately redraw or not. true will redraw the table, false will not.
+	 * @returns DataTables Api instance for chaining
+	 */
+	measure(redraw?: boolean): Api<T>;
+	
+	/**
+	 * Get information about current displayed record range.
+	 * 
+	 * @returnsAn object with the parameters start and end, defining the start and end, 0 based, display indexes of the rows that are visible in the table's scrolling viewport.
+	 */
+	page(): PageInfo;
+
+	/**
+	 * Move the display to show the row at the index given.
+	 * 
+	 * @param index Display index to jump to.
+	 * @param animate Animate the scroll (true) or not (false).
+	 */
+	toPosition(index: number, animate?: boolean): Api<T>;
+}
+
+
+interface PageInfo {
+	/**
+	 * The 0-indexed record at the top of the viewport
+	 */
+	start: number;
+
+	/**
+	 * The 0-indexed record at the bottom of the viewport
+	 */
+	end: number;
 }
