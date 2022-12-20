@@ -52,7 +52,7 @@
  *  @constructor
  *  @global
  *  @param {object} dt DataTables settings object or API instance
- *  @param {object} [opts={}] Configuration object for Scroller. Options 
+ *  @param {object} [opts={}] Configuration object for Scroller. Options
  *    are defined by {@link Scroller.defaults}
  *
  *  @requires jQuery 1.7+
@@ -266,7 +266,7 @@ $.extend( Scroller.prototype, {
 		}
 
 		var label = this.dom.label.outerHeight();
-		
+
 		heights.xbar = this.dom.scroller.offsetHeight - this.dom.scroller.clientHeight;
 		heights.labelHeight = label;
 
@@ -288,7 +288,7 @@ $.extend( Scroller.prototype, {
 	*/
 	pageInfo: function()
 	{
-		var 
+		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTotal = dt.fnRecordsDisplay(),
@@ -532,7 +532,7 @@ $.extend( Scroller.prototype, {
 		}
 
 		this.measure( false );
-	
+
 		that.s.stateSaveThrottle = that.s.dt.oApi._fnThrottle( function () {
 			that.s.dtApi.state.save();
 		}, 500 );
@@ -613,7 +613,7 @@ $.extend( Scroller.prototype, {
                 tbody.append('<tr><td>&#160;</td></tr>');
             }
 		}
-	
+
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
 		// If initialised using `dom`, use the holding element as the insert point
@@ -628,6 +628,9 @@ $.extend( Scroller.prototype, {
 
 		container.appendTo( insertEl );
 		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
+		if (!this.s.allowFirstRowSplit) {
+			this.s.heights.row = $('tr', tbody).eq(1)[0].getBoundingClientRect().height;
+		}
 
 		container.remove();
 	},
@@ -670,6 +673,9 @@ $.extend( Scroller.prototype, {
 
 		// Position the table in the virtual scroller
 		var tableTop = iScrollTop - ((this.s.topRowFloat - displayStart) * heights.row);
+		if (!this.s.allowFirstRowSplit) {
+			tableTop = iScrollTop + (iScrollTop % heights.row) - (this.s.topRowFloat - displayStart) * heights.row;
+		}
 		if ( displayStart === 0 ) {
 			tableTop = 0;
 		}
@@ -761,7 +767,7 @@ $.extend( Scroller.prototype, {
 	 * had scrolling containers of infinite height (i.e. the absolute value)
 	 *
 	 *  @param {string} dir Domain transform direction, `virtualToPhysical` or
-	 *    `physicalToVirtual` 
+	 *    `physicalToVirtual`
 	 *  @returns {number} Calculated transform
 	 *  @private
 	 */
@@ -934,6 +940,24 @@ $.extend( Scroller.prototype, {
 			0;
 	},
 
+	_updateTableTop: function (displayStart) {
+		var that = this,
+			heights = this.s.heights,
+			iScrollTop = this.dom.scroller.scrollTop,
+			dispStart = displayStart < 0 ? 0 : displayStart;
+
+		if (this.s.allowFirstRowSplit) {
+			return;
+		}
+
+		this.s.topRowFloat = this.pixelsToRow( iScrollTop, false, true );
+		var tableTop = iScrollTop + (iScrollTop % heights.row) - (this.s.topRowFloat - dispStart) * heights.row;
+		setTimeout(function () {
+			that.dom.table.style.top = tableTop + 'px';
+		}, 0);
+	},
+
+
 	/**
 	 * Scrolling function - fired whenever the scrolling position is changed.
 	 * This method needs to use the stored values to see if the table should be
@@ -951,17 +975,11 @@ $.extend( Scroller.prototype, {
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTopRow;
 
-		if ( this.s.skip ) {
+		if ( this.s.skip || this.s.ingnoreScroll || (iScrollTop === this.s.lastScrollTop)) {
+			this._updateTableTop(this.s.dt._iDisplayStart);
 			return;
 		}
 
-		if ( this.s.ingnoreScroll ) {
-			return;
-		}
-
-		if ( iScrollTop === this.s.lastScrollTop ) {
-			return;
-		}
 
 		/* If the table has been sorted or filtered, then we use the redraw that
 		 * DataTables as done, rather than performing our own
@@ -1034,6 +1052,7 @@ $.extend( Scroller.prototype, {
 				var draw = function () {
 					that.s.dt._iDisplayStart = that.s.targetTop;
 					that.s.dt.oApi._fnDraw( that.s.dt );
+					that._updateTableTop(that.s.dt._iDisplayStart);
 				};
 
 				/* Do the DataTables redraw based on the calculated start point - note that when
@@ -1053,10 +1072,13 @@ $.extend( Scroller.prototype, {
 					this.dom.loader.css( 'display', 'block' );
 					this.s.loaderVisible = true;
 				}
+			} else {
+				this._updateTableTop(this.s.dt._iDisplayStart - 1);
 			}
 		}
 		else {
 			this.s.topRowFloat = this.pixelsToRow( iScrollTop, false, true );
+			this._updateTableTop(this.s.dt._iDisplayStart - 1);
 		}
 
 		this.s.lastScrollTop = iScrollTop;
@@ -1176,7 +1198,15 @@ Scroller.defaults = {
 	 *  @default  200
 	 *  @static
 	 */
-	serverWait: 200
+	serverWait: 200,
+
+	/**
+	 * Allow (or not) for the first row to appear as a whole
+	 *  @type     boolean
+	 *  @default  true
+	 *  @static
+	 */
+	allowFirstRowSplit: true
 };
 
 Scroller.oDefaults = Scroller.defaults;
