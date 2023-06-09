@@ -4,22 +4,41 @@
 <css lib="datatables scroller" />
 <js lib="jquery datatables scroller">
 <![CDATA[
-	$(document).ready(function() {
-		var data = [];
-		for ( var i=0 ; i<50000 ; i++ ) {
-			data.push( [ i, i, i, i, i ] );
-		}
-		
-		$('#example').DataTable( {
-			data:           data,
-			deferRender:    true,
-			scrollY:        200,
-			scrollCollapse: true,
-			scroller:       true
-		} );
-	} );
+
+var data = [];
+for (var i = 0; i < 50000; i++) {
+	data.push([i, i, i, i, i]);
+}
+
+$('#example').DataTable({
+	data: data,
+	deferRender: true,
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+let data = [];
+for (let i = 0; i < 50000; i++) {
+	data.push([i, i, i, i, i]);
+}
+
+new DataTable('#example', {
+	data: data,
+	deferRender: true,
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Scroller">Client-side data source (50,000 rows)</title>
 

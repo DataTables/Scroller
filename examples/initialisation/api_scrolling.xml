@@ -4,20 +4,37 @@
 <css lib="datatables scroller" />
 <js lib="jquery datatables scroller">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		ajax:           "../data/2500.txt",
-		deferRender:    true,
-		scrollY:        200,
-		scrollCollapse: true,
-		scroller:       true,
-		initComplete: function () {
-			this.api().row( 1000 ).scrollTo();
-		}
-	} );
-} );
+
+$('#example').DataTable({
+	ajax: '../data/2500.txt',
+	deferRender: true,
+	initComplete: function () {
+		this.api().row(1000).scrollTo();
+	},
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../data/2500.txt',
+	deferRender: true,
+	initComplete: function () {
+		this.api().row(1000).scrollTo();
+	},
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Scroller">API</title>
 

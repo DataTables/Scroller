@@ -4,35 +4,67 @@
 <css lib="datatables scroller" />
 <js lib="jquery datatables scroller">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		serverSide: true,
-		ordering: false,
-		searching: false,
-		ajax: function ( data, callback, settings ) {
-			var out = [];
 
-			for ( var i=data.start, ien=data.start+data.length ; i<ien ; i++ ) {
-				out.push( [ i+'-1', i+'-2', i+'-3', i+'-4', i+'-5' ] );
-			}
+$('#example').DataTable({
+	ajax: function (data, callback, settings) {
+		var out = [];
 
-			setTimeout( function () {
-				callback( {
-					draw: data.draw,
-					data: out,
-					recordsTotal: 5000000,
-					recordsFiltered: 5000000
-				} );
-			}, 50 );
-		},
-		scrollY: 200,
-		scroller: {
-			loadingIndicator: true
-		},
-	} );
-} );
+		for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
+			out.push([i + '-1', i + '-2', i + '-3', i + '-4', i + '-5']);
+		}
+
+		setTimeout(function () {
+			callback({
+				draw: data.draw,
+				data: out,
+				recordsTotal: 5000000,
+				recordsFiltered: 5000000
+			});
+		}, 50);
+	},
+	ordering: false,
+	scroller: {
+		loadingIndicator: true
+	},
+	scrollY: 200,
+	searching: false,
+	serverSide: true
+});
+
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: function (data, callback, settings) {
+		let out = [];
+
+		for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
+			out.push([i + '-1', i + '-2', i + '-3', i + '-4', i + '-5']);
+		}
+
+		setTimeout(() => {
+			callback({
+				draw: data.draw,
+				data: out,
+				recordsTotal: 5000000,
+				recordsFiltered: 5000000
+			});
+		}, 50);
+	},
+	ordering: false,
+	scroller: {
+		loadingIndicator: true
+	},
+	scrollY: 200,
+	searching: false,
+	serverSide: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Scroller">Server-side processing (5,000,000 rows)</title>
 
