@@ -3,6 +3,7 @@
 
 <title lib="Scroller">Styling</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 Scroller, like all other DataTables components, can be styled to integrate seamlessly with Bootstrap, Foundation and other CSS frameworks. The examples in this section demonstrate this.
