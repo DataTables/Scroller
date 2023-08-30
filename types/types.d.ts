@@ -36,7 +36,7 @@ declare module 'datatables.net' {
 		scrollTo(animate?: boolean): Api<T>;
 	}
 
-	interface ApiStatic {
+	interface DataTablesStatic {
 		/**
 		 * Scroller class
 		 */
