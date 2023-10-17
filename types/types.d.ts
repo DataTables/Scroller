@@ -44,7 +44,7 @@ declare module 'datatables.net' {
 			/**
 			 * Create a new Scroller instance for the target DataTable
 			 */
-			new (dt: Api<any>, settings: boolean | ConfigScroller);
+			new (dt: Api<any>, settings: boolean | ConfigScroller): void;
 
 			/**
 			 * Scroller version
