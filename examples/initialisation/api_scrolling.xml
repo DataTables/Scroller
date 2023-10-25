@@ -9,7 +9,9 @@ $('#example').DataTable({
 	ajax: '../data/2500.txt',
 	deferRender: true,
 	initComplete: function () {
-		this.api().row(1000).scrollTo();
+		this.api()
+			.row(1000)
+			.scrollTo();
 	},
 	scrollCollapse: true,
 	scroller: true,
@@ -26,7 +28,9 @@ new DataTable('#example', {
 	ajax: '../data/2500.txt',
 	deferRender: true,
 	initComplete: function () {
-		this.api().row(1000).scrollTo();
+		this.api()
+			.row(1000)
+			.scrollTo();
 	},
 	scrollCollapse: true,
 	scroller: true,
