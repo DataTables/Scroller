@@ -7,7 +7,6 @@
 
 $('#example').DataTable({
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	scrollCollapse: true,
 	scroller: true,
 	scrollY: 200
@@ -21,7 +20,6 @@ $('#example').DataTable({
 
 new DataTable('#example', {
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	scrollCollapse: true,
 	scroller: true,
 	scrollY: 200
@@ -40,7 +38,7 @@ Note that Scroller **requires** that all rows are of the same height (in order t
 
 This example shows how Scroller for DataTables can be initialised, when the Scroller Javascript file is included, by simply setting the `s-init scroller` option to `true`. This option can also be given as an object to specify initialisation options for Scroller.
 
-Deferred rendering (`dt-init deferRender`) should be used when Scroller is enabled to gain the speed benefits offered by Scroller. The data source for this example is an Ajax file (`dt-init ajax`).
+Deferred rendering (`dt-init deferRender`) should be used when Scroller is enabled to gain the speed benefits offered by Scroller (it is by default in DataTables 2). The data source for this example is an Ajax file (`dt-init ajax`).
 
 ]]></info>
 

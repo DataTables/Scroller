@@ -20,12 +20,8 @@
 	</description>
 
 	<example title="Perform Scroller measurements when the table was hidden in a Bootstrap tab"><![CDATA[
-
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	$.fn.dataTable
-		.tables( { visible: true, api: true } )
-		.scroller.measure();
-})
-
+	DataTable.tables({ visible: true, api: true }).scroller.measure();
+});
 ]]></example>
 </dt-api>

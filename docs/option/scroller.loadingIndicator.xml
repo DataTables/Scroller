@@ -21,14 +21,12 @@
 	</description>
 
 	<example title="Show the loading indicator for Scroller"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	scrollY: true,
 	scroller: {
 		loadingIndicator: true
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

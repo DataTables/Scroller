@@ -18,14 +18,12 @@
 	</description>
 
 	<example title="Set a custom boundary scale point"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	scrollY: true,
 	scroller: {
 		boundaryScale: 0.75
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

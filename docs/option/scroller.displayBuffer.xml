@@ -22,14 +22,12 @@
 	</description>
 
 	<example title="Set a large display buffer"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	scrollY: true,
 	scroller: {
 		displayBuffer: 20
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

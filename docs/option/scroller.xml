@@ -35,27 +35,21 @@
 	</description>
 
 	<example title="Enable Scroller for a table"><![CDATA[
-
-$('#example').DataTable( {
-	ajax:        '/api/data',
-	deferRender: true,
-	scrollY:     300,
-	scroller:    true
-} );
-
+new DataTable('#myTable', {
+	ajax: '/api/data',
+	scrollY: 300,
+	scroller: true
+});
 ]]></example>
 
 	<example title="Enable Scroller with configuration options"><![CDATA[
-
-$('#example').DataTable( {
-	ajax:        '/api/data',
-	deferRender: true,
-	scrollY:     300,
+new DataTable('#myTable', {
+	ajax: '/api/data',
+	scrollY: 300,
 	scroller: {
 		loadingIndicator: true
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

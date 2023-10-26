@@ -20,14 +20,12 @@
 	</description>
 
 	<example title="Wait 0.5s after scrolling ends before loading new data"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	scrollY: true,
 	scroller: {
 		serverWait: 500
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

@@ -21,9 +21,7 @@
 	</description>
 
 	<example title="Animated scroll to display index 100"><![CDATA[
-
-table.scroller.toPosition( 100 );
-
+table.scroller.toPosition(100);
 ]]></example>
 
 	<related>-api row().scrollTo()</related>

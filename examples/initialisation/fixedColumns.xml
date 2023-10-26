@@ -13,7 +13,6 @@
 
 $('#example').DataTable({
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	fixedColumns: true,
 	scrollCollapse: true,
 	scroller: true,
@@ -28,7 +27,6 @@ $('#example').DataTable({
 
 new DataTable('#example', {
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	fixedColumns: true,
 	scrollCollapse: true,
 	scroller: true,

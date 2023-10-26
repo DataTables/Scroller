@@ -17,12 +17,15 @@
 	</description>
 
 	<example title="Get the data for the first visible row in the table"><![CDATA[
-
-var table = $('#myTable').DataTable();
+var table = new DataTable('#myTable');
 var displayIndexes = table.scroller.page();
 
-var data = table.row( ':eq('+displayIndexes.start+')', {order:'applied', search:'applied'} ).data();
-
+var data = table
+	.row(':eq(' + displayIndexes.start + ')', {
+		order: 'applied',
+		search: 'applied'
+	})
+	.data();
 ]]></example>
 
 	<related>dt-api page.info()</related>

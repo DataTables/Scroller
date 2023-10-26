@@ -7,7 +7,6 @@
 
 $('#example').DataTable({
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	initComplete: function () {
 		this.api()
 			.row(1000)
@@ -26,7 +25,6 @@ $('#example').DataTable({
 
 new DataTable('#example', {
 	ajax: '../data/2500.txt',
-	deferRender: true,
 	initComplete: function () {
 		this.api()
 			.row(1000)

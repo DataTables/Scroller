@@ -26,14 +26,12 @@
 	</description>
 
 	<example title="Set the row height to a specific pixel value"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	scrollY: true,
 	scroller: {
 		rowHeight: 30
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>
