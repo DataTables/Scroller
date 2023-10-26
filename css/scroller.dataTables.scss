@@ -43,6 +43,8 @@ div.dts {
 
 	// Hide the paging control as it shouldn't be used with Scroller, but
 	// paging must be enabled
+	div.dt-length,
+	div.dt-paging,
 	div.dataTables_paginate,
 	div.dataTables_length {
 		display: none;
