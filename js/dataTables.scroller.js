@@ -310,7 +310,7 @@ $.extend(Scroller.prototype, {
 		var diff = pixels - this.s.baseScrollTop;
 		var row = virtual
 			? (this._domain('physicalToVirtual', this.s.baseScrollTop) + diff) /
-			  this.s.heights.row
+				this.s.heights.row
 			: diff / this.s.heights.row + this.s.baseRowTop;
 
 		return intParse || intParse === undefined ? parseInt(row, 10) : row;
@@ -673,7 +673,7 @@ $.extend(Scroller.prototype, {
 				? this._domain(
 						'virtualToPhysical',
 						this.s.topRowFloat * heights.row
-				  )
+				)
 				: iScrollTop;
 
 		// Store positional information so positional calculations can be based
@@ -845,89 +845,102 @@ $.extend(Scroller.prototype, {
 		}
 
 		var dt = this.s.dt,
+			dtApi = this.s.dtApi,
 			language = dt.oLanguage,
-			iScrollTop = this.dom.scroller.scrollTop,
-			iStart = Math.floor(
-				this.pixelsToRow(iScrollTop, false, this.s.ani) + 1
+			scrollTop = this.dom.scroller.scrollTop,
+			start = Math.floor(
+				this.pixelsToRow(scrollTop, false, this.s.ani) + 1
 			),
-			iMax = dt.fnRecordsTotal(),
-			iTotal = dt.fnRecordsDisplay(),
-			iPossibleEnd = Math.ceil(
+			info = dtApi.page.info(),
+			total = info.recordsDisplay,
+			max = info.recordsTotal,
+			possibleEnd = Math.ceil(
 				this.pixelsToRow(
-					iScrollTop + this.s.heights.viewport,
+					scrollTop + this.s.heights.viewport,
 					false,
 					this.s.ani
 				)
 			),
-			iEnd = iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
-			sStart = dt.fnFormatNumber(iStart),
-			sEnd = dt.fnFormatNumber(iEnd),
-			sMax = dt.fnFormatNumber(iMax),
-			sTotal = dt.fnFormatNumber(iTotal),
-			sOut;
+			end = total < possibleEnd ? total : possibleEnd,
+			result;
 
-		if (
-			dt.fnRecordsDisplay() === 0 &&
-			dt.fnRecordsDisplay() == dt.fnRecordsTotal()
-		) {
+		if (total === 0 && total == max) {
 			/* Empty record set */
-			sOut = language.sInfoEmpty + language.sInfoPostFix;
+			result = language.sInfoEmpty + language.sInfoPostFix;
 		}
-		else if (dt.fnRecordsDisplay() === 0) {
-			/* Empty record set after filtering */
-			sOut =
+		else if (total === 0) {
+			// Empty record set after filtering
+			result =
 				language.sInfoEmpty +
 				' ' +
-				language.sInfoFiltered.replace('_MAX_', sMax) +
+				language.sInfoFiltered +
 				language.sInfoPostFix;
 		}
-		else if (dt.fnRecordsDisplay() == dt.fnRecordsTotal()) {
-			/* Normal record set */
-			sOut =
-				language.sInfo
-					.replace('_START_', sStart)
-					.replace('_END_', sEnd)
-					.replace('_MAX_', sMax)
-					.replace('_TOTAL_', sTotal) + language.sInfoPostFix;
+		else if (total == max) {
+			// Normal record set
+			result = language.sInfo + language.sInfoPostFix;
 		}
 		else {
-			/* Record set after filtering */
-			sOut =
-				language.sInfo
-					.replace('_START_', sStart)
-					.replace('_END_', sEnd)
-					.replace('_MAX_', sMax)
-					.replace('_TOTAL_', sTotal) +
-				' ' +
-				language.sInfoFiltered.replace(
-					'_MAX_',
-					dt.fnFormatNumber(dt.fnRecordsTotal())
-				) +
-				language.sInfoPostFix;
+			// Record set after filtering
+			result = language.sInfo;
+			' ' + language.sInfoFiltered + language.sInfoPostFix;
 		}
+
+		result = this._macros(result, start, end, max, total);
 
 		var callback = language.fnInfoCallback;
 		if (callback) {
-			sOut = callback.call(
+			result = callback.call(
 				dt.oInstance,
 				dt,
-				iStart,
-				iEnd,
-				iMax,
-				iTotal,
-				sOut
+				start,
+				end,
+				max,
+				total,
+				result
 			);
 		}
 
+		// DT 1.x features
 		var n = dt.aanFeatures.i;
 		if (typeof n != 'undefined') {
 			for (var i = 0, iLen = n.length; i < iLen; i++) {
-				$(n[i]).html(sOut);
+				$(n[i]).html(result);
 			}
+
+			$(dt.nTable).triggerHandler('info.dt');
 		}
 
-		// DT doesn't actually (yet) trigger this event, but it will in future
-		$(dt.nTable).triggerHandler('info.dt');
+		// DT 2.x features
+		$('div.dt-info', dtApi.table().container()).each(function () {
+			$(this).html(result);
+			dtApi.trigger('info', [this, result]);
+		});
+	},
+
+	/**
+	 * String replacement for info display. Basically the same as what DataTables does.
+	 *
+	 * @param {*} str
+	 * @param {*} start
+	 * @param {*} end
+	 * @param {*} max
+	 * @param {*} total
+	 * @returns Formatted string
+	 */
+	_macros: function (str, start, end, max, total) {
+		var api = this.s.dtApi;
+		var settings = this.s.dt;
+		var formatter = settings.fnFormatNumber;
+
+		return str
+			.replace(/_START_/g, formatter.call(settings, start))
+			.replace(/_END_/g, formatter.call(settings, end))
+			.replace(/_MAX_/g, formatter.call(settings, max))
+			.replace(/_TOTAL_/g, formatter.call(settings, total))
+			.replace(/_ENTRIES_/g, api.i18n('entries', ''))
+			.replace(/_ENTRIES-MAX_/g, api.i18n('entries', '', max))
+			.replace(/_ENTRIES-TOTAL_/g, api.i18n('entries', '', total));
 	},
 
 	/**
