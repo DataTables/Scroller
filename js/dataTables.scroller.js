@@ -438,19 +438,6 @@ $.extend(Scroller.prototype, {
 		// Add class to 'announce' that we are a Scroller table
 		$(dt.table().container()).addClass('dts DTS');
 
-		// Add a 'loading' indicator
-		if (this.s.loadingIndicator) {
-			this.dom.loader = $(
-				'<div class="dataTables_processing dts_loading">' +
-					this.s.dt.oLanguage.sLoadingRecords +
-					'</div>'
-			).css('display', 'none');
-
-			$(this.dom.scroller.parentNode)
-				.css('position', 'relative')
-				.append(this.dom.loader);
-		}
-
 		this.dom.label.appendTo(this.dom.scroller);
 
 		/* Initial size calculations */
@@ -769,12 +756,6 @@ $.extend(Scroller.prototype, {
 		}
 
 		$(this.s.dt.nTable).triggerHandler('position.dts.dt', tableTop);
-
-		// Hide the loading indicator
-		if (this.dom.loader && this.s.loaderVisible) {
-			this.dom.loader.css('display', 'none');
-			this.s.loaderVisible = false;
-		}
 	},
 
 	/**
@@ -847,21 +828,12 @@ $.extend(Scroller.prototype, {
 		var dt = this.s.dt,
 			dtApi = this.s.dtApi,
 			language = dt.oLanguage,
-			scrollTop = this.dom.scroller.scrollTop,
-			start = Math.floor(
-				this.pixelsToRow(scrollTop, false, this.s.ani) + 1
-			),
 			info = dtApi.page.info(),
 			total = info.recordsDisplay,
 			max = info.recordsTotal,
-			possibleEnd = Math.ceil(
-				this.pixelsToRow(
-					scrollTop + this.s.heights.viewport,
-					false,
-					this.s.ani
-				)
-			),
-			end = total < possibleEnd ? total : possibleEnd,
+			start = Math.floor(this.s.topRowFloat) + 1,
+			possibleEnd = start + Math.floor(this.s.heights.viewport / this.s.heights.row),
+			end = possibleEnd > total ? total : possibleEnd,
 			result;
 
 		if (total === 0 && total == max) {
@@ -1017,9 +989,6 @@ $.extend(Scroller.prototype, {
 			return;
 		}
 
-		/* Update the table's information display for what is now in the viewport */
-		this._info();
-
 		/* We don't want to state save on every scroll event - that's heavy
 		 * handed, so use a timeout to update the state saving only when the
 		 * scrolling has finished
@@ -1101,22 +1070,31 @@ $.extend(Scroller.prototype, {
 				if (this.s.dt.oFeatures.bServerSide) {
 					this.s.forceReposition = true;
 
+					// This is used only for KeyTable and is not currently publicly
+					// documented. Open question - is it useful for anything else?
+					$(this.s.dt.nTable).triggerHandler('scroller-will-draw.dt');
+
+					if (DataTable.versionCheck('2')) {
+						that.s.dtApi.processing(true);
+					}
+					else {
+						this.s.dt.oApi._fnProcessingDisplay(this.s.dt, true);
+					}
+
 					clearTimeout(this.s.drawTO);
 					this.s.drawTO = setTimeout(draw, this.s.serverWait);
 				}
 				else {
 					draw();
 				}
-
-				if (this.dom.loader && !this.s.loaderVisible) {
-					this.dom.loader.css('display', 'block');
-					this.s.loaderVisible = true;
-				}
 			}
 		}
 		else {
 			this.s.topRowFloat = this.pixelsToRow(iScrollTop, false, true);
 		}
+
+		/* Update the table's information display for what is now in the viewport */
+		this._info();
 
 		this.s.lastScrollTop = iScrollTop;
 		this.s.stateSaveThrottle();
@@ -1210,15 +1188,6 @@ Scroller.defaults = {
 	 *  @static
 	 */
 	displayBuffer: 9,
-
-	/**
-	 * Show (or not) the loading element in the background of the table. Note that you should
-	 * include the dataTables.scroller.css file for this to be displayed correctly.
-	 *  @type     boolean
-	 *  @default  false
-	 *  @static
-	 */
-	loadingIndicator: false,
 
 	/**
 	 * Scroller will attempt to automatically calculate the height of rows for it's internal
