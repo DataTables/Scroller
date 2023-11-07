@@ -1184,7 +1184,7 @@ Scroller.defaults = {
 	 * of rows after the current viewport. Adjusting this value can be useful for ensuring
 	 * smooth scrolling based on your data set.
 	 *  @type     int
-	 *  @default  7
+	 *  @default  9
 	 *  @static
 	 */
 	displayBuffer: 9,
