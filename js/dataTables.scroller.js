@@ -20,7 +20,7 @@
 
 /**
  * Scroller is a virtual rendering plug-in for DataTables which allows large
- * datasets to be drawn on screen every quickly. What the virtual rendering means
+ * datasets to be drawn on screen very quickly. What the virtual rendering means
  * is that only the visible portion of the table (and a bit to either side to make
  * the scrolling smooth) is drawn, while the scrolling container gives the
  * visual impression that the whole table is visible. This is done by making use
