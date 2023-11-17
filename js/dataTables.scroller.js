@@ -854,8 +854,7 @@ $.extend(Scroller.prototype, {
 		}
 		else {
 			// Record set after filtering
-			result = language.sInfo;
-			' ' + language.sInfoFiltered + language.sInfoPostFix;
+			result = language.sInfo + ' ' + language.sInfoFiltered + language.sInfoPostFix;
 		}
 
 		result = this._macros(result, start, end, max, total);
