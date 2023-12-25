@@ -885,7 +885,7 @@ $.extend(Scroller.prototype, {
 		// DT 2.x features
 		$('div.dt-info', dtApi.table().container()).each(function () {
 			$(this).html(result);
-			dtApi.trigger('info', [this, result]);
+			dtApi.trigger('info', [dtApi.settings()[0], this, result]);
 		});
 	},
 
