@@ -26,6 +26,7 @@ div.dts {
 		display: none;
 	}
 
+	div.dt-scroll-body,
 	div.dataTables_scrollBody {
 		background: repeating-linear-gradient(
 			45deg,
@@ -58,6 +59,7 @@ html.dark {
 			color: black;
 		}
 
+		div.dt-scroll-body,
 		div.dataTables_scrollBody {
 			background: repeating-linear-gradient(
 				45deg,
