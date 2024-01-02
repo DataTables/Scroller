@@ -491,26 +491,29 @@ $.extend(Scroller.prototype, {
 				// Need to used the saved position on init
 				data.scroller = {
 					topRow: that.s.topRowFloat,
-					baseScrollTop: that.s.baseScrollTop,
-					baseRowTop: that.s.baseRowTop,
-					scrollTop: that.s.lastScrollTop
+					baseRowTop: that.s.baseRowTop
 				};
 			}
 		});
 
 		dt.on('stateLoadParams.scroller', function (e, settings, data) {
 			if (data.scroller !== undefined) {
-				that.scrollToRow(data.scroller.topRow);
+				console.log('top row', data.scroller.topRow);
 			}
 		});
 
+		this.measure(false);
+
 		if (loadedState && loadedState.scroller) {
 			this.s.topRowFloat = loadedState.scroller.topRow;
-			this.s.baseScrollTop = loadedState.scroller.baseScrollTop;
 			this.s.baseRowTop = loadedState.scroller.baseRowTop;
-		}
 
-		this.measure(false);
+			// Reconstruct the scroll positions from the rows - it is possible the
+			// row height has changed e.g. if the styling framework has changed.
+			// The scroll top is used in `_draw` further down.
+			this.s.baseScrollTop = this.s.baseRowTop * this.s.heights.row;			
+			loadedState.scroller.scrollTop = this._domain('physicalToVirtual', this.s.topRowFloat * this.s.heights.row);
+		}
 
 		that.s.stateSaveThrottle = DataTable.util.throttle(function () {
 			that.s.dtApi.state.save();
@@ -658,8 +661,8 @@ $.extend(Scroller.prototype, {
 		iScrollTop =
 			this.s.scrollType === 'jump'
 				? this._domain(
-						'virtualToPhysical',
-						this.s.topRowFloat * heights.row
+					'virtualToPhysical',
+					this.s.topRowFloat * heights.row
 				)
 				: iScrollTop;
 
