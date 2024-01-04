@@ -833,8 +833,21 @@ $.extend(Scroller.prototype, {
 			language = dt.oLanguage,
 			info = dtApi.page.info(),
 			total = info.recordsDisplay,
-			max = info.recordsTotal,
-			start = Math.floor(this.s.topRowFloat) + 1,
+			max = info.recordsTotal;
+
+		// If the scroll type is `cont` (continuous) we need to use `baseRowTop`, which
+		// also means we need to work out the difference between the current scroll position
+		// and the "base" for when it was required
+		var diffRows = (this.s.lastScrollTop - this.s.baseScrollTop) / this.s.heights.row;
+		var start = Math.floor(this.s.baseRowTop + diffRows);
+
+		// For a jump scroll type, we just use the straightforward calculation based on
+		// `topRowFloat`
+		if (this.s.scrollType === 'jump') {
+			start = Math.floor(this.s.topRowFloat) + 1;
+		}
+
+		var
 			possibleEnd = start + Math.floor(this.s.heights.viewport / this.s.heights.row),
 			end = possibleEnd > total ? total : possibleEnd,
 			result;
