@@ -261,7 +261,7 @@ $.extend(Scroller.prototype, {
 		heights.labelHeight = label;
 
 		if (redraw === undefined || redraw) {
-			this.s.dt.oInstance.fnDraw(false);
+			this.s.dtApi.draw(false);
 		}
 	},
 
