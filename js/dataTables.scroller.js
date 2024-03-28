@@ -839,7 +839,7 @@ $.extend(Scroller.prototype, {
 		// also means we need to work out the difference between the current scroll position
 		// and the "base" for when it was required
 		var diffRows = (this.s.lastScrollTop - this.s.baseScrollTop) / this.s.heights.row;
-		var start = Math.floor(this.s.baseRowTop + diffRows);
+		var start = Math.floor(this.s.baseRowTop + diffRows) + 1;
 
 		// For a jump scroll type, we just use the straightforward calculation based on
 		// `topRowFloat`
