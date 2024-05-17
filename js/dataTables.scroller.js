@@ -1011,6 +1011,10 @@ $.extend(Scroller.prototype, {
 		clearTimeout(this.s.stateTO);
 		this.s.stateTO = setTimeout(function () {
 			that.s.dtApi.state.save();
+
+			// We can also use this to ensure that the `info` element is correct
+			// since there can be a little scroll after the last scroll event!
+			that._info();
 		}, 250);
 
 		this.s.scrollType =
