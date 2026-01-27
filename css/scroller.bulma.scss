@@ -1,1 +1,9 @@
-@use 'scroller.dataTables.scss';
+@use 'defaults.scss';
+@use 'shared.scss';
+
+:root[data-bs-theme="dark"] {
+	--dts-label_background: rgba(255, 255, 255, 0.8);
+	--dts-label_color: black;
+
+	--dts-table_background: var(--bulma-body-background-color);
+}

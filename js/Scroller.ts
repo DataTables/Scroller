@@ -455,7 +455,6 @@ export default class Scroller {
 			that.dom.table.off('.scroller');
 
 			dom.s(that.s.dtApi.table().container()).classRemove('dts');
-			that.dom.scroller.parent().find('div.DTS_Loading').remove();
 
 			that.dom.table.css({
 				position: '',

@@ -1,0 +1,37 @@
+div.dts {
+	display: block !important;
+
+	tbody th,
+	tbody td {
+		white-space: nowrap;
+	}
+
+	div.dts_label {
+		position: absolute;
+		right: var(--dts-label_offset);
+		background: var(--dts-label_background);
+		color: var(--dts-label_color);
+		box-shadow: var(--dts-label_box-shadow);
+		text-align: var(--dts-label_text-align);
+		border-radius: var(--dts-label_border-radius);
+		padding: var(--dts-label_padding);
+		z-index: var(--dts-label_z-index);
+		display: none;
+	}
+
+	div.dt-scroll-body {
+		background: var(--dts-scroll_background);
+
+		table {
+			background-color: var(--dts-table_background);
+			z-index: var(--dts-table_z-index);
+		}
+	}
+
+	// Hide the paging control as it shouldn't be used with Scroller, but
+	// paging must be enabled
+	div.dt-length,
+	div.dt-paging {
+		display: none;
+	}
+}

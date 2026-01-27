@@ -1,13 +1,9 @@
-@use 'scroller.dataTables.scss';
+@use 'defaults.scss';
+@use 'shared.scss';
 
-div.DTS div.dataTables_scrollBody table {
-	// Don't have transparent rows
-	background-color: white;
-}
+:root[data-bs-theme="dark"] {
+	--dts-label_background: rgba(255, 255, 255, 0.8);
+	--dts-label_color: black;
 
-html[data-bs-theme="dark"] {
-	div.DTS div.dataTables_scrollBody table {
-		// Don't have transparent rows
-		background-color: var(--bs-body-bg);
-	}
+	--dts-table_background: var(--bs-body-bg);
 }

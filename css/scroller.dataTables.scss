@@ -1,78 +1,17 @@
+@use 'defaults.scss';
+@use 'shared.scss';
 
-// Scroller adds the class `DTS` to the DataTabes wrapper div
-div.dts {
-	display: block !important;
+:root.dark {
+	--dts-label_background: rgba(255, 255, 255, 0.8);
+	--dts-label_color: black;
 
-	tbody th,
-	tbody td {
-		white-space: nowrap;
-	}
+	--dts-scroll_background: repeating-linear-gradient(
+		45deg,
+		rgba(255, 255, 255, 0.01),
+		rgba(255, 255, 255, 0.01) 10px,
+		rgba(255, 255, 255, 0) 10px,
+		rgba(255, 255, 255, 0) 20px
+	);
 
-	// Show the loading message behind the table
-	div.dts_loading {
-		z-index: 1;
-	}
-
-	div.dts_label {
-		position: absolute;
-		right: 20px;
-		background: rgba(0, 0, 0, 0.8);
-		color: white;
-		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-		text-align: right;
-		border-radius: 3px;
-		padding: 0.4em;
-		z-index: 2;
-		display: none;
-	}
-
-	div.dt-scroll-body,
-	div.dataTables_scrollBody {
-		background: repeating-linear-gradient(
-			45deg,
-			rgba(0, 0, 0, 0.025),
-			rgba(0, 0, 0, 0.025) 10px,
-			rgba(0, 0, 0, 0) 10px,
-			rgba(0, 0, 0, 0) 20px
-		);
-
-		table {
-			background-color: white;
-			z-index: 2;
-		}
-	}
-
-	// Hide the paging control as it shouldn't be used with Scroller, but
-	// paging must be enabled
-	div.dt-length,
-	div.dt-paging,
-	div.dataTables_paginate,
-	div.dataTables_length {
-		display: none;
-	}
-}
-
-html.dark {
-	div.dts {
-		div.dts_label {
-			background: rgba(255, 255, 255, 0.8);
-			color: black;
-		}
-
-		div.dt-scroll-body,
-		div.dataTables_scrollBody {
-			background: repeating-linear-gradient(
-				45deg,
-				rgba(255, 255, 255, 0.025),
-				rgba(255, 255, 255, 0.025) 10px,
-				rgba(255, 255, 255, 0) 10px,
-				rgba(255, 255, 255, 0) 20px
-			);
-	
-			table {
-				background-color: var(--dt-html-background);
-				z-index: 2;
-			}
-		}
-	}
+	--dts-table_background: var(--dt-html_background);
 }

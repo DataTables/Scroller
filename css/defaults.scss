@@ -1,0 +1,21 @@
+:root {
+	--dts-label_offset: 20px;
+	--dts-label_background: rgba(0, 0, 0, 0.8);
+	--dts-label_color: white;
+	--dts-label_box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+	--dts-label_text-align: right;
+	--dts-label_border-radius: 3px;
+	--dts-label_padding: 0.4em;
+	--dts-label_z-index: 2;
+
+	--dts-scroll_background: repeating-linear-gradient(
+		45deg,
+		rgba(0, 0, 0, 0.01),
+		rgba(0, 0, 0, 0.01) 10px,
+		rgba(0, 0, 0, 0) 10px,
+		rgba(0, 0, 0, 0) 20px
+	);
+
+	--dts-table_background: white;
+	--dts-table_z-index: 2;
+}

@@ -1,9 +1,2 @@
-
-@use 'scroller.dataTables.scss';
-
-div.dts {
-	// Don't have transparent rows
-	tbody tr {
-		background-color: white;
-	}
-}
+@use 'defaults.scss';
+@use 'shared.scss';
