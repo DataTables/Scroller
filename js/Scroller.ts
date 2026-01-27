@@ -1,6 +1,10 @@
 import DataTable, { Api, Config, Context } from 'datatables.net';
 import { Defaults, DomInternal, Settings } from './interface';
 
+if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
+	throw 'Warning: AutoFill requires DataTables 3 or greater';
+}
+
 const dom = DataTable.dom;
 const util = DataTable.util;
 
@@ -91,9 +95,8 @@ export default class Scroller {
 	 * @returns Display information object
 	 */
 	public pageInfo() {
-		let dt = this.s.dt,
-			scrollTop = this.dom.scroller.scrollTop(),
-			total = dt.recordsDisplay,
+		let scrollTop = this.dom.scroller.scrollTop(),
+			total = this.s.dtApi.page.info().recordsDisplay,
 			possibleEnd = Math.ceil(
 				this.pixelsToRow(
 					scrollTop + this.s.heights.viewport,
@@ -174,6 +177,7 @@ export default class Scroller {
 		var that = this;
 		var ani = false;
 		var px = this.rowToPixels(row);
+		var pageInfo = this.s.dtApi.page.info();
 
 		// We need to know if the table will redraw or not before doing the
 		// scroll. If it will not redraw, then we need to use the currently
@@ -189,7 +193,7 @@ export default class Scroller {
 
 		if (
 			(px > this.s.redrawBottom || px < this.s.redrawTop) &&
-			this.s.dt.displayStart !== drawRow
+			pageInfo.start !== drawRow
 		) {
 			ani = true;
 			px = this._domain('virtualToPhysical', row * this.s.heights.row);
@@ -537,13 +541,14 @@ export default class Scroller {
 	 * scrolling position.
 	 */
 	private _draw() {
+		var pageInfo = this.s.dtApi.page.info();
 		var that = this,
 			heights = this.s.heights,
 			scrollTop = this.dom.scroller.scrollTop(),
 			tableHeight = this.dom.table.height(),
-			displayStart = this.s.dt.displayStart,
-			displayLen = this.s.dt.pageLength,
-			displayEnd = this.s.dt.recordsDisplay,
+			displayStart = pageInfo.start,
+			displayLen = pageInfo.length,
+			displayEnd = pageInfo.recordsDisplay,
 			viewportEndY = scrollTop + heights.viewport;
 
 		// Disable the scroll event listener while we are updating the DOM
@@ -892,6 +897,7 @@ export default class Scroller {
 		var that = this,
 			heights = this.s.heights,
 			scrollTop = this.dom.scroller.scrollTop(),
+			pageInfo = this.s.dtApi.page.info(),
 			topRow;
 
 		if (this.s.skip) {
@@ -964,12 +970,12 @@ export default class Scroller {
 				topRow = 0;
 			}
 			else if (
-				topRow + this.s.dt.pageLength >
-				this.s.dt.recordsDisplay
+				topRow + pageInfo.length >
+				pageInfo.recordsDisplay
 			) {
 				/* At the end of the table */
 				topRow =
-					this.s.dt.recordsDisplay - this.s.dt.pageLength;
+					pageInfo.recordsDisplay - pageInfo.length;
 				if (topRow < 0) {
 					topRow = 0;
 				}
@@ -985,7 +991,7 @@ export default class Scroller {
 			// met, but so that the draw function will still use it.
 			this.s.targetTop = topRow;
 
-			if (topRow != this.s.dt.displayStart) {
+			if (topRow != pageInfo.start) {
 				/* Cache the new table position for quick lookups */
 				this.s.tableTop = this.dom.table.offset().top;
 				this.s.tableBottom =
@@ -1065,7 +1071,7 @@ export default class Scroller {
 		var heights = this.s.heights;
 		var max = 1000000;
 
-		heights.virtual = heights.row * this.s.dt.recordsDisplay;
+		heights.virtual = heights.row * this.s.dtApi.page.info().recordsDisplay;
 		heights.scroll = heights.virtual;
 
 		if (heights.scroll > max) {

@@ -90,8 +90,8 @@ dom.s(document).on('preInit.dt.dtscroller', function (e, settings) {
 		return;
 	}
 
-	let init = (settings.init as any).autoFill as boolean | Config;
-	let defaults = (DataTable.defaults as any).autoFill as
+	let init = (settings.init as any).scroller as boolean | Config;
+	let defaults = (DataTable.defaults as any).scroller as
 		| boolean
 		| Config;
 
