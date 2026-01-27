@@ -36,15 +36,14 @@ describe('Scroller - scroller.toPosition()', function() {
 
 			table.scroller.toPosition(1000, false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length;
-				let visibleRows = 6;
-				let halfway = parseInt((rowCount - visibleRows) / 2);
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length;
+			let visibleRows = 6;
+			let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
-				done();
-			});
+			expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
 		});
 	});
 
@@ -66,15 +65,14 @@ describe('Scroller - scroller.toPosition()', function() {
 
 			table.scroller.toPosition(1000, false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length;
-				let visibleRows = 6;
-				let halfway = parseInt((rowCount - visibleRows) / 2);
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length;
+			let visibleRows = 6;
+			let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
-				done();
-			});
+			expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
 		});
 	});
 });

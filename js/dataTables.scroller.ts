@@ -17,8 +17,8 @@ Api.register('scroller()', function () {
 Api.register('scroller().rowToPixels()', function (rowIdx, intParse, virtual) {
 	var ctx = this.context;
 
-	if (ctx.length && ctx[0].oScroller) {
-		return ctx[0].oScroller.rowToPixels(rowIdx, intParse, virtual);
+	if (ctx.length && ctx[0].scroller) {
+		return ctx[0].scroller.rowToPixels(rowIdx, intParse, virtual);
 	}
 	// undefined
 });
@@ -27,8 +27,8 @@ Api.register('scroller().rowToPixels()', function (rowIdx, intParse, virtual) {
 Api.register('scroller().pixelsToRow()', function (pixels, intParse, virtual) {
 	var ctx = this.context;
 
-	if (ctx.length && ctx[0].oScroller) {
-		return ctx[0].oScroller.pixelsToRow(pixels, intParse, virtual);
+	if (ctx.length && ctx[0].scroller) {
+		return ctx[0].scroller.pixelsToRow(pixels, intParse, virtual);
 	}
 	// undefined
 });
@@ -38,8 +38,8 @@ Api.register('scroller().pixelsToRow()', function (pixels, intParse, virtual) {
 ['scroller().scrollToRow()', 'scroller.toPosition()'].forEach(name => {
 	Api.register(name, function (idx, ani) {
 		this.iterator('table', function (ctx) {
-			if (ctx.oScroller) {
-				ctx.oScroller.scrollToRow(idx, ani);
+			if (ctx.scroller) {
+				ctx.scroller.scrollToRow(idx, ani);
 			}
 		});
 
@@ -51,13 +51,13 @@ Api.register('row().scrollTo()', function (ani) {
 	var that = this;
 
 	this.iterator('row', function (ctx, rowIdx) {
-		if (ctx.oScroller) {
+		if (ctx.scroller) {
 			var displayIdx = that
 				.rows({ order: 'applied', search: 'applied' })
 				.indexes()
 				.indexOf(rowIdx);
 
-			ctx.oScroller.scrollToRow(displayIdx, ani);
+			ctx.scroller.scrollToRow(displayIdx, ani);
 		}
 	});
 
@@ -66,8 +66,8 @@ Api.register('row().scrollTo()', function (ani) {
 
 Api.register('scroller.measure()', function (redraw) {
 	this.iterator('table', function (ctx) {
-		if (ctx.oScroller) {
-			ctx.oScroller.measure(redraw);
+		if (ctx.scroller) {
+			ctx.scroller.measure(redraw);
 		}
 	});
 
@@ -77,8 +77,8 @@ Api.register('scroller.measure()', function (redraw) {
 Api.register('scroller.page()', function () {
 	var ctx = this.context;
 
-	if (ctx.length && ctx[0].oScroller) {
-		return ctx[0].oScroller.pageInfo();
+	if (ctx.length && ctx[0].scroller) {
+		return ctx[0].scroller.pageInfo();
 	}
 	// undefined
 });

@@ -29,30 +29,28 @@ describe('Scroller - row().scrollTo()', function() {
 			});
 			table.row(50).scrollTo(false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length - 1;
+		it('And confirm there', async function() {
+			await dt.sleep(1000)
+			
+			let rowCount = $('#example tbody tr').length - 1;
 
-				expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Cedric Kelly');
-				expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Donna Snider');
+			expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Cedric Kelly');
+			expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Donna Snider');
 
-				expect($('.dataTables_info, .dt-info').text()).toBe('Showing 51 to 56 of 57 entries');
-				done();
-			});
+			expect($('.dataTables_info, .dt-info').text()).toBe('Showing 51 to 56 of 57 entries');
 		});
 		it('Can scroll back to start', function() {
 			table.row(2).scrollTo(false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length - 1;
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length - 1;
 
-				expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Tiger Nixon');
-				expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Jonas Alexander');
+			expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Tiger Nixon');
+			expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Jonas Alexander');
 
-				expect($('.dataTables_info, .dt-info').text()).toBe('Showing 3 to 8 of 57 entries');
-				done();
-			});
+			expect($('.dataTables_info, .dt-info').text()).toBe('Showing 3 to 8 of 57 entries');
 		});
 
 		dt.html('basic_container');
@@ -68,16 +66,15 @@ describe('Scroller - row().scrollTo()', function() {
 
 			table.row(11).scrollTo(false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length - 1;
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length - 1;
 
-				expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Tiger Nixon');
-				expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Jonas Alexander');
+			expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Tiger Nixon');
+			expect($('#example tbody tr:eq(' + parseInt(rowCount) + ') td:eq(0)').text()).toBe('Jonas Alexander');
 
-				expect($('.dataTables_info, .dt-info').text()).toBe('Showing 12 to 17 of 57 entries');
-				done();
-			});
+			expect($('.dataTables_info, .dt-info').text()).toBe('Showing 12 to 17 of 57 entries');
 		});
 	});
 
@@ -99,16 +96,15 @@ describe('Scroller - row().scrollTo()', function() {
 
 			table.row(1000).scrollTo(false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length;
-				let visibleRows = 6;
-				let halfway = parseInt((rowCount - visibleRows) / 2);
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length;
+			let visibleRows = 6;
+			let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
-				expect($('.dataTables_info, .dt-info').text()).toBe('Showing 1,001 to 1,006 of 5,000 entries');
-				done();
-			});
+			expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
+			expect($('.dataTables_info, .dt-info').text()).toBe('Showing 1,001 to 1,006 of 5,000 entries');
 		});
 	});
 
@@ -130,15 +126,14 @@ describe('Scroller - row().scrollTo()', function() {
 
 			table.row(1000).scrollTo(false);
 		});
-		it('And confirm there', async function(done) {
-			dt.sleep(1000).then(() => {
-				let rowCount = $('#example tbody tr').length;
-				let visibleRows = 6;
-				let halfway = parseInt((rowCount - visibleRows) / 2);
+		it('And confirm there', async function() {
+			await dt.sleep(1000);
+			
+			let rowCount = $('#example tbody tr').length;
+			let visibleRows = 6;
+			let halfway = parseInt((rowCount - visibleRows) / 2);
 
-				expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
-				done();
-			});
+			expect($('#example tbody tr:eq(' + halfway + ') td:eq(0)').text()).toBe('1000');
 		});
 	});
 });
