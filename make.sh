@@ -27,25 +27,8 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 rsync -r css $OUT_DIR
 css_frameworks scroller $OUT_DIR/css
 
-# Copy JS
-rsync -r js $OUT_DIR
-js_wrap $OUT_DIR/js/dataTables.scroller.js "jquery datatables.net"
-js_frameworks scroller $OUT_DIR/js "jquery datatables.net-FW datatables.net-scroller"
-
-
-# Copy Types
-if [ -d $OUT_DIR/types ]; then
-	rm -r $OUT_DIR/types		
-fi
-mkdir $OUT_DIR/types
-
-if [ -d types/ ]; then
-	cp types/* $OUT_DIR/types
-else
-	if [ -f types.d.ts ]; then
-		cp types.d.ts $OUT_DIR/types
-	fi
-fi
+# Typescript build
+ts_extension Scroller scroller
 
 # Copy and build examples
 rsync -r examples $OUT_DIR
