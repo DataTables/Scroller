@@ -75,9 +75,11 @@ export default class Scroller {
 			this.s.dt.pageLength = this.s.viewportRows * this.c.displayBuffer;
 		}
 
-		var label = this.dom.label.height('outer');
+		// Have to make the label visible to get its height
+		var label = this.dom.label;
+		heights.labelHeight = label.css('display', 'block').height('outer');
+		label.css('display', '');
 
-		heights.labelHeight = label;
 		heights.xbar =
 			this.dom.scroller.get(0).offsetHeight -
 			this.dom.scroller.get(0).clientHeight;
