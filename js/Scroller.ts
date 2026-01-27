@@ -36,7 +36,6 @@ export default class Scroller {
 	public static defaults: Defaults = {
 		boundaryScale: 0.5,
 		displayBuffer: 9,
-		loadingIndicator: true,
 		rowHeight: 'auto',
 		serverWait: 200
 	};

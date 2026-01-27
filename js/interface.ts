@@ -70,13 +70,6 @@ export interface Defaults {
 	displayBuffer: number;
 
 	/**
-	 * Show (or not) the loading element in the background of the table. Note
-	 * that you should include the dataTables.scroller.css file for this to be
-	 * displayed correctly.
-	 */
-	loadingIndicator: boolean;
-
-	/**
 	 * Scroller will attempt to automatically calculate the height of rows for
 	 * it's internal calculations. However the height that is used can be
 	 * overridden using this parameter.
