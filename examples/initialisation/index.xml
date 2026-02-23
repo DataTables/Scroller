@@ -3,7 +3,7 @@
 
 <title lib="Scroller">Initialisation</title>
 
-<js lib="jquery" />
+<js lib="datatables" />
 <info><![CDATA[
 
 The examples in this section demonstrate Scroller's initialisation and options.
