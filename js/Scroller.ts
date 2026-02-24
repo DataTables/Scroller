@@ -786,7 +786,7 @@ export default class Scroller {
 
 		result = this._macros(result, start, end, max, total);
 
-		var callback = language.infoCallback;
+		var callback = language.infoCallback as unknown as Function;
 
 		if (callback) {
 			result = callback.call(
