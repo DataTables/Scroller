@@ -8,21 +8,7 @@ div.dt-container {
 	margin: 0 auto;
 }
 </css>
-<js lib="jquery datatables fixedcolumns scroller">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../data/2500.txt',
-	fixedColumns: true,
-	scrollCollapse: true,
-	scroller: true,
-	scrollY: 200
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables fixedcolumns scroller">
 <![CDATA[
 
 new DataTable('#example', {
@@ -34,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Scroller">FixedColumns integration</title>
 

@@ -2,20 +2,7 @@
 <dt-example table-type="scroller" table-class="display nowrap" order="2" framework="bulma">
 
 <css lib="datatables scroller" />
-<js lib="jquery datatables scroller">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../data/2500.txt',
-	scrollCollapse: true,
-	scroller: true,
-	scrollY: 200
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables scroller">
 <![CDATA[
 
 new DataTable('#example', {
@@ -26,7 +13,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Scroller">Bulma</title>
 

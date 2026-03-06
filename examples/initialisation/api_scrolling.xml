@@ -2,25 +2,7 @@
 <dt-example table-type="scroller" table-class="display nowrap" order="5">
 
 <css lib="datatables scroller" />
-<js lib="jquery datatables scroller">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../data/2500.txt',
-	initComplete: function () {
-		this.api()
-			.row(1000)
-			.scrollTo();
-	},
-	scrollCollapse: true,
-	scroller: true,
-	scrollY: 200
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables scroller">
 <![CDATA[
 
 new DataTable('#example', {
@@ -36,7 +18,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Scroller">API</title>
 

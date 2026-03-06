@@ -2,25 +2,7 @@
 <dt-example table-type="scroller" table-class="display nowrap" order="3">
 
 <css lib="datatables scroller" />
-<js lib="jquery datatables scroller">
-<![CDATA[
-
-var data = [];
-for (var i = 0; i < 50000; i++) {
-	data.push([i, i, i, i, i]);
-}
-
-$('#example').DataTable({
-	data: data,
-	scrollCollapse: true,
-	scroller: true,
-	scrollY: 200
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables scroller">
 <![CDATA[
 
 let data = [];
@@ -36,7 +18,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Scroller">Client-side data source (50,000 rows)</title>
 
