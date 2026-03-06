@@ -1,3 +1,3 @@
-/*! DataTables styling wrapper for Scroller
- * © SpryMedia Ltd - datatables.net/license
+/*! Scroller default styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

@@ -1,3 +1,3 @@
-/*! Bootstrap 5 styling wrapper for Scroller
- * © SpryMedia Ltd - datatables.net/license
+/*! Scroller Bootstrap 5 styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

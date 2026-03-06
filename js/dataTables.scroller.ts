@@ -1,13 +1,12 @@
-import DataTable, { Api, Config } from 'datatables.net';
-import Scroller from './Scroller';
+/*! Scroller for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
+ */
 
-const dom = DataTable.dom;
-const util = DataTable.util;
+import DataTable, { Api, Config, Dom, util } from 'datatables.net';
+import Scroller from './Scroller';
 
 // Attach Scroller to DataTables so it can be accessed as an 'extra'
 DataTable.Scroller = Scroller;
-
-var Api = DataTable.Api;
 
 Api.register('scroller()', function () {
 	return this.inst(this.context);
@@ -85,7 +84,7 @@ Api.register('scroller.page()', function () {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-dom.s(document).on('preInit.dt.dtscroller', function (e, settings) {
+Dom.s(document).on('preInit.dt.dtscroller', function (e, settings) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

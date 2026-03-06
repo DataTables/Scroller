@@ -1,12 +1,9 @@
-import DataTable, { Api, Config, Context } from 'datatables.net';
+import DataTable, { Api, Config, Context, Dom, util } from 'datatables.net';
 import { Defaults, DomInternal, Settings } from './interface';
 
 if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
 	throw 'Warning: AutoFill requires DataTables 3 or greater';
 }
-
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 /**
  * Scroller is a virtual rendering plug-in for DataTables which allows large
@@ -43,7 +40,7 @@ export default class Scroller {
 	/**
 	 * Scroller version
 	 */
-	public static version = '2.4.3';
+	public static version = '3.0.0-dev';
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods - to be exposed via the DataTables API
@@ -279,13 +276,13 @@ export default class Scroller {
 		// Configurable options
 		this.c = util.object.assign({}, Scroller.defaults, opts);
 
-		let scroller = dom.s(
+		let scroller = Dom.s(
 			this.s.dtApi.table().node().parentNode as HTMLElement
 		);
 
 		this.dom = {
-			force: dom.c('div'),
-			label: dom.c('div').classAdd('dts_label').text('0'),
+			force: Dom.c('div'),
+			label: Dom.c('div').classAdd('dts_label').text('0'),
 			scroller: scroller,
 			table: scroller.children('table').eq(0)
 		};
@@ -339,7 +336,7 @@ export default class Scroller {
 		});
 
 		// Add class to 'announce' that we are a Scroller table
-		dom.s(dt.table().container()).classAdd('dts');
+		Dom.s(dt.table().container()).classAdd('dts');
 
 		this.dom.label.appendTo(this.dom.scroller);
 
@@ -375,7 +372,7 @@ export default class Scroller {
 
 		// On resize, update the information element, since the number of rows
 		// shown might change
-		dom.w.on('resize.dt-scroller', function () {
+		Dom.w.on('resize.dt-scroller', function () {
 			that.measure(false);
 			that._info();
 		});
@@ -451,11 +448,11 @@ export default class Scroller {
 
 		// Destructor
 		dt.on('destroy.scroller', function () {
-			dom.w.off('resize.dt-scroller');
+			Dom.w.off('resize.dt-scroller');
 			that.dom.scroller.off('.dt-scroller');
 			that.dom.table.off('.scroller');
 
-			dom.s(that.s.dtApi.table().container()).classRemove('dts');
+			Dom.s(that.s.dtApi.table().container()).classRemove('dts');
 
 			that.dom.table.css({
 				position: '',
@@ -479,7 +476,7 @@ export default class Scroller {
 		var dt = this.s.dt;
 		var origTable = this.dom.table;
 		var clonedTable = origTable.clone(false);
-		var tbody = dom.c('tbody').appendTo(clonedTable);
+		var tbody = Dom.c('tbody').appendTo(clonedTable);
 		var dtClasses = dt.classes;
 		var classes = {
 			container: dtClasses.container,
@@ -487,15 +484,15 @@ export default class Scroller {
 			body: dtClasses.scrolling.body
 		};
 
-		var container = dom
+		var container = Dom
 			.c('div')
 			.classAdd(classes.container)
 			.classAdd('DTS')
 			.append(
-				dom
+				Dom
 					.c('div')
 					.classAdd(classes.scroller)
-					.append(dom.c('div').classAdd(classes.body))
+					.append(Dom.c('div').classAdd(classes.body))
 			);
 
 		// Want 3 rows in the sizing table so CSS styles don't come into play -
@@ -507,12 +504,12 @@ export default class Scroller {
 		var rowsCount = tbody.find('tr').count();
 
 		if (rowsCount === 1) {
-			tbody.prepend(dom.c('tr').append(dom.c('td').html('&#160;')));
-			tbody.prepend(dom.c('tr').append(dom.c('td').html('&#160;')));
+			tbody.prepend(Dom.c('tr').append(Dom.c('td').html('&#160;')));
+			tbody.prepend(Dom.c('tr').append(Dom.c('td').html('&#160;')));
 		}
 		else {
 			for (; rowsCount < 3; rowsCount++) {
-				tbody.prepend(dom.c('tr').append(dom.c('td').html('&#160;')));
+				tbody.prepend(Dom.c('tr').append(Dom.c('td').html('&#160;')));
 			}
 		}
 
@@ -521,7 +518,7 @@ export default class Scroller {
 		var insertEl = origTable.parent();
 
 		if (!insertEl.isVisible()) {
-			insertEl = dom.s('body');
+			insertEl = Dom.s('body');
 		}
 
 		// Remove form element links as they might select over others
@@ -801,10 +798,10 @@ export default class Scroller {
 		}
 
 		// Update the info elements
-		dom.s(dtApi.table().container())
+		Dom.s(dtApi.table().container())
 			.find('div.dt-info')
 			.each(function (el) {
-				dom.s(el).html(result);
+				Dom.s(el).html(result);
 
 				dtApi.trigger('info', [dtApi.settings()[0], el, result]);
 			});
@@ -874,13 +871,13 @@ export default class Scroller {
 			height = value;
 		}
 		else if (unit === 'vh') {
-			height = (value / 100) * dom.w.height();
+			height = (value / 100) * Dom.w.height();
 		}
 		else if (unit === 'rem') {
-			height = value * parseFloat(dom.s(':root').css('font-size'));
+			height = value * parseFloat(Dom.s(':root').css('font-size'));
 		}
 		else if (unit === 'em') {
-			height = value * parseFloat(dom.s('body').css('font-size'));
+			height = value * parseFloat(Dom.s('body').css('font-size'));
 		}
 
 		return height ? height : 0;

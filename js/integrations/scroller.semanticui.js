@@ -1,3 +1,3 @@
-/*! Semanic UI styling wrapper for Scroller
- * © SpryMedia Ltd - datatables.net/license
+/*! Scroller Fomantic styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

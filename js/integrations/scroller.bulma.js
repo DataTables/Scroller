@@ -1,3 +1,3 @@
-/*! Bulma styling wrapper for Scroller
- * © SpryMedia Ltd - datatables.net/license
+/*! Scroller Bulma styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

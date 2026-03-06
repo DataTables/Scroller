@@ -1,3 +1,3 @@
-/*! jQuery UI styling wrapper for Scroller
- * © SpryMedia Ltd - datatables.net/license
+/*! Scroller jQuery UI styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
