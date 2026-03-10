@@ -10,11 +10,11 @@
 		<parameter type="boolean" name="animate" default="true">
 			Animate the scroll (`true`) or not (`false`).
 		</parameter>
-		<returns type="DataTables.Api">DataTables API instance for chaining</returns>
+		<returns type="DataTable.Api">DataTables API instance for chaining</returns>
 	</type>
 
 	<description>
-		This method can be used to jump to a specific row in the DataTable. The row is selected using the `dt-api row()` method, so all of the options available for the `-type row-selector` data type are available.
+		This method can be used to jump to a specific row in the DataTable. The row is selected using the `dt-api row()` method, so all of the options available for the `-type DataTable.RowSelector` data type are available.
 
 		Please note that it is not always possible to select all rows in the table using the `-api row()` selector method - specifically when server-side processing is enabled, only the rows that are loaded into the client-side can be selected. If you need to jump to a specific display index, use the `-api scroller.toPosition()` method.
 	</description>
