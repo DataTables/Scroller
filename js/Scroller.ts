@@ -523,7 +523,7 @@ export default class Scroller {
 
 		// Remove form element links as they might select over others
 		// (particularly radio and checkboxes)
-		container.find('input').removeAttr('name');
+		container.find('input').('name');
 
 		container.appendTo(insertEl);
 		this.s.heights.row = tbody.find('tr').eq(1).height('outer');
