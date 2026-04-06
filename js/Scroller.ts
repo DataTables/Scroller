@@ -40,7 +40,7 @@ export default class Scroller {
 	/**
 	 * Scroller version
 	 */
-	public static version = '3.0.0-dev';
+	public static version = '3.0.0-beta.1';
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods - to be exposed via the DataTables API
