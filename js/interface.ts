@@ -7,7 +7,7 @@ export default DataTables;
  * DataTables' types integration
  */
 declare module 'datatables.net' {
-	interface Config {
+	interface Options {
 		/**
 		 * Scroller extension options
 		 */

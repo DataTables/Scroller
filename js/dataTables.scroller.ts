@@ -2,8 +2,9 @@
  * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-import DataTable, { Api, Config, Dom, util } from 'datatables.net';
+import DataTable, { Api, Dom, Options, util } from 'datatables.net';
 import Scroller from './Scroller';
+import './interface';
 
 // Attach Scroller to DataTables so it can be accessed as an 'extra'
 DataTable.Scroller = Scroller;
@@ -89,13 +90,13 @@ Dom.s(document).on('preInit.dt.dtscroller', function (e, settings) {
 		return;
 	}
 
-	let init = (settings.init as any).scroller as boolean | Config;
+	let init = (settings.init as any).scroller as boolean | Options;
 	let defaults = (DataTable.defaults as any).scroller as
 		| boolean
-		| Config;
+		| Options;
 
 	if (init || defaults) {
-		let opts: Config = {};
+		let opts: Options = {};
 
 		if (util.is.plainObject(defaults)) {
 			util.object.assign(opts, defaults);
