@@ -85,7 +85,7 @@ Api.register('scroller.page()', function () {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-Dom.s(document).on('preInit.dt.dtscroller', function (e, settings) {
+Dom.on('preInit.dt.dtscroller', function (e, settings) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

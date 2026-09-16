@@ -1,8 +1,8 @@
 import DataTable, { Api, Config, Context, Dom, util } from 'datatables.net';
 import { Defaults, DomInternal, Settings } from './interface';
 
-if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
-	throw 'Warning: AutoFill requires DataTables 3 or greater';
+if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3.1')) {
+	throw 'Warning: Scroller requires DataTables 3.1 or greater';
 }
 
 /**
