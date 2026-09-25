@@ -41,7 +41,17 @@ declare module 'datatables.net' {
 		Scroller: typeof Scroller;
 	}
 
+	interface State {
+		/** Scroller positioning information */
+		scroller?: {
+			topRow: number;
+			baseRowTop: number;
+			scrollTop: number;
+		}
+	}
+
 	interface StateLoad {
+		/** Scroller positioning information */
 		scroller?: {
 			topRow: number;
 			baseRowTop: number;
