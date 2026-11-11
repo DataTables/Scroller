@@ -1,5 +1,5 @@
 import DataTable, { Api, Config, Context, Dom, util } from 'datatables.net';
-import { Defaults, DomInternal, Settings } from './interface';
+import { DomInternal, ScrollerDefaults, Settings } from './interface';
 
 if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3.1')) {
 	throw 'Warning: Scroller requires DataTables 3.1 or greater';
@@ -30,7 +30,7 @@ if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3.1')) {
  * * Easy to use
  */
 export default class Scroller {
-	public static defaults: Defaults = {
+	public static defaults: ScrollerDefaults = {
 		boundaryScale: 0.5,
 		displayBuffer: 9,
 		rowHeight: 'auto',
@@ -225,7 +225,7 @@ export default class Scroller {
 		// }
 	}
 
-	private c: Defaults;
+	private c: ScrollerDefaults;
 	private dom: DomInternal;
 	private s: Settings;
 
